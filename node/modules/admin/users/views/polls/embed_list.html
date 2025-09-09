@@ -1,0 +1,296 @@
+<%
+	var userType		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var pollSlug		= (typeof poll_slug !== typeof undefined && poll_slug) ? poll_slug : "";
+%>
+<div class="container-fluid" id="main-container">
+	<!-- get embed code modal open -->
+	<div class="modal fade modal_open_css" id="get_embed_code_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<h4 class="modal-title" id="largeModalLabel"><%= __('admin.embed.get_embeded_code'); %></h4>
+				</div>
+				<hr/>
+				<div class="modal-body">
+					<div class="body">
+						<form id="embeded-code" action="<%= admin_list_url%>/<%= userType %>/polls/generate_embed_code/<%=userId%>" method="post" autocomplete="off" class="on_click_submit" role="form">
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line" id="embed_slug">
+											<label for="embed_name" class="control-label"><%= __('shared.embed_name');%><span class="required"> *</span>:</label>
+											<input name="embed_name" id="embed_name" type="text" class="form-control" />
+										</div>
+										<span id="embed_name_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							<div class="row clearfix embedCodeAfterGenerateHideClass" style="display:none;">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<textarea class="form-control" style="height: 200px;" name="embed_code_after_generate" id="embed_code_after_generate" ></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" id="embed-code-btn" class="btn bg-pink btn-sm waves-effect no_hover generate-embeded-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.embed.get_embeded_code'); %></button>
+								<button type="button" class="no_hover btn btn-sm bg-green copy_text" onclick="embededCopyFunction()"><i class="material-icons font-10">content_copy</i> <%= __("admin.system.copy_text"); %></button>
+								<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect cancel_btn"><i class="material-icons font-14">cancel</i> <%= __("admin.system.close"); %></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- get embed code modal open -->
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Name -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __('admin.user.search_by_name'); %>" name="name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href='<%=admin_list_url+"/"+userType+"/polls/embed_list/"+userId+"/"+pollSlug %>'>
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.polls.embed_list"); %>	
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="javascript:void(0)" onclick="getEmbedCode(event)" data-id="<%=pollSlug%>" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li> 
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/polls/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('shared.embed_name');%></th>
+                                <th><%=__('front.polls.iframe');%></th>
+								<th><%= __("admin.system.created"); %></th>
+								<th><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			
+			
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 2, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					
+					{ "data": 'embed_name' },
+					{
+						"data"			: 	{},
+						"field_name"	: "iframe",
+						"orderable" 	: 	false,
+						"render" 		: 	function(result){
+							let id = (result._id) ? result._id : "";
+							let iframe = (result.iframe) ? result.iframe : "";
+							return '<textarea class="form-control" id="embed_code_generated'+id+'"  style="width: 100%; height: 72px;">'+iframe+'</textarea>';
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							let id = (result._id) ? result._id : "";
+							
+							return '<a href="javascript:void(0)" onclick="copy(event)" data-id = "'+id+'" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">content_copy</i></a>';
+						}
+					}	
+				],
+				"ajax":{
+					url		:	"<%=admin_list_url+"/"+userType+"/polls/embed_list/"+userId+"/"+pollSlug%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+
+			$(".copy_text").hide();
+			/** generate imbed code */
+			$('.generate-embeded-submit').click(function(){
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				ajax_submit('embeded-code',function(status,response){
+					if(status){
+						$(".embedCodeAfterGenerateHideClass").show();
+						$("#embed_name_error").val('').empty();
+						$('#embed_code_after_generate').val(response.result);
+						$(".copy_text").show();
+						$('#embed-code-btn').hide();
+						stopTextLoading(btnId);
+					}else{
+						$(".copy_text").hide();
+						stopTextLoading(btnId);
+					}
+				});
+			});
+
+			$('.cancel_btn').click(function(){
+				$('#datatable-listing').DataTable().ajax.reload();
+			});
+
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+
+		/**Function for get embed code**/
+		function getEmbedCode(event){
+			document.getElementById("embeded-code").reset();
+			$('#embed-code-btn').show();
+			$("input[type='hidden']").remove();
+			$('#get_embed_code_modal').modal('show');
+			$(".embedCodeAfterGenerateHideClass").hide();
+			$('#embed_code_after_generate').val('').empty();
+			$("#embed_name_error").val('').empty();
+			$(".copy_text").hide();
+
+			var currentTarget = event.currentTarget;
+			if(currentTarget!=""){
+			let pollSlug = $(currentTarget).attr('data-id');
+			var inputSlug = '<input type="hidden" id="poll_slug" name="poll_slug" value="'+pollSlug+'" />';
+			$("#embed_slug").append(inputSlug);
+			}
+				
+		}
+
+		/** Function is used embeded copy **/
+		function embededCopyFunction() {
+			var copyText = document.getElementById("embed_code_after_generate");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999)
+			document.execCommand("copy");
+		}
+		
+       /** Function is used embeded copy by id **/
+		function copy(event) {
+			var currentTarget = event.currentTarget;
+			let copyId = $(currentTarget).attr('data-id');
+			let textarea = document.getElementById('embed_code_generated'+copyId+'');
+			textarea.select();
+			document.execCommand("copy");
+		}
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

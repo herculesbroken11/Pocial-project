@@ -1,0 +1,141 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var pollIds  = (typeof poll_ids !== typeof undefined && poll_ids) ? poll_ids : "";
+%>
+<div class="container-fluid" id="main-container">
+	<!--polls list start-->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">list</i> <%= __("admin.polls.selected_polls_list"); %> &nbsp;<span class="label bg-teal add_polls"><%= __("admin.polls.add_polls"); %></span>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="clearfix dataTables_wrapper">
+									<div class="body">
+										<div class="list-group">
+											<%
+											 resultPollslug.forEach(function(data){
+											%>
+											 <div class="list-group-item">
+												<span class="pollslug" id="<%= data.slug %>"><%=data.question%></span>
+												
+											 </div> 
+											<% })%>%>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--polls list End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%=__('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/poll_segment/add_selected_poll_listing/<%= userId %>/<%=pollIds%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-pollsegment" data-submit-btn-id="pollsegment-add-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="title" class="control-label">Name This Segment<span class="required"> *</span>:</label>
+										<input name="title" id="title" type="text" class="form-control" />
+									</div>
+									<span id="title_error" class="error"></span>
+								</div>
+							</div>
+						</div>			
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+                                        <label for="description" class="control-label">Segment Description<span class="required"> *</span>: </label>
+										<textarea name="description"  id="description" class="form-control text_area_height" ></textarea>
+									</div>
+									<span id="description_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+                        <button type="button"  id="pollsegment-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> Save</button>
+                        <button type="button" class="btn bg-pink btn-sm waves-effect view_user"><i class="material-icons font-14">save</i> Save & View Segment List</button>
+                        <button type="button" class="btn bg-pink btn-sm waves-effect refined-btn"><i class="material-icons font-14">save</i> Save & Refine By Voter Response</button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="#"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.css">
+<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>animate.min.css" rel="stylesheet">	
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>FileSaver.min.js" defer></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){      
+		/**
+         * Function to submit form
+         */
+        $(".btn-submit").click(function(){				
+            var btnId = $(this).attr("id");
+            startTextLoading(btnId);
+            ajax_submit("add-pollsegment",function(status,response){
+                if(status){
+                    window.location.href = response.redirect_url;
+                }else{
+                    stopTextLoading(btnId);
+                }
+            });
+        });
+
+		/** Function for save and view user list*/
+		$(".view_user").click(function(){				
+            var btnId = $(this).attr("id");
+            startTextLoading(btnId);
+            ajax_submit("add-pollsegment",function(status,response){
+                if(status){
+					let slug = response.result;
+                    window.location.href = '<%=admin_list_url%>/<%=userType%>/poll_segment/user_list/<%=userId%>/'+slug;
+                }else{
+                    stopTextLoading(btnId);
+                }
+            });
+        });
+		
+    });
+    
+</script>   

@@ -1,0 +1,141 @@
+<%
+	result					=	(typeof result !== typeof undefined && result) ? result	:	{};
+	var userType 			=	(typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 				=	(typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.users.overview_lead_dashboard'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<div class="dashboard-section">
+						<div class="dashboard-right">
+							<div class="lead-seciton">
+								<div class="heading">
+									<h2>You have <span><%= numberFormat(total_leads) %> Leads!</span></h2>
+									<p><%= __("admin.user.total_leads_description"); %></p>
+								</div>
+								<ul>
+									<li>
+										<div class="leadbox">
+											<h4><%= __("admin.leads.prospective"); %></h4>
+											<div class="lead-data">
+												<div class="lead-data-left">
+													<strong><%= numberFormat(introduction) %></strong> 
+													<!-- <span><%= __("admin.leads.hybrid"); %> <%= numberFormat(introduction_hybrid) %> </span> -->
+												</div>
+												<div class="lead-data-right">
+													<a href="javascript:void(0)"><%= numberFormat(introduction_month) %> </a>
+													<% if(introduction_month > LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_upward</i> <% } %>
+													<% if(introduction_month < LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_downward</i> <% } %>
+												</div>
+											</div>
+											<div class="lead-graph">
+												<div class="graphbox">
+													<a href="<%=admin_list_url %>/<%=userType%>/manage_leads/view_entire_subscriber/<%=userId%>/<%=userId%>/<%= INTRODUCTION_LEVEL %>" >
+														<i class="material-icons">keyboard_arrow_right</i>
+													</a>
+												</div>
+											</div>
+											<p><%= __("admin.leads.prospective_description"); %></p>	
+										</div>
+									</li>
+									<li>
+										<div class="leadbox">
+											<h4><%= __("admin.leads.qualified"); %></h4>
+											<div class="lead-data">
+												<div class="lead-data-left">
+													<strong><%= numberFormat(growth) %></strong>
+													<!-- <span><%= __("admin.leads.hybrid"); %> <%= numberFormat(growth_hybrid) %> </span> -->
+												</div>
+												<div class="lead-data-right disable">
+													<a href="javascript:void(0)"><%= numberFormat(growth_month) %> </a>
+													<% if(growth_month > LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_upward</i> <% } %>
+													<% if(growth_month < LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_downward</i> <% } %>
+												</div>
+											</div>
+											<div class="lead-graph">
+												<div class="graphbox">
+													<a href="<%=admin_list_url %>/<%=userType%>/manage_leads/view_entire_subscriber/<%=userId%>/<%=userId%>/<%= GROWTH_LEVEL %>" >
+														<i class="material-icons">keyboard_arrow_right</i>
+													</a>
+												</div>
+											</div>
+											<p><%= __("admin.leads.qualified_description"); %></p>
+										</div>
+									</li>
+									<li>
+										<div class="leadbox">
+											<h4><%= __("admin.leads.prime"); %></h4>
+											<div class="lead-data">
+												<div class="lead-data-left">
+													<strong><%= numberFormat(hot_leads) %></strong>
+													<!-- <span><%= __("admin.leads.hybrid"); %> <%= numberFormat(hot_leads_hybrid) %> </span> -->
+												</div>
+												<div class="lead-data-right">
+													<a href="javascript:void(0)"><%= numberFormat(hot_leads_month) %></a>
+													<% if(hot_leads_month > LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_upward</i> <% } %>
+													<% if(hot_leads_month < LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_downward</i> <% } %>
+												</div>
+											</div>
+											<div class="lead-graph">
+												<div class="graphbox">
+													<a href="<%=admin_list_url %>/<%=userType%>/manage_leads/view_entire_subscriber/<%=userId%>/<%=userId%>/<%= HOT_LEADS_LEVEL %>" >
+														<i class="material-icons">keyboard_arrow_right</i>
+													</a>
+												</div>
+											</div>
+											<p><%= __("admin.leads.prime_description"); %></p>
+										</div>
+									</li>
+									<li>
+										<div class="leadbox">
+											<h4><%= __("business_dashboard.loyalist"); %></h4>
+											<div class="lead-data">
+												<div class="lead-data-left">
+													<strong><%= numberFormat(loyalist_count) %></strong> 
+													<!-- <span><%= __("admin.leads.hybrid"); %> <%= numberFormat(hot_leads_hybrid) %> </span> -->
+												</div>
+												<div class="lead-data-right">
+													<a href="javascript:void(0)"><%= numberFormat(loyalist_month) %></a>
+													<% if(loyalist_month > LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_upward</i> <% } %>
+													<% if(loyalist_month < LEADS_MONTH_UP_DOWN_ARROW_NUMBER){ %><i class="material-icons">arrow_downward</i> <% } %>
+												</div>
+											</div>
+											<div class="lead-graph">
+												<div class="graphbox">
+													<a href="<%=admin_list_url %>/<%=userType%>/manage_leads/view_entire_subscriber/<%=userId%>/<%=userId%>/<%= LOYALIST_LEVEL %>" >
+														<i class="material-icons">keyboard_arrow_right</i>
+													</a>
+												</div>
+											</div>
+											<p><%= __("business_dashboard.loyalist_detail_text"); %></p>
+										</div>
+									</li>
+								</ul>
+						   </div>
+						</div>
+					 </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lead-dashboard.css" rel="stylesheet">
+	

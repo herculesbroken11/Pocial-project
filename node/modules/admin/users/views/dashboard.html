@@ -1,0 +1,477 @@
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false" aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __('admin.dashboard.search_by_date_range'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="search_by_registration_date"  placeholder="<%= __('admin.dashboard.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									<button type="button" id="search_date_range" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> >
+										<i class="material-icons font-14">search</i> 
+										<%= __('admin.dashboard.search'); %>
+									</button>
+									<a href="<%=admin_list_url%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	
+	<!-- Users panel reports-->
+	<div class="row clearfix language-css">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header bg-blue-grey" style="padding: 10px;">
+					<h2 class="panel-title">
+						<i class="material-icons font-15">report</i> <%= __('admin.dashboard.users_report'); %>
+					</h2>
+				</div>
+				<div class="body">
+					<div class="row clearfix">
+						<!-- TOTAL All USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+ALL_USERS %>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-green hover-zoom-effect hover-expand-effect cursor-pointer m-b-0 all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_users"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["total_users"]) ? stats["total_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL BASIC USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+BASIC_USERS%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-pink hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.basic_users"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["basic_users"]) ? stats["basic_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL VERIFIED USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+BUSSINESS_USERS%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-cyan hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_verified"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["verified_users"]) ? stats["verified_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL PUBLIC BUSSINESS USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+PUBLIC_BUSSINESS_USERS%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-purple hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.public_business_users"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["public_business_users"]) ? stats["public_business_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL SUSPEND USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+TYPE_SUSPEND%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-grey hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_suspended"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["total_suspended"]) ? stats["total_suspended"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL UN_SUSPEND USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+TYPE_UN_SUSPEND%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-orange hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_unsuspended"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["total_unsuspended"]) ? stats["total_unsuspended"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL EMAIL VERIFY USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+TYPE_EMAIL_VERIFIED %>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-light-blue hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.email_verify_users"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["email_verify_users"]) ? stats["email_verify_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL EMAIL NOT VERIFY USERS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'users/'+TYPE_EMAIL_NOT_VERIFIED %>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-light-green hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">group</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.email_not_verify_users"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (stats["email_not_verify_users"]) ? stats["email_not_verify_users"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							 <div class="card">
+								<div class="header">
+									<h2><%= __("admin.dashboard.users_registration_chart"); %></h2>
+								</div>
+								<div class="body">
+									<canvas id="bar_chart" height="300"></canvas>
+								</div>
+							</div>
+						</div>		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- leads reports  -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header bg-blue-grey" style="padding: 10px;">
+					<h2 class="panel-title">
+						<i class="material-icons font-15">report</i> <%= __('admin.dashboard.leads_report'); %>
+					</h2>
+				</div>
+				<div class="body">
+					<!-- Leads subscriber start -->
+					<div class="row clearfix">
+						<!-- TOTAL ALL LEADS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'view_leads_subscribers' %>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-purple m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">track_changes</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_leads"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (leads_stats["total_leads"]) ? leads_stats["total_leads"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL PROSPECTIVE LEADS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'view_leads_subscribers/'+INTRODUCTION_LEVEL%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-light-green m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">track_changes</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_prospective"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (leads_stats["total_prospective"]) ? leads_stats["total_prospective"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL QUALIFIED LEADS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'view_leads_subscribers/'+GROWTH_LEVEL%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-cyan hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">track_changes</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_qualified"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (leads_stats["total_qualified"]) ? leads_stats["total_qualified"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL PRIME LEADS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%= WEBSITE_ADMIN_URL+'view_leads_subscribers/'+HOT_LEADS_LEVEL%>" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-orange hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">track_changes</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_prime"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (leads_stats["total_prime"]) ? leads_stats["total_prime"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							 <div class="card">
+								<div class="header">
+									<h2><%= __("admin.dashboard.leads_subscribers_chart"); %></h2>
+								</div>
+								<div class="body">
+									<canvas id="leads_chart" height="300"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- polls reports  -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header bg-blue-grey" style="padding: 10px;">
+					<h2 class="panel-title">
+						<i class="material-icons font-15">report</i> <%= __('admin.dashboard.polls_report'); %>
+					</h2>
+				</div>
+				<div class="body">
+					<!-- POLLS REPORT START -->
+					<div class="row clearfix">
+						<!-- TOTAL ALL POLLS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-purple m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">blur_on</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.total_polls"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (polls_stats["total_polls"]) ? polls_stats["total_polls"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL PUBLISHED POLLS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-light-green m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">blur_on</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.published_polls"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (polls_stats["published_polls"]) ? polls_stats["published_polls"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL DRAFT POLLS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-cyan hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">blur_on</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.draft_polls"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (polls_stats["draft_polls"]) ? polls_stats["draft_polls"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- TOTAL DELETE POLLS -->
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							<a href="javascript:void(0)" class="stats-anchor text-decoration-none">
+								<div class="info-box bg-orange hover-zoom-effect hover-expand-effect m-b-0 cursor-pointer all_patients_color">
+									<div class="icon">
+										<i class="material-icons">blur_on</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.dashboard.delete_polls"); %></div>
+										<div class="number count-to" data-from="0" data-to='<%= (polls_stats["delete_polls"]) ? polls_stats["delete_polls"] : 0; %>' data-speed="1000" data-fresh-interval="20"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div class="card">
+								<div class="header">
+									<h2><%= __("admin.dashboard.polls_subscribers_chart"); %></h2>
+								</div>
+								<div class="body">
+									<canvas id="polls_chart" height="300"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery-countto/jquery.countTo.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	 
+	<script type="text/javascript">
+		/** Function for graph data */
+		<%
+			var usersData 		= [];
+			var day  			= "";
+			var year  			= "";
+			var month  			= "";
+			var monthyear  		= "";
+			var dayWiseFilter	= day_wise_filter;
+		 
+			if(result){
+				for(var i=0; i < result.length; i++) {
+					month		=	(result[i]["_id"]["month"])	? result[i]["_id"]["month"] :"";
+					year		=	(result[i]["_id"]["year"]) 	? result[i]["_id"]["year"]	:"";
+					day			=	(result[i]["_id"]["date"]) 	? result[i]["_id"]["date"]	:"";
+					monthyear	=	(dayWiseFilter) ? day+"-"+month+"-"+year : month+"-"+year;
+					
+					usersData[i]            = {};
+					usersData[i][monthyear] = {};
+					usersData[i][monthyear]["total_users"] = (result[i]["total_users"])	? result[i]["total_users"] : 0;
+					usersData[i][monthyear]["total_basic_users"] = (result[i]["total_basic_users"]) ? result[i]["total_basic_users"] : 0;
+					usersData[i][monthyear]["total_verified_users"] = (result[i]["total_verified_users"]) ? result[i]["total_verified_users"] : 0;
+					usersData[i][monthyear]["total_business_users"] = (result[i]["total_business_users"]) ? result[i]["total_business_users"] : 0;
+					usersData[i][monthyear]["total_suspended"] = (result[i]["total_suspended"]) ? result[i]["total_suspended"] : 0;
+					usersData[i][monthyear]["total_unsuspended"] = (result[i]["total_unsuspended"]) ? result[i]["total_unsuspended"] : 0;
+					usersData[i][monthyear]["email_verify_users"] = (result[i]["email_verify_users"]) ? result[i]["email_verify_users"] : 0;
+					usersData[i][monthyear]["email_not_verify_users"] = (result[i]["email_not_verify_users"]) ? result[i]["email_not_verify_users"] : 0;
+				}
+			}
+			
+			var leadsData 		= [];
+			var leadsDay		= "";
+			var leadsYear		= "";
+			var leadsMonth		= "";
+			var leadsMonthyear	= "";
+			if(leads_result){
+				for(var i=0; i < leads_result.length; i++) {
+					leadsMonth		= (leads_result[i]["_id"]["month"])	? leads_result[i]["_id"]["month"]	:"";
+					leadsYear		= (leads_result[i]["_id"]["year"]) 	? leads_result[i]["_id"]["year"]	:"";
+					leadsDay		= (leads_result[i]["_id"]["date"]) 	? leads_result[i]["_id"]["date"]	:"";
+					leadsMonthyear	= (dayWiseFilter) ? leadsDay+"-"+leadsMonth+"-"+leadsYear : leadsMonth+"-"+leadsYear;
+					
+					leadsData[i]            = {};
+					leadsData[i][leadsMonthyear] = {};
+					leadsData[i][leadsMonthyear]["total_leads"]	= (leads_result[i]["total_leads"]) ? leads_result[i]["total_leads"] : 0;
+					leadsData[i][leadsMonthyear]["total_prospective"] = (leads_result[i]["total_prospective"]) ? leads_result[i]["total_prospective"] : 0;
+					leadsData[i][leadsMonthyear]["total_qualified"] = (leads_result[i]["total_qualified"]) ? leads_result[i]["total_qualified"] : 0;
+					leadsData[i][leadsMonthyear]["total_prime"]	= (leads_result[i]["total_prime"]) ? leads_result[i]["total_prime"] : 0;
+				}
+			}
+
+			var pollsData 		= [];
+			var pollsDay		= "";
+			var pollsYear		= "";
+			var pollsMonth		= "";
+			var pollsMonthyear	= "";
+			if(polls_result){
+				for(var i=0; i < polls_result.length; i++) {
+					pollsMonth		= (polls_result[i]["_id"]["month"])	? polls_result[i]["_id"]["month"]	:"";
+					pollsYear		= (polls_result[i]["_id"]["year"]) 	? polls_result[i]["_id"]["year"]	:"";
+					pollsDay		= (polls_result[i]["_id"]["date"]) 	? polls_result[i]["_id"]["date"]	:"";
+					pollsMonthyear	= (dayWiseFilter) ? pollsDay+"-"+pollsMonth+"-"+pollsYear : pollsMonth+"-"+pollsYear;
+					
+					pollsData[i]            = {};
+					pollsData[i][pollsMonthyear] = {};
+					pollsData[i][pollsMonthyear]["total_polls"]	= (polls_result[i]["total_polls"]) ? polls_result[i]["total_polls"] : 0;
+					pollsData[i][pollsMonthyear]["published_polls"] = (polls_result[i]["published_polls"]) ? polls_result[i]["published_polls"] : 0;
+					pollsData[i][pollsMonthyear]["draft_polls"] = (polls_result[i]["draft_polls"]) ? polls_result[i]["draft_polls"] : 0;
+					pollsData[i][pollsMonthyear]["delete_polls"]	= (polls_result[i]["delete_polls"]) ? polls_result[i]["delete_polls"] : 0;
+				}
+			}
+
+		%>
+		 
+		var dayWiseFilter	=	<%- day_wise_filter %>;
+		var fromDate		=	<%- JSON.stringify(fromDate); %>;
+		var toDate			=	<%- JSON.stringify(toDate); %>;
+		var userRecords		=	<%- JSON.stringify(usersData); %>;
+		var leadsRecords	=	<%- JSON.stringify(leadsData); %>;
+		var pollsRecords	=	<%- JSON.stringify(pollsData); %>;
+
+		$(function () {
+			$('.count-to').countTo();
+		});
+		
+		/** Function for search date range */
+		$("#search_date_range").click(function() {
+			let fromDate = $("#from_date").val();
+			let toDate = $("#to_date").val();
+			if(fromDate && toDate){
+				window.location.href = "<%=admin_list_url %>/"+fromDate+"/"+toDate;
+			}
+		});
+		
+	</script>
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.css" rel="stylesheet">
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/polls_chartjs.js" type="text/javascript"></script>	
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/leads_chartjs.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/chartjs.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

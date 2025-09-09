@@ -1,0 +1,254 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ?	user_type :"";
+	var userTypeTitle 	= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var leadId 			= (typeof lead_id !== typeof undefined && lead_id) ? lead_id : "";
+%>
+
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- Search by title -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0" onkeyup="searchDatatable(0)" placeholder="<%= __('admin.leads.search_by_title'); %>">
+											</div>
+										</div>
+									</div>
+									
+									<!-- Search by status -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="column_filter_2" onchange="searchDatatable(2)" name="is_process">
+													<option value=""><%=__("admin.leads_file.search_by_process_status");%></option>
+													<%
+													if(typeof LEADS_EXCEL_PROCESS_DROPDOWN!== typeof undefined && LEADS_EXCEL_PROCESS_DROPDOWN.length > 0){
+														LEADS_EXCEL_PROCESS_DROPDOWN.map(searchStatus=>{
+															%>
+															<option value="<%=searchStatus.status_id%>" ><%=searchStatus.status_name%></option>
+													<% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url+'/'+userType+'/manage_leads/import_list/'+leadId+'/'+userId %>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.users.import_file_list"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/manage_leads/import_add/'+leadId+'/'+userId %>">
+								<button type="button" class="btn bg-green waves-effect">
+									<i class="material-icons font-14">add</i> 
+									<%= __('admin.users.import_add'); %>
+								</button>
+							</a>
+						</li>
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/manage_leads/'+userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.import.title"); %></th>
+								<th><%= __("admin.import.records_status"); %></th>
+								<th width="10%"><%= __("admin.import.process"); %></th>
+								<th width="15%"><%= __("admin.system.created"); %> </th>
+								<th width="15%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: 	[[ 3, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ "data": 'title' },
+					{
+						"data"		 : {},
+						"searchable" : 	false,
+						"className"	:	'text-center',
+						"orderable"	 :	false,
+						"field_type":   "<%= EXACT_FIELD %>",
+						"render" 	 : 	function(recordStatus){
+							let returnRecordStatus = "";
+							
+							if(recordStatus.total_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.total_records"); %> : '+recordStatus.total_records+'</p>';
+							}
+							if(recordStatus.success_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.success_records"); %> : '+recordStatus.success_records+'</p>';
+							}
+							if(recordStatus.warning_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.warning_records"); %> : '+recordStatus.warning_records+'</p>';
+							}
+							if(recordStatus.failed_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.failed_records"); %> : '+recordStatus.failed_records+'</p>';
+							}
+							return	(returnRecordStatus) ? returnRecordStatus : "N/A";
+						}
+					},
+					{
+						"data"		 : 'is_process',
+						"searchable" : 	false,
+						"className"	:	'text-center',
+						"field_type":   "<%= EXACT_FIELD %>",
+						"field_name":   "is_process",
+						"render" 	 : 	function(excelProcess){
+							let processStatus	=	"N/A"
+							if(excelProcess=='<%= LEADS_PENDING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-amber"><%= __("admin.leads_file.pending"); %></span>';
+							}else if(excelProcess=='<%= LEADS_PROCESSING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-blue"><%= __("admin.leads_file.processing"); %></span>';
+							}else if(excelProcess=='<%= LEADS_COMPLETE_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-green"><%= __("admin.leads_file.completed"); %></span>';
+							}else if(excelProcess=='<%= LEADS_REJECTED_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-red"><%= __("admin.leads_file.rejected"); %></span>';
+							}
+							return	processStatus;
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"		 : 	{},
+						"orderable"	 :	false,
+						"searchable" : 	false,
+						"className"  :	'text-center',
+						"render" 	 : 	function(result){
+							let slug = (result.slug) ? result.slug : "";
+							let isProcess = (result.is_process) ? result.is_process : "";
+							let failedRecords = (result.failed_records) ? result.failed_records : 0;
+							let warningRecords = (result.warning_records) ? result.warning_records : 0;
+							
+							let pendingShowClass = "";
+						
+							if(isProcess!=='<%= LEADS_PENDING_EXCEL_PROCESS %>'){
+								pendingShowClass = "hide";
+							}
+
+							/** Excel hyper link add*/
+							let fileName = result.file_name;
+							let excelProcess = result.is_process;
+							let hrefLink = (excelProcess=='<%= LEADS_PENDING_EXCEL_PROCESS %>') ? '#': '<%= LEADS_EXCEL_URL %>'+fileName;
+
+
+							return	'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/manage_leads/delete_import_file/<%= leadId +'/'+ userId %>/'+slug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>" class="btn bg-teal btn-sm waves-effect confirm_box '+pendingShowClass+'" data-confirm-message="<%= __("admin.system.do_you_want_to_delete") %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><i class="material-icons font-14">delete_sweep</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/view_details_selected_columns/<%=leadId+'/'+userId%>/'+slug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.admin.view_selected"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">tab_unselected</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/import_details/<%=leadId+'/'+userId%>/'+slug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.leads_file.import_file_logs"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">find_in_page</i></a>'+
+									'<a href="<%=admin_list_url %>/<%=userType%>/manage_leads/view_entire_subscriber/<%=leadId+'/'+userId+'/'+LEADS_IMPORT_TO_VIEWENTRIES_PAGE %>/'+slug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.leads.view_entire_subscriber"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">track_changes</i></a>'+
+									'<a href="'+hrefLink+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.leads_file.download_file"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">file_download</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url+"/"+userType+"/manage_leads/import_list/"+leadId+"/"+userId %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw();
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

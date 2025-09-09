@@ -1,0 +1,179 @@
+<%
+	var result				= (typeof result !== typeof undefined && result)?	result		: [];
+    var userType 			= (typeof user_type !== typeof undefined && user_type)	?	user_type 	:"";
+    var userId 			    = (typeof user_id !== typeof undefined && user_id)	?	user_id 	:"";
+	var exceedLimit 	    = (typeof exceed_limit !== typeof undefined && exceed_limit)	?	exceed_limit 	:"";
+	var exceedLimitAll 	    = (exceedLimit.all_limit_valid)	?	exceedLimit.all_limit_valid 	:"";
+	var planTypeName 	   = (typeof plan_type_name !== typeof undefined && plan_type_name)	?	plan_type_name 	:"";
+	planTypeName = (planTypeName) ? planTypeName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase()) : "";
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.system.view_plan'); %> (<%= __('pocial_payment.current_plan'); %>: <%=planTypeName%>)</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<!-- <li>
+							<div class="switch">
+								<%let checked ="";
+								if(exceedLimitAll == LIMIT_MONTH_TOOGLE_ON){
+									checked = "checked";
+								}%>
+								<label><%= __('global.month'); %><input type="checkbox" <%=checked%> onclick="planLimitValidAll(this)"><span class="lever"></span><%= __('performance.days'); %></label>
+							</div>
+						</li>  -->
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<form id="update_limit" data-submit-btn-id="update-limit" action="<%=admin_list_url%>/<%=userType%>/update_limit" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<input name="user_id" id="user_id" type="hidden" class="form-control" value="<%=userId%>">
+						<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="10%"><%= __('admin.user.content_type'); %></th>
+									<th width="10%"><%= __('payment.paid_limit'); %></th>
+									<th width="10%"><%= __('payment_admin_exceed_limit'); %></th>
+									<th width="10%"><%= __('admin.user.total'); %></th>
+									<th width="10%"><%= __('admin.user.used'); %></th>
+									<th width="10%"><%= __('admin.users.available'); %></th>						
+									<th width="20%"><%= __('admin.user.exceed_limit'); %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% if (Object.keys(result).length > 0) {
+									Object.entries(result).forEach(([key, records]) => {
+										let activityType = (records.activity_type) || "";
+										activityType = activityType.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+
+										let activityTypeLimit = records.limit_valid;
+										let selectType ="";
+	
+										if(activityTypeLimit == LIMIT_MONTH_TOOGLE_ON ){
+											selectType ="checked";
+										}
+										%>
+										<tr>
+											<td><%= activityType %></td>
+											<td><%= records.paid_limit %></td>
+											<td><%= records.admin_exceed_limit %></td>
+											<td><%= records.post_limit %></td>
+											<td><%= records.count %></td>
+											<td><%= records.current_limit_available %></td>
+											<td>
+												<div class="row clearfix">
+													<div class="col-sm-6">
+														<div class="form-line">
+															<input name="activity_type" id="activity_type" type="hidden" class="form-control" value="<%=records.activity_type%>">
+															<input name="exceed_limit" onkeypress="return isInteger(event)" id="exceed_limit_<%=records.activity_type%>" type="text" class="form-control exceed_limit" placeholder="<%=__('admin.users.enter_exceed_limit'); %>" value="<%=(records.exceed_limit) ? records.exceed_limit : '';%>">
+														</div>
+														<span id="exceed_limit_<%=records.activity_type%>_error" class="error"></span>
+													</div>
+
+													<!-- <div class="col-sm-6">
+														<div class="form-group">
+															<div class="switch">
+																<label><%= __('global.month'); %><input type="checkbox" <%=selectType%> id="<%=records.activity_type%>_limit_valid" onclick="planLimitValidTurnOnOff(this)"><span class="lever"></span><%= __('performance.days'); %></label>
+															</div>
+														</div>
+													</div> -->
+												</div>
+											</td>
+										</tr>
+								<% }) } %>
+							</tbody>
+						</table>
+						<button type="button"  id="update-limit"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>		
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        /**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+
+			ajax_submit("update_limit",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+                   
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+    });
+
+	/**plan limit turn on/off for all*/
+	function planLimitValidAll(checkbox) {
+		if (checkbox.checked) {
+			/**Perform actions to turn on the feature*/
+			planToggleFunction('<%=LIMIT_MONTH_TOOGLE_ON%>', "<%=userId%>", "<%=ALL_LIMIT_VALID%>");
+		} else {
+			/**Perform actions to turn off the feature*/
+			planToggleFunction('<%=LIMITED_DAYS_TOOGLE_OFF%>', "<%=userId%>", "<%=ALL_LIMIT_VALID%>");
+		}
+	}
+
+	/**social reachout turn on/off*/
+	function planLimitValidTurnOnOff(checkbox) {
+		if (checkbox.checked) {
+			/**Perform actions to turn on the feature*/
+			planToggleFunction('<%=LIMIT_MONTH_TOOGLE_ON%>', "<%=userId%>", checkbox.id);
+		} else {
+			/**Perform actions to turn off the feature*/
+			planToggleFunction('<%=LIMITED_DAYS_TOOGLE_OFF%>', "<%=userId%>", checkbox.id);
+		}
+	}
+
+	
+	/**Allow only integers by checking the key pressed*/ 
+	function isInteger(event) {
+		let key = event.key;
+		let fieldId = event.target.id;  
+		
+		/**Allow only digits and control keys (e.g., backspace, delete)*/ 
+		if (/[^0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+			$("#"+fieldId+"_error").text("Please enter a valid numeric value without decimal points.");
+			event.preventDefault();  
+		}else{
+			$("#"+fieldId+"_error").text("");
+		}
+	}
+
+	/** Function to send ajax request for both*/
+	function planToggleFunction(socialToggle, id, activityType){
+		$.ajax({
+			url  : "<%=admin_list_url%>/<%=userType%>/plan_limit_days_month",
+			type : 'post',
+			data : {"user_id":id,"toogle_type":socialToggle, "activity_type":activityType},
+			success:function(response) {
+				window.location.href = response.redirect_url;
+			}
+		});
+		
+	}
+
+</script>

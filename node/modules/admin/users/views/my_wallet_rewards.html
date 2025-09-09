@@ -1,0 +1,365 @@
+<%
+	var statusType 		= (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+	var userType 		= (typeof user_type !== typeof undefined && user_type)		?	user_type 	:"";
+	var userId 			= (typeof user_id !== typeof undefined && user_id)			?	user_id 	:"";
+	var userTypeTitle 	= (FRONT_USER_TYPE[userType])								?	FRONT_USER_TYPE[userType] 	:"";
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- search by heading  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __("admin.rewards.search_by_heading"); %>" name="name">
+											</div>
+										</div>
+									</div>
+									 
+									<!-- search by industry name -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick"id="column_filter_2" onchange="searchDatatable(2)" name="business_industry_id">
+													<option value=""><%=__("admin.rewards.search_by_industry");%></option>
+													<%- business_industry %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<!-- search by Wallet & Redeemed Rewards  -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="search_rewards" name="search_rewards" >
+													<option value=""><%=__("admin.rewards.search_by_wallet_redeemed");%></option>
+													<%
+													if(WALLET_AND_REDEEMED_DROP_DOWN && Object.keys(WALLET_AND_REDEEMED_DROP_DOWN).length > 0){
+														Object.keys(WALLET_AND_REDEEMED_DROP_DOWN).map(searchStatus=>{ %>
+															<option value="<%=WALLET_AND_REDEEMED_DROP_DOWN[searchStatus]["status_id"]%>"><%=(WALLET_AND_REDEEMED_DROP_DOWN[searchStatus]["status_name"]) ? WALLET_AND_REDEEMED_DROP_DOWN[searchStatus]["status_name"] :"";%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<!-- search by store name -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick"id="column_filter_5" onchange="searchDatatable(5)" name="store_type_id">
+													<option value=""><%=__("admin.rewards.search_by_store_type");%></option>
+													<%- store_type_name %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType+'/my_wallet_rewards/'+userId%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.users.my_wallet_rewards") %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.rewards.image"); %></th>
+								<th><%= __("admin.rewards.heading"); %></th>
+								<th><%= __("admin.rewards.business_industry_name"); %></th>
+								<th><%= __("admin.rewards.expiry_date"); %></th>
+								<th><%= __("admin.rewards.redemption_code"); %></th>
+								<th><%= __("admin.reward.store_type"); %></th>
+								<th><%= __("admin.rewards.description"); %></th>
+								<th><%= __("admin.rewards.reward_sent_details"); %></th>
+								<th><%= __("admin.system.created"); %> </th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- get reedem modal open -->
+<div class="modal fade modal_open_css" id="redeem_code_modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.wallet.redeem'); %></h4>
+			</div>
+			<hr/>
+			<div class="modal-body">
+				<div class="body">
+					<form id="redeem-code-form" action="<%= admin_list_url%>/<%= userType %>/wallet_redeem_rewards/<%=userId%>" method="post" autocomplete="off" class="on_click_submit" role="form">
+						<input type="hidden" id="rewards_slug" name="rewards_slug">
+						 
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<figure style="text-align: center; margin-bottom: 24px;"><img style="width: 100px;" src="<%= REDEEM_REWARD_ICON_URL %>" ></figure>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="redemption_code" class="control-label"><%= __("admin.user.enter_security_code_to_redeem_the_reward"); %> <span class="required"> *</span>:</label>
+										<input type="text" id="redemption_code" name="redemption_code" class="form-control" >
+									</div>
+									<span id="redemption_code_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<button type="button" id="status-btn-id" class="btn bg-pink btn-sm waves-effect no_hover redeem-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.wallet.redeem'); %></button>
+									<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.close"); %></button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css" rel="stylesheet">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	
+	<script type="text/javascript">
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable 	= "";
+		$(document).ready(function() {
+			dataTable = $('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: [[8, "desc" ]],
+				"sDom"		: "ltipr",
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"serverSide": true,
+				"scrollX"	: true,
+				"bAutoWidth" : false,
+				"fixedColumns": true,
+				"columns"	: 	[
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imagePath	=	(result.image)	? 	'<%= LEADS_FORM_URL %>'+result.image	:'<%= NO_IMAGE_AVAILABLE %>';
+							var id 			=	(result._id)	? 	result._id						:'';
+							var imgHtml		=	'';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"' class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=50x50&type=crop' class='img-thumbnail'  alt='System Image'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+					{ "data": 'title' },
+					{
+						"data"			: 	{},
+						"field_name"	:	"business_industry_id",
+						"field_type"	:   "<%= OBJECT_ID_FIELD %>",
+						"render"		: 	function(result){
+							let businessIndustryName = (result.business_industry_name) ? result.business_industry_name :'N/A';
+							return businessIndustryName;
+						}
+					},
+					{
+						"data"		 : 'expiry_date',
+						"searchable" : 	false,
+						"render" 	 : 	function(expiry_date){
+							if(expiry_date){
+								return moment(expiry_date).tz(DEFAULT_TIME_ZONE).format(DATE_FORMAT) ;
+							}else{
+								let expiryMessage = "<%= __('admin.manage_rewards.unlimited'); %>";
+								return '<span class="label label-warning">'+expiryMessage+'</span>';
+							}
+						}
+					},
+					{ "data": 'redemption_code' },
+					{
+						"data"			: 	{},
+						"field_name"	:	"store_type_id",
+						"field_type"	:   "<%= OBJECT_ID_FIELD %>",
+						"render"		: 	function(result){
+							let storeType		=	result.storeType;
+							let redeemable = "";
+							if(storeType.length>0){
+								storeType.map(records=>{
+									redeemable+=records.name+", "
+								})
+							}
+							return removeLastComma(redeemable);
+						}
+					},
+					{
+						"data"		:	"url_desc",
+						"orderable" : 	false,
+						"render" 	: 	function(url_desc){
+							return '<span class="readmore">'+url_desc+'</span>';
+						}
+					},
+					{
+						"data"		:	{},
+						"orderable" : 	false,
+						"render" 	: 	function(result){
+							let sentUserName = (result.sent_user_name) ? result.sent_user_name : "";
+							let sentEmail = (result.sent_email) ? result.sent_email : "";
+							return sentUserName+"</br>("+sentEmail+")";
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+				],
+				"ajax":{
+					url		:	"<%=admin_list_url+"/"+userType+"/my_wallet_rewards/"+userId %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.status_search	= $('#status_search').val();
+						d.search_rewards = $('#search_rewards').val();
+						d.fromDate		= $('#from_date').val();
+						d.toDate		= $('#to_date').val();
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+			
+			/** update attach reward in template */
+			$('.redeem-submit').click(function(){
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				ajax_submit('redeem-code-form',function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+		});
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		 
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+		
+		/** get open modal reedem reward */
+		function redeemedReward(data){
+			var currentTarget = event.currentTarget;
+			if(currentTarget != ""){
+				let rewardsSlug = $(currentTarget).attr('data-rewards_slug');
+				$('#overlay1').show();
+				$('#rewards_slug').val(rewardsSlug);
+				$('#redeem_code_modal').modal('show');
+				$('#overlay1').hide();
+			}
+		}
+		
+		/** Function to remove last comma */
+		function removeLastComma(strng){
+			var n=strng.lastIndexOf(",");
+			var a=strng.substring(0,n) 
+			return a;
+		}
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

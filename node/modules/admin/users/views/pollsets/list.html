@@ -1,0 +1,356 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<div class="container-fluid" id="main-container">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- search by title  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __("admin.pollset.search_by_title"); %>" name="name">
+											</div>
+										</div>
+									</div>
+									
+									<!-- search by category -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick"id="column_filter_2" onchange="searchDatatable(2)" name="category_id">
+													<option value=""><%=__("admin.polls.search_by_category");%></option>
+													<%- categoryList %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<!-- search by show to -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="search_by_show_to" name="search_by_show_to">
+													<option value=""><%=__("admin.pollsets.search_by_show_to");%></option>
+													<%
+													if(typeof SHOW_TO_POLL_SET_DROPDOWN!== typeof undefined && SHOW_TO_POLL_SET_DROPDOWN.length > 0){
+														SHOW_TO_POLL_SET_DROPDOWN.map(searchShowTo=>{
+															%>
+															<option value="<%=searchShowTo.status_id%>" ><%=searchShowTo.status_name%></option>
+													 <% 	
+														});
+													} %>
+													
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- search by allow retaking -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="search_by_allowretaking" name="search_by_allowretaking">
+													<option value=""><%=__("admin.pollset.search_by_allowretaking");%></option>
+													<%
+													if(typeof ALLOW_RETAKING_DROPDOWN!== typeof undefined && ALLOW_RETAKING_DROPDOWN.length > 0){
+														ALLOW_RETAKING_DROPDOWN.map(searchAllowretaking=>{
+															%>
+															<option value="<%=searchAllowretaking.status_id%>" ><%=searchAllowretaking.status_name%></option>
+														<% 	 
+														});
+													} %>
+													
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<!-- search by sso -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="search_by_sso" name="search_by_sso">
+													<option value=""><%=__("admin.pollsets.search_by_sso");%></option>
+													<%
+													if(typeof SSO_DROPDOWN!== typeof undefined && SSO_DROPDOWN.length > 0){
+														SSO_DROPDOWN.map(searchSso=>{
+															%>
+															<option value="<%=searchSso.status_id%>" ><%=searchSso.status_name%></option>
+													    <% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType+'/pollsets/'+userId%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.users.pollset"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/pollsets/add_selected_poll_listing/<%=userId %>" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li> 
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.pollsets.sponsoring_logo"); %></th>
+								<th><%= __("admin.pollsets.title"); %></th>
+								<th><%= __("admin.pollsets.category_name"); %></th>
+								<th><%= __("admin.pollsets.show_to"); %></th>
+								<th><%= __("admin.pollsets.allow_retaking"); %></th>
+								<th><%= __("admin.pollsets.sso"); %></th>
+								<th><%= __("admin.polls.is_published"); %></th>
+								<th><%= __("admin.system.created"); %> </th>
+								<th><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript">
+		
+		/** Function to remove last comma */
+		function removeLastComma(strng){
+			var n=strng.lastIndexOf(",");
+			var a=strng.substring(0,n) 
+			return a;
+		}
+		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 7, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imagePath	=	(result.sponsoring_logo) ? '<%= POLLSET_URL %>'+result.sponsoring_logo : '<%= NO_IMAGE_AVAILABLE %>';
+							var id 			=	(result._id) ? result._id : '';
+							var imgHtml		=	'';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"' class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=50x50&type=crop' class='img-thumbnail'  alt='System Image'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+					{ "data": 'title' },
+					{
+						"data"		: 	"category_name",
+						"field_type"	: "<%= OBJECT_ID_FIELD %>",
+						"field_name"	: "category_id",
+						"render"		: function(category_name){
+							return category_name;
+						}
+					},
+					{
+						"data"		: 	"show_to",
+						"field_name":   "show_to",
+						"render"		: function(show_to){
+							//return '<span class="text-capitalize">'+show_to+'</span>';
+							var showToTab = "";
+							if(show_to == '<%=SHOW_TO_PUBLIC%>'){
+								showToTab = '<span class="label label-info m-l-5 m-t-5 text-capitalize"><%= __("admin.pollsets.public"); %></span>';
+							}else {
+								showToTab = (show_to == '<%= SHOW_TO_MY_PAGE_ONLY%>') ?'<span class="label label-warning m-l-5 m-t-5 text-capitalize"><%= __("admin.pollsets.my_text_only"); %></span>' : '<span class="label label-warning m-l-5 m-t-5 text-capitalize">'+show_to+'</span>';
+							}
+							return showToTab;
+						}
+					},
+					{
+						"data"		: 	"allow_retaking",
+						"field_name":   "allow_retaking",
+						"render"		: function(allow_retaking){
+							//return '<span class="text-capitalize">'+allow_retaking+'</span>';
+							var showretakingTab = "";
+							if(allow_retaking == '<%=ALLOW_RETAKING_YES%>'){
+								showretakingTab = '<span class="label label-success m-l-5 m-t-5 text-capitalize">'+allow_retaking+'</span>';
+							}else {
+								showretakingTab = (allow_retaking == '<%=ALLOW_RETAKING_NO%>') ?'<span class="label label-danger m-l-5 m-t-5 text-capitalize">'+allow_retaking+'</span>' : '<span class="label label-danger m-l-5 m-t-5 text-capitalize">'+allow_retaking+'</span>';
+							}
+							return showretakingTab;
+							
+						}
+					},
+					{
+						"data"		: 	"sso",
+						"field_name":   "sso",
+						"render"		: function(sso){
+							//return '<span class="text-capitalize">'+sso+'</span>';
+							var showssoTab = "";
+							if(sso == '<%=SSO_YES%>'){
+								showssoTab = '<span class="label label-success m-l-5 m-t-5 text-capitalize">'+sso+'</span>';
+							}else {
+								showssoTab = (sso == '<%=SSO_NO%>') ?'<span class="label label-danger m-l-5 m-t-5 text-capitalize">'+sso+'</span>' : '<span class="label label-danger m-l-5 m-t-5 text-capitalize">'+sso+'</span>';
+							}
+							return showssoTab;
+
+						}
+					},
+					{
+						"data"		: 	"is_published",
+						"field_type":   "<%= EXACT_FIELD %>",
+						"field_name":   "is_published",
+						"render"		: function(isPublished){
+							var statusObject	= 	<%- JSON.stringify(POLLS_PUBLISHED_DROPDOWN)%>;
+							var statusClass		=	(statusObject[isPublished] && statusObject[isPublished]["label_class"]) ? statusObject[isPublished]["label_class"] :"";
+							var statusLabel		=	(statusObject[isPublished] && statusObject[isPublished]["status_name"]) ? statusObject[isPublished]["status_name"] :"";
+							return '<span class="label '+statusClass+'">'+statusLabel+'</span>';
+						}
+					},
+					
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id			=	(result._id) ? result._id :"";
+							var slug		=	(result.slug) ? result.slug :"";
+							var pollSlugs   =  (result.poll_slug) ? result.poll_slug : "";
+							
+							/** published or not published Status **/
+							var status =	(result.is_published) ? result.is_published :"<%= POLL_NOT_PUBLISHED %>";
+							var statusConfirmMsg	=	(status == '<%= POLL_NOT_PUBLISHED %>')	?  	"<%= __('admin.system.do_you_want_to_change_status'); %>"  : "<%= __('admin.category.do_you_want_to_change_status_update'); %>" ;
+							var statusLinkTitle		=	(status =='<%= POLL_NOT_PUBLISHED %>') 	?  	"<%= __('admin.polls.published'); %>"  : "<%= __('admin.polls.not_published'); %>" ;
+							var statusLinkIcon		=	(status == '<%= POLL_NOT_PUBLISHED %>')	?	"done"	: "block";
+							return '<a href="<%=admin_list_url+'/'+userType%>/pollsets/edit_pollset/'+slug+'/<%=userId %>/'+pollSlugs+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.edit"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">mode_edit</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/pollsets/view/'+slug+'/<%=userId%>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">find_in_page</i></a>'+	
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/pollsets/pollset_delete_and_status/'+slug+'/'+status+'/<%=PUBLISHED_NOTPUBLISHED_STATUS%>/<%= userId %>" class="btn bg-teal btn-sm waves-effect confirm_box" data-confirm-message="'+statusConfirmMsg+'" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"  data-toggle="tooltip" data-placement="top" title="" data-original-title="'+statusLinkTitle+'"><i class="material-icons font-14">'+statusLinkIcon+'</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/pollsets/pollset_delete_and_status/'+slug+'/'+status+'/<%=DELETE_STATUS%>/<%= userId %>" class="btn bg-teal btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.system.do_you_want_to_delete"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>" ><i class="material-icons font-14">delete_sweep</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url		:	"<%=admin_list_url+"/"+userType+"/pollsets/"+userId %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+						d.search_by_show_to = $('#search_by_show_to').val();
+						d.search_by_allowretaking = $('#search_by_allowretaking').val();
+						d.search_by_sso = $('#search_by_sso').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+
+			
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

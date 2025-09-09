@@ -1,0 +1,218 @@
+<%
+	var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+    var pollListUrl = admin_list_url+"/"+userType+"/poll_performance/poll_list/"+userId+"/"+PERFORMANCE_VOTES_TAB;
+    var InteractionUrl = admin_list_url+"/"+userType+"/poll_performance/list/"+userId;
+   
+%>
+<div class="container-fluid" id="main-container">
+    <%- include('element_report.html') %>
+    <div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+                                    <!--search by gender-->
+                                    <div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick gender" id="gender" name="gender">
+													<option value=""><%= __('admin.user.search_by_gender'); %></option>
+													<%
+													if(typeof GENDER_TYPE_DROP_DOWN!== typeof undefined && GENDER_TYPE_DROP_DOWN.length > 0){
+														GENDER_TYPE_DROP_DOWN.map(searchGender=>{
+														%>
+															<option value="<%=searchGender.status_id%>" ><%=searchGender.status_name%></option>
+													    <% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+                                    <!--search by age range-->
+                                    <div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick age" id="age" name="age">
+													<option value=""><%= __('admin.poll_performance.search_by_age'); %></option>
+													<%
+													if(typeof AGES_DROPDOWN!== typeof undefined && AGES_DROPDOWN.length > 0){
+														AGES_DROPDOWN.map(searchAge=>{
+														%>
+															<option value="<%=searchAge.id%>" ><%=searchAge.name%></option>
+													    <% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+                                    <!-- search by title  -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="zipcode" placeholder="<%= __("admin.poll_performance.search_by_location"); %>" name="zipcode">
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+                                        <button type="button" id="lead-search-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect search_data">
+                                            <i class="material-icons font-14">search</i> 
+                                            <%= __('admin.dashboard.search'); %>
+                                        </button>
+										<a href="<%=admin_list_url+'/'+userType+'/poll_performance/lead_generation_details/'+userId%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+					<h2>
+						<%= __('performance.lead_generation'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=InteractionUrl%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+                <div class="body">
+                    <div class="row clearfix">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-l-35">
+                            <div class="body">
+                                <canvas id="myChart" width="300" height="300"></canvas>
+                            </div>
+                        </div>
+                        <!--lead generation section-->
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="body">
+									<span id="lead_generation_html"></span>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.css" rel="stylesheet">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){		
+		$(document).ready(function() { leadGenerationData();});
+		$(".search_data").on("click", function() {
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			leadGenerationData()
+			
+		});
+    });
+
+    /**function is used to send data using ajax for lead generation details response*/
+	function leadGenerationData() {
+		let gender = $("#gender").val();
+        let age = $("#age").val();
+		var btnId = $(".search_data").attr("id");
+        let location = $("#zipcode").val();
+
+		$.ajax({
+			url: '<%= admin_list_url+"/"+userType+"/poll_performance/lead_generation_details/"+userId%>',
+			type:"POST",
+			data : {'user_age': age,'gender':gender,'zip_code':location},
+			beforeSend : function() {
+				$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+				$("#loader_ajax").addClass( "after_ajax_preloader" );
+			},success	: function(response){
+				let leadValues = (response && response.result) ? response.result : {}
+				
+				let innerHtml = '<ul class="list-group">'+
+					'<li class="list-group-item" id="viewed_polls">'+
+						'<small><%= __("performance.step_1"); %></small>'+
+						'<span class="pull-right"><b>'+numberFormat(leadValues.viewed_polls)+'</b></span>'+
+						'<p><b> <%= __("performance.viewed_polls"); %></b><span class="pull-right">'+leadValues.viewed_polls_percentage+'%</span></p>'+
+					'</li>'+
+					'<li class="list-group-item" id="voted_polls">'+
+						'<small><%= __("performance.step_2"); %></small>'+
+						'<span class="pull-right"><b>'+numberFormat(leadValues.voted_polls)+'</b></span>'+
+						'<p><b><%= __("performance.voted"); %></b><span class="pull-right">'+leadValues.voted_polls_percentage+'%</span></p>'+
+					'</li>'+
+					'<li class="list-group-item" id="opt_in_rates">'+
+						'<small><%= __("performance.step_3"); %></small>'+
+						'<span class="pull-right"><b>'+numberFormat(leadValues.opted_in)+'</b></span>'+
+						'<p><b><%= __("performance.opted_in"); %></b><span class="pull-right">'+leadValues.opted_in_percentage+'%</span></p>'+
+					'</li>'+
+					'<li class="list-group-item" id="viewed_items">'+
+						'<small><%= __("performance.step_4"); %></small>'+
+						'<span class="pull-right"><b>'+numberFormat(leadValues.viewed_items)+'</b></span>'+
+						'<p><b><%= __("performance.viewed_item"); %></b><span class="pull-right">'+leadValues.viewed_items_percentage+'%</span></p>'+
+					'</li>'+
+					'<li class="list-group-item" id="redeemed_items">'+
+						'<small><%= __("performance.step_5"); %></small>'+
+						'<span class="pull-right"><b>'+numberFormat(leadValues.redeemed_items)+'</b></span>'+
+						'<p><b><%= __("performance.redeemed_item"); %></b><span class="pull-right">'+leadValues.redeemed_items_percentage+'%</span></p>'+
+					'</li>'+
+				'</ul>';
+				$("#lead_generation_html").html(innerHtml);
+				$("#loader_ajax").removeClass("after_ajax_preloader");
+				$("#loader_ajax").html('');
+
+				stopTextLoading(btnId);
+				new Chart(document.getElementById("myChart").getContext("2d"), getLeadGenerationChartJs(leadValues));
+				chartPlugin()
+			
+			},
+			dataSrc	: 	function(res){
+				return res.data;
+			}
+		})	
+	}
+	
+	/**use active tab condition*/
+	var leadGenerationUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/lead_generation_details/'+userId%>";
+	var currentUrl = $(location).attr('href');
+		
+	if(currentUrl == leadGenerationUrl){
+		$("#lead_generation_tab").removeClass("btn-default");
+        $("#lead_generation_tab").addClass("bg-teal");
+	}
+	
+</script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/lead_generation_chart.js" type="text/javascript"></script>

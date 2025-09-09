@@ -1,0 +1,173 @@
+<%
+	var userType 		= 	(typeof user_type !== typeof undefined && user_type) ?	user_type :"";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<div class="container-fluid" id="main-container">	
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.users.add_enterprise"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<a href="<%= SAMPLE_FILE_ENTERPRISE_EXCEL_URL %>">
+							<button type="button" class="btn bg-green waves-effect">
+								<i class="material-icons font-14">file_download</i> <%= __("admin.leads_file.sample_file"); %>
+							</button>
+						</a>
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>/enterprise_upload_list/<%=userId%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="upload-enterprise-form-id" data-submit-btn-id="upload-enterprise-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">
+						<div class="brach-add-more-di">
+
+							<input name="extension" id="extension" type="hidden" />
+							<input name="file_name" id="file_name" type="hidden" />
+							<input name="column_name" id="column_name" type="hidden" /> 
+
+							<!-- <div class="row clearfix hide_title_image"> -->
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="title" class="control-label"><%= __('admin.users.title'); %><span class="required"> *</span> :</label>
+											<input name="title" id="title" type="text" class="form-control"/>
+										</div>
+										<span id="title_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<div class="form-lin no-bottom-border">
+											<label for="upload_enterprise_file" class="control-label"><%= __("admin.user.upload_file"); %><span class="required"> *</span> :</label>
+											<input name="upload_enterprise_file" id="upload_enterprise_file" type="file" data-text="<%=__('admin.user.upload_file')%>"  data-input="false" class="form-control jfilestyle"/>
+											<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __("admin.system.file_extension",ALLOWED_EXCEL_EXTENSIONS.join(", "))%>" >
+										</div>
+										<span id="upload_enterprise_file_error" class="error"></span> 
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="table-responsive">
+										<span id="column_append"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button type="button" id="upload-enterprise-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- LOADING_BUTTON_TEXT %> >
+							<i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %>
+						</button>						
+						<a href="javascript:location.reload(true);">
+							<button type="button" class="btn bg-blue-grey btn-sm waves-effect">
+								<i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %>
+							</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>	
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read-excel-file.min.js"></script>
+	
+	<script type="text/javascript">
+
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);			
+			ajax_submit('upload-enterprise-form-id',function(status,response){
+				if( status ){
+					if( typeof response.result !== typeof undefined && response.result && response.result.length > 0 ){
+						$(".hide_title_image").hide();
+						
+						let fileName = (response.file_name) ? response.file_name : "";
+						let extension = (response.extension) ? response.extension : "";
+						
+						$("#file_name").val(fileName);
+						$("#extension").val(extension);
+						$("#column_name").val(response.result);
+						
+						
+						var optionsData = "<option value=''>Please select column</option>";
+						$.map( response.result ,function(columnName,index){
+							optionsData += '<option value="'+index+'">'+columnName+'</options>';
+						});
+						
+						var innerHtml = '<table class="table table-striped">'+
+										'<thead>'+
+											'<tr>'+
+												'<th width="30%" class="font-bold col-teal"><%= __('admin.users.column_name'); %></th>'+
+												'<th width="40%" class="font-bold col-teal"><%= __('admin.users.select_column'); %></th>'+
+												'<th width="30%" class="font-bold col-teal"> </th>'+
+											'</tr>'+
+										'</thead>'+
+										'<tbody>';
+											
+						var fixedColumnName = "<%= ENTERPRISE_FIXED_COLUMN_NAME %>";
+						fixedColumnName = (fixedColumnName) ? fixedColumnName.split(",") : [];
+						$.map( fixedColumnName ,function(fixedColumnName,index1){
+							let checkedEmailColumnHideCheckbox =  (index1 == '<%= USER_LEAD_FIXED_EMAIL_COLUMN_INDEX %>') ? 'hide' : "";
+							let disabledEmailCheckbox =  (index1 == '<%= USER_LEAD_FIXED_EMAIL_COLUMN_INDEX %>') ? 'disabled' : "";
+
+							innerHtml += '<tr>'+
+											'<td><label>'+fixedColumnName+'</label></td>'+
+											'<td><select data-live-search="true" class="form-control" id="select_column'+index1+'" name="select_column'+index1+'" autocomplete="off">'+optionsData+'</select><span id="select_column'+index1+'_error" class="error"></span></td>'+
+											// '<td class="'+checkedEmailColumnHideCheckbox+'"><div class="materialize_checkbox product-checkbox-data"><input type="checkbox" value=true class="filled-in chk-col-teal" id="ignore_column'+index1+'" name="ignore_column'+index1+'" '+disabledEmailCheckbox+' onclick="ignoreClickedAfterDisabedColumn('+index1+')" ><label for="ignore_column'+index1+'" class="ignore_column'+index1+' p-l-20 v-align-bottom m-b-0"> &nbsp;</label></div></td>'+
+										'</tr>';
+						})
+						innerHtml += '<tr><td></td><td><span id="ig_wesite_url_error" class="error"></span></td></tr>';
+						innerHtml += '</tbody></table>';
+						$("#column_append").html(innerHtml);
+					}else{
+						if(response.excel_status = "success"){
+							window.location.href = response.redirect_url;
+						}else{
+							$("#file_name").val('');
+							$("#extension").val('');
+							$("#column_append").html("<p class='text-center'><%= __('system.no_record_found') %></p>");
+						}
+					}
+					stopTextLoading(btnId);
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+
+
+		// /**
+		//  * Function to submit form
+		//  */
+		// $(".btn-submit").click(function(){
+			
+		// 	var btnId = $(this).attr("id");
+		// 	startTextLoading(btnId);
+		// 	submit_crop_image_data("upload-enterprise-form-id",function(status,response){
+		// 		if(status){
+		// 			window.location.href = response.redirect_url;
+		// 		}else{
+		// 			stopTextLoading(btnId);
+		// 		}
+		// 	});
+		// });
+	</script>

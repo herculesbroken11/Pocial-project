@@ -1,0 +1,313 @@
+<%
+	var userType	=	(typeof user_type !== typeof undefined && user_type) ? user_type :"";
+	var userTypeTitle =	(FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] : "";
+    var planPriceData = (typeof price_data !== typeof undefined && price_data) ? price_data :[];
+    var plan_purches_details =(typeof offline_plan_details !== typeof undefined && offline_plan_details) ? offline_plan_details :"";
+    var expiryDate	= (plan_purches_details.expiry_date)  ? plan_purches_details.expiry_date	:"";
+	var priceToggle	=	(typeof price_toggle !== typeof undefined && price_toggle) ? price_toggle :"";
+	var userId	=	(typeof user_id !== typeof undefined && user_id) ? user_id :"";
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%=__('admin.system.accept_payment'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+
+                        <li>
+                            <div class="demo-switch">
+                                <div class="switch">
+                                    <label>
+                                        <%=__('admin.plan.yearly');%>
+                                        <input type="checkbox" id="toggleSwitch">
+                                        <span class="lever"></span>
+                                        <%=__('admin.plan.monthly');%>
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="offline-payment" data-submit-btn-id="offline-payment-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+                                    <label for="account_type" class="control-label"><%= __('admin.users.payment_type'); %><span class="required"> * </span>: </label>
+									<br>
+                                    <%
+                                        var cashChecked ="";
+                                        var onlineChecked ="";
+                                        var cardChecked ="";
+                                        var chequeChecked ="";
+                                        if(plan_purches_details.payment_type == PAYMENT_TYPE_CASH){
+                                            cashChecked =  "checked";
+                                        }else if(plan_purches_details.payment_type == PAYMENT_TYPE_ONLINE){
+                                            onlineChecked =  "checked";
+                                        }else if(plan_purches_details.payment_type == PAYMENT_TYPE_CARD){
+                                            cardChecked =  "checked";
+                                        }else if(plan_purches_details.payment_type == PAYMENT_TYPE_CHEQUE){
+                                            chequeChecked =  "checked";
+                                        }
+                                    %>
+                                    <input type="radio" name="payment_type" id="cash" value="<%=PAYMENT_TYPE_CASH%>" <%=cashChecked%> class="with-gap">
+                                    <label for="cash">Cash</label>
+                                    <input type="radio" name="payment_type" id="cheque" value="<%=PAYMENT_TYPE_CHEQUE%>" <%=chequeChecked%> class="with-gap">
+                                    <label for="cheque" class="m-l-35">Cheque</label>
+                                    <input type="radio" name="payment_type" id="online" value="<%=PAYMENT_TYPE_ONLINE%>" <%=onlineChecked%> class="with-gap">
+                                    <label for="online" class="m-l-35">UPI/Online</label>                                
+                                    <!-- <input type="radio" name="payment_type" id="card" value="<%=PAYMENT_TYPE_CARD%>" <%=cardChecked%> class="with-gap">
+                                    <label for="card" class="m-l-35">Credit/Debit Card</label> -->
+								</div>
+                                <span id="payment_type_error" class="error"></span> 
+							</div>
+                            <div class="col-sm-6">
+                                <div class="form-group">                                    
+                                    <label for="account_type" class="control-label"><%= __('admin.users.plan'); %><span class="required"> * </span>: </label>          
+                                    <br>
+                                    <%if(planPriceData.length >0){
+                                        planPriceData.map(record =>{
+                                            let priceId = record?.id || "";
+                                            let planName = record?.product?.name || "";
+                                            let amount = record?.unit_amount || 0;
+                                            let finalAmount = amount/100 ||0;
+                                            let extractedName =  (/\d/.test(planName)) ? planName.split(" ").slice(1).join(" ") : planName; 
+                                            let checkedPlan ="";
+                                            if(plan_purches_details.plan == planName){
+                                                checkedPlan ="checked";
+                                            }
+                                            %>
+                                        <input type="radio" name="plan" id="<%= planName %>" value="<%= planName %>" <%=checkedPlan%> class="with-gap" data-price-id="<%= priceId %>" data-lookup-key="<%= record.lookup_key %>" data-amount ="<%=finalAmount%>">
+                                        <label for="<%= planName %>"><b><%=extractedName%></b> ( <%= CURRENCY_SYMBOL +finalAmount%>.00 ) </label> 
+                                    <%
+                                    });
+                                    }%>
+                                </div>
+                                <span id="plan_error" class="error"></span> 
+                            </div>
+						</div>
+                        <div class="row clearfix cash_payment_div">
+                            <div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="amount" class="control-label"><%= __('admin.plan.amount'); %> ($)<span class="required">  </span>:</label>
+										<input onkeypress="allowNumericAndFloat(event)" name="amount" id="amount" type="text" class="form-control" placeholder="<%= __('admin.plan.please_enter_amount_format'); %>" value="<%=(plan_purches_details.amount) ?  plan_purches_details.amount : '';%>"/>
+									</div>
+									<span id="amount_error" class="error"></span>
+								</div>
+							</div>                            
+                            <!-- <div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="expiry_date" class="control-label"><%= __('admin.rewards.expiry_date'); %><span class="required">  </span>:</label>
+										<input name="expiry_date" id="expiry_date" type="text" class="form-control" />
+									</div>
+									<span id="expiry_date_error" class="error"></span>
+								</div>
+							</div> -->
+                            <div class="col-sm-4 cheque_number">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="cheque_number" class="control-label"><%= __('admin.user.cheque_number'); %><span class="required"> </span>:</label>
+										<input name="cheque_number" id="cheque_number" type="text" class="form-control" value="<%=(plan_purches_details.cheque_number) ?  plan_purches_details.cheque_number : '';%>"/>
+									</div>
+									<span id="cheque_number_error" class="error"></span>
+								</div>
+							</div>
+                            <div class="col-sm-4 upi_payment">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="upi_id" class="control-label"><%= __('admin.user.upi_id'); %><span class="required"> </span>:</label>
+										<input name="upi_id" id="upi_id" type="text" class="form-control" value="<%=(plan_purches_details.upi_id) ?  plan_purches_details.upi_id : '';%>" />
+									</div>
+									<span id="upi_id_error" class="error"></span>
+								</div>
+							</div>
+                        </div>                        
+                        <!-- <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+
+                                    <input type="checkbox" id="term_and_privacy" name="term_and_privacy" class="filled-in">
+
+                                    <label for="term_and_privacy"><%= __('pocial_payment.terms_checkbox_message'); %>  <a href="<%=FRONT_URL%>pocial/terms" target="_blank"><%= __('pocial_payment.terms_of_service'); %></a> <%= __('pocial_payment.terms_checkbox_message_second_part'); %> <a href="<%=FRONT_URL%>pocial/privacy-policy" target="_blank"><%= __('global.privacy_policy'); %></a>.<%= __('pocial_payment.you_may_subscribe_at_any_time'); %></label>                                        
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Hidden Fields (Will be updated dynamically) -->
+                        <input type="hidden" name="plan_price_id" id="selected_plan_price_id" value="<%=(plan_purches_details.plan_price_id) ? plan_purches_details.plan_price_id :'';%>">
+                        <input type="hidden" name="plan_lookup_key" id="selected_plan_lookup_key" value="<%=(plan_purches_details.plan_lookup_key) ? plan_purches_details.plan_lookup_key :'';%>">
+                        <br>
+						<button type="button"  id="offline-payment-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url+'/'+userType%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+
+
+	<script type="text/javascript">
+		/** End Date of birth function */
+		$(document).ready(function(){
+
+            $(".cheque_number, .upi_payment").hide();
+
+            /**Default selected plan*/ 
+            let defaultPlan = $('input[name="plan"]:checked'); 
+            if (defaultPlan.length > 0) {
+                let defaultAmount = defaultPlan.data("amount");
+                $("#amount").val(defaultAmount);
+            }
+
+            /**submit function*/
+			$(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+                
+				ajax_submit("offline-payment",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+
+            /**show/hide div according to data*/
+            switch ('<%=plan_purches_details.payment_type%>') {
+                case "cheque":
+                    $(".cheque_number").show();
+                    $(".upi_payment").hide();
+                    break;
+                case "online":
+                    $(".cheque_number").hide();
+                    $(".upi_payment").show();
+                    break;
+                case "card":
+                    $(".cash_payment_div").hide();
+                    break;
+            }
+
+          
+            /**get plan hidden datadata*/
+            $('input[name="plan"]').on("change", function() {
+                let selectedPriceId = $(this).data("price-id");
+                let selectedLookupKey = $(this).data("lookup-key");
+                let selectedPlan = $(this).data("amount");
+
+                $("#selected_plan_price_id").val(selectedPriceId);
+                $("#selected_plan_lookup_key").val(selectedLookupKey);
+
+                $("#amount").val(selectedPlan);
+            });
+
+            /**payment type select */
+            $('input[name="payment_type"]').change(function() {
+                var selectedId = $('input[name="payment_type"]:checked').attr('id');
+               
+                if(selectedId == "cheque"){
+                    $(".cash_payment_div").show();
+                    $(".cheque_number").show();
+                    $(".upi_payment").hide();
+                    $("#upi_id").val("");
+
+                    let chequeVal = '<%=plan_purches_details.cheque_number%>' || "";
+                    $("#cheque_number").val(chequeVal);
+                }
+
+                if(selectedId == "online"){
+                    $(".cash_payment_div").show();
+                    $(".cheque_number").hide();
+                    $(".upi_payment").show();
+                    $("#cheque_number").val("");
+                    let upiVal = '<%=plan_purches_details.upi_id%>' || "";
+                    $("#upi_id").val(upiVal);
+                }
+
+                if(selectedId == "cash"){
+                    $(".cash_payment_div").show();
+                    $(".cheque_number").hide();
+                    $(".upi_payment").hide();
+                    $("#cheque_number").val("");
+                    $("#upi_id").val("");
+                }
+
+                if(selectedId == "card"){
+                    $(".cash_payment_div").hide();
+                    $("#cheque_number").val("");
+                    $("#amount").val("");
+                    $("#upi_id").val("");
+                }
+              
+            });
+
+            /**Javascript function to initialize datepicker for valid to date.*/
+            var dateNow	= moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+            $("#expiry_date").datetimepicker({
+                format: "YYYY-MM-DD",
+                minDate: moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD"),
+                ignoreReadonly: true,
+                useCurrent: false 
+            });
+
+            /**Set valid to and valid from value*/
+			var expiryDateVal	= 	"";
+			if('<%=expiryDate%>'){
+				expiryDateVal =	moment("<%=expiryDate%>").tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+			}
+			
+			$("#expiry_date").val(expiryDateVal);
+
+            /**checked the radio button based on the selected payment method.*/
+            if ('<%=priceToggle%>' =='<%=PRICE_MONTHLY%>') {
+                $("#toggleSwitch").prop("checked", true);
+            } else {
+                $("#toggleSwitch").prop("checked", false);
+            }
+
+            /**change price toggle*/
+            $("#toggleSwitch").change(function(){
+                if ($(this).is(":checked")) {
+                    window.location.href ="<%=admin_list_url+'/'+userType%>/offline_payment/<%=userId%>/<%=PRICE_MONTHLY%>";
+                } else {
+                    window.location.href ="<%=admin_list_url+'/'+userType%>/offline_payment/<%=userId%>/<%=PRICE_YEARLY%>"
+                }
+            });		
+		});
+
+        /**Allow only integers and floating-point numbers */
+        function allowNumericAndFloat(event) {
+            const key = event.key;
+            const value = $('#amount').val();
+
+            /**Allow digits, backspace, delete, and dot (.) for decimal*/ 
+            if (/[^0-9.]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+                event.preventDefault();  
+            }
+            
+            /**Allow only one decimal point in the value*/ 
+            if (key === '.' && value.includes('.')) {
+                event.preventDefault(); 
+            }
+        }
+	</script>

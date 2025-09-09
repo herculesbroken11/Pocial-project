@@ -1,0 +1,214 @@
+<%
+	var userType		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var pollSlug		= (typeof poll_slug !== typeof undefined && poll_slug) ? poll_slug : "";
+	var commentId		= (typeof comment_id !== typeof undefined && comment_id) ? comment_id : "";
+	var totalRecords	= (typeof total_records !== typeof undefined && total_records) ? total_records : 0;
+%>
+
+<div class="container-fluid" id="main-container">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url+"/"+userType+"/polls/comment_poll_details/"+userId+'/'+pollSlug %>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%=__('admin.system.comment'); %> 
+						<% if(totalRecords!==0){ %> (<%= numberFormat(totalRecords) %>) <% }%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<% if(commentId){ %>
+								<a href="<%=admin_list_url+"/"+userType+"/polls/comment_poll_details/"+userId+'/'+pollSlug %>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+									</button>
+								</a>
+							<% }else{ %>
+								<a href="<%=admin_list_url%>/<%=userType%>/polls/<%= userId %>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+									</button>
+								</a>
+							<% } %>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.system.image"); %></th>
+								<th><%= __("admin.user_profile.full_name"); %></th>
+								<th><%= __("admin.system.comment"); %></th>
+								<th><%= __("admin.system.like"); %>/<%= __("admin.system.dislike"); %></th>
+								<th><%= __("admin.system.created"); %></th>
+								<th><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>
+	<script type="text/javascript">
+		
+	 
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 4, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imagePath	=	(result.user_profile_image) ? '<%= USERS_URL %>'+result.user_profile_image : '<%= ADD_PROFILE_IMAGE_ICON %>';
+							var id 			=	(result._id) ? result._id : '';
+							var imgHtml		=	'';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"' class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=50x50&type=crop' class='img-thumbnail'  alt='System Image'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+					{ "data": 'user_full_name' },
+					{
+						"data"		:	"comment",
+						"orderable" : 	false,
+						"render" 	: 	function(comment){
+							return '<span class="readmore">'+comment+'</span>';
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var commentId	=	(result._id) ? result._id :"";
+							var liked		=	(result.is_like) ? result.is_like :0;
+							var disliked	=	(result.is_dislike) ? result.is_dislike :0;
+							return	'<div class="like_dislike"><span class="like_class"><span class="icon-name">'+numberFormat(liked)+'</span> <i class="material-icons">thumb_up</i></span>'+
+									'<span class="like_class"><span class="icon-name">'+numberFormat(disliked)+'</span> <i class="material-icons">thumb_down</i></span></div>';
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT);
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var commentId = (result._id) ? result._id : "";
+							var childComments = (result.child_comments) ? result.child_comments : [];
+							var childCommentCount = (result.child_comment_count) ? result.child_comment_count : 0;
+							return '<a href="javascript:void(0)" data-href="<%= admin_list_url+'/'+userType %>/polls/comment_delete/<%= userId %>/<%= pollSlug %>/'+commentId+'" class="btn bg-teal btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.polls.you_want_to_delete_this_comment"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>" ><i class="material-icons font-14">delete_sweep</i></a>'+
+									'<a href="<%=admin_list_url+"/"+userType+"/polls/comment_poll_details/"+userId+'/'+pollSlug+'/'%>'+commentId+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.comment"); %> ('+numberFormat(childCommentCount)+')" class="btn bg-teal btn-sm waves-effect dt-control"><i class="material-icons font-14">comment</i> ('+numberFormat(childCommentCount)+')</a>';
+						}
+					}
+				],
+				"ajax":{
+					url		:	"<%=admin_list_url+"/"+userType+"/polls/comment_poll_details/"+userId+'/'+pollSlug+'/'+commentId %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

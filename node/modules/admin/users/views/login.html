@@ -1,0 +1,44 @@
+<form id="login-admin" data-submit-btn-id="admin-login-btn-id" method="post" class="on_click_submit" role="form">
+	<div class="msg"><%= __("admin.login.login"); %></div>
+	<div class="input-group">
+		<span class="input-group-addon"> <i class="material-icons hide-before-load hideMe">person</i> </span>
+		<div class="form-line">
+			<input type="text" class="form-control" name="username" placeholder="<%= __('admin.login.email_placeholder');%>">
+		</div>
+		<span id="username_error" class="error login_error"></span>
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon"> <i class="material-icons hide-before-load hideMe">lock</i> </span>
+		<div class="form-line">
+			<input type="password" class="form-control" name="password" placeholder="<%= __('admin.login.password'); %> *" />
+		</div>
+		<span id="password_error" class="error login_error"></span>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<button type="button" id="admin-login-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+		 </div>
+	</div>
+	<div class="row m-t-15 m-b--20">
+		<div class="col-xs-12 align-center">
+			<a href="<%= WEBSITE_ADMIN_URL%>forgot-password" ><%= __('admin.login.forgot_password'); %></a>
+		</div>
+	</div>
+</form>
+<%- contentFor("script") %>
+	<script type="text/javascript">		
+		/**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			ajax_submit("login-admin",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>

@@ -1,0 +1,343 @@
+<%
+	var stageLevel	=	(typeof stage_level !== typeof undefined && stage_level) ? stage_level : "";
+%>
+<div class="container-fluid">
+	<!--Search Start -->	
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-col-pink">
+						<div class="panel-heading" role="tab" id="panel-heading-id">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+								   aria-controls="panel-collapse-id" class="collapsed">
+									<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+									<span class="pull-right collapse-toggle-icon"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- Search by Name -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __('admin.user.search_by_name'); %>" name="name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Email -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" onkeyup="searchDatatable(2)" placeholder="<%= __('admin.user.search_by_email'); %>" name="email">
+											</div>
+										</div>
+									</div>
+									
+									<% if(stageLevel==''){ %>
+										<!-- search by stage level  -->
+										<div class="col-xs-12 col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select class="form-control show-tick"id="column_filter_0" onchange="searchDatatable(0)" name="stage_level">
+														<option value=""><%=__("admin.lead_forms_subscriber.search_by_stage_level");%></option>
+														<%
+														if(STAGE_LEVEL_SEARCH_DROPDOWN && Object.keys(STAGE_LEVEL_SEARCH_DROPDOWN).length > 0){
+															Object.keys(STAGE_LEVEL_SEARCH_DROPDOWN).map(searchStatus=>{ %>
+																<option value="<%=STAGE_LEVEL_SEARCH_DROPDOWN[searchStatus]["status_id"]%>"><%=(STAGE_LEVEL_SEARCH_DROPDOWN[searchStatus]["status_name"]) ? STAGE_LEVEL_SEARCH_DROPDOWN[searchStatus]["status_name"] :"";%></option>
+														<% 	});
+														} %>
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										<!-- search by hybrid  -->
+										<div class="col-xs-12 col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select class="form-control show-tick"id="column_filter_6" onchange="searchDatatable(6)" name="hybrid">
+														<option value=""><%=__("admin.lead_forms_subscriber.search_by_hybrid_leads");%></option>
+														<%
+														if(HYBRID_SEARCH_DROPDOWN && Object.keys(HYBRID_SEARCH_DROPDOWN).length > 0){
+															Object.keys(HYBRID_SEARCH_DROPDOWN).map(searchStatus=>{ %>
+																<option value="<%=HYBRID_SEARCH_DROPDOWN[searchStatus]["status_id"]%>"><%=(HYBRID_SEARCH_DROPDOWN[searchStatus]["status_name"]) ? HYBRID_SEARCH_DROPDOWN[searchStatus]["status_name"] :"";%></option>
+														<% 	});
+														} %>
+													</select>
+												</div>
+											</div>
+										</div>
+									<% } %>
+									
+									<!-- search by gender   -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick"id="column_filter_4" onchange="searchDatatable(4)" name="gender">
+													<option value=""><%=__("admin.user.search_by_gender");%></option>
+													<%
+													if(GENDER_TYPE_DROP_DOWN && Object.keys(GENDER_TYPE_DROP_DOWN).length > 0){
+														Object.keys(GENDER_TYPE_DROP_DOWN).map(searchStatus=>{ %>
+															<option value="<%=GENDER_TYPE_DROP_DOWN[searchStatus]["status_id"]%>"><%=(GENDER_TYPE_DROP_DOWN[searchStatus]["status_name"]) ? GENDER_TYPE_DROP_DOWN[searchStatus]["status_name"] :"";%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-4">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%= WEBSITE_ADMIN_URL+"view_leads_subscribers/"+stageLevel %>">
+											<%= __("admin.system.reset")%>
+										</button>
+										<% if(stageLevel!==''){ %>
+											<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%= WEBSITE_ADMIN_URL+"view_leads_subscribers" %>">
+												<%= __("admin.system.all_records")%>
+											</button>
+										<% } %>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.leads.leads_subscriber'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%= WEBSITE_ADMIN_URL+"dashboard" %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back") %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('admin.leads_subscriber.user_profile_image'); %></th>
+								<th><%= __('admin.user.full_name'); %></th>
+								<th><%= __('admin.leads_subscriber.email'); %></th>
+								<th><%= __('admin.user.phone_number'); %></th>
+								<th><%= __('admin.user.gender'); %></th>
+								<th><%= __('admin.user.date_of_birth'); %></th>
+								<th><%= __('admin.user.zip_code'); %></th>
+								<th><%= __('admin.system.created'); %></th>
+								<th><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- get scripted code modal open -->
+	<div class="modal fade modal_open_css" id="get_scripted_code_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<h4 class="modal-title" id="largeModalLabel"><%= __('admin.leads.get_script_code'); %></h4>						
+				</div>
+				<hr/>
+				<div class="modal-body">						
+					<div class="body">	
+						<form id="mark_as_exclusive_form" action="<%= admin_list_url%>/mark_as_exclusive" method="post" class="on_click_submit" role="form">
+							<div class="row clearfix">
+							<input type="hidden" name="exclusive_product_id" id="exclusive_product_id" value=""/>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<textarea id="text_area_value" style="height: 200px;" class="form-control" ></textarea> 
+									</div>
+								</div>
+							</div>
+						</form>
+						<button class="no_hover btn bg-teal btn-sm waves-effect" onclick="myCopyFunction()">Copy text</button>
+						<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.close"); %></button>
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+	
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css" rel="stylesheet">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 7, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"field_name"	:   "stage_level",
+						"render"		: 	function(result){
+							var imagePath	=	(result.profile_image) ? '<%= USERS_URL %>'+result.profile_image	:'<%= ADD_PROFILE_IMAGE_ICON %>';
+							var id 			=	(result._id) ? result._id :'';
+							
+							var imgHtml = '';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"' class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=50x50&type=crop' class='img-thumbnail'  alt='System Image'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+					{
+						"data"		: 	{},
+						"field_name":	"full_name",
+						"orderable" : 	false,
+						"render" 	: 	function(result){
+							var fullName = (result.full_name) ? result.full_name :'';
+							var accountType	=	(result.account_type) ? result.account_type :'';
+							fullName = (fullName) ? fullName : "N/A";
+							
+							if(accountType == '<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>'){
+								let businessUser = '<span class="label label-default"><%= __('admin.dashboard_leads.business_user'); %></span>';
+								return fullName+"</br>"+businessUser;
+							}else{
+								return (fullName) ? fullName : "N/A";
+							}
+						}
+					},
+					{
+						"data" 		: {},
+						"field_name": "email",
+						"render" 	: function(result){
+							let email			=	(result.email) ? result.email :'';
+							let stagelevel		=	(result.stage_level) ? result.stage_level :'';
+							let hybrid			=	(result.hybrid) ? result.hybrid :'';
+							let statusObject	= 	<%- JSON.stringify(STAGE_LEVEL)%>;
+							
+							hybrid	=	(hybrid) ? '<span class="label label-info">Hybrid</span>' :	"";
+							letReturnEmail		= (email) ? '<a href="mailto:'+email+'">'+email+'</a>' :email;
+							letReturnstagelevel = '<span class="label label-success">'+statusObject[stagelevel]+'</span> '+hybrid;
+							
+							return letReturnEmail+"</br>"+letReturnstagelevel;
+						}
+					},
+					{
+						"data"		:	"mobile",
+						"orderable" : 	false,
+						"render" 	: 	function(mobile){
+							return (mobile) ? mobile : "N/A";
+						}
+					},
+					{
+						"data"			:	'gender',
+						"searchable"	: 	false,
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"render" 		: 	function(gender){
+							let genderDropdown 		= 	{};
+							genderDropdown['<%= MALE %>'] 	=	"Male";
+							genderDropdown['<%= FEMALE %>']	=	"Female";
+							genderDropdown['<%= OTHER %>']	=	"Other";
+
+							return (gender) ? genderDropdown[gender] : "N/A";
+						}
+					},
+					{
+						"data"			:	'dob',
+						"searchable"	: 	false,
+						"render" 		: 	function(dob){
+							let dobMoment = moment(dob).tz(DEFAULT_TIME_ZONE).format(DATE_FORMAT);
+							return (dob) ? dobMoment : "N/A";
+						}
+					},
+					{
+						"data"			:	'zip',
+						"searchable"	: 	false,
+						"field_name"	:   "hybrid",
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"render" 		: 	function(zip){
+							return (zip) ? zip : "N/A";
+						}
+					},
+					{
+						"data"			:	'created',
+						"searchable"	: 	false,
+						"render" 		: 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render" 		: function(result){
+							var id = (result._id) ? result._id : "";
+							return	'<a href="<%=admin_list_url %>/view/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view"); %>" class="btn bg-teal btn-sm waves-effect" ><i class="material-icons font-14">find_in_page</i><%= __('admin.system.view'); %></a>';
+						}
+					},
+				],
+				"ajax":{
+					url		:	"<%= WEBSITE_ADMIN_URL+"view_leads_subscribers/"+stageLevel %>",
+					type	: 	"POST",
+					data : function (d) {
+						d.fromDate	= $('#from_date').val();
+						d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

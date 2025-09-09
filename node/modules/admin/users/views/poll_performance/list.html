@@ -1,0 +1,231 @@
+<%
+   var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+   var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+   var resultData = result.poll_logs;
+   var ageData = resultData.age_interaction;
+   var fromDate = from_date;
+   var toDate = to_date;
+   if(fromDate =="" && toDate ==""){
+      var InteractionUrl = admin_list_url+"/"+userType+"/poll_performance/list/"+userId;
+		var pollListUrl = admin_list_url+"/"+userType+"/poll_performance/poll_list/"+userId+"/"+PERFORMANCE_VOTES_TAB;
+	}else{
+      fromDate = fromDate.slice(0, 10)+"%2000:00:00";
+      toDate = toDate.slice(0, 10)+"%2023:59:59";
+      var InteractionUrl = admin_list_url+"/"+userType+"/poll_performance/list/"+userId+"/"+fromDate+"/"+toDate;
+		var pollListUrl = admin_list_url+"/"+userType+"/poll_performance/poll_list/"+userId+"/"+PERFORMANCE_VOTES_TAB+"/"+fromDate+"/"+toDate;
+	}
+ %>
+
+<div class="container-fluid" id="main-container">
+   <!--tab section start-->
+   <%- include('element_report.html') %>
+   <!--tab section end-->
+   
+   <!--Search Start -->
+   <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-col-pink">
+               <div class="panel-heading" role="tab" id="panel-heading-id">
+                  <h4 class="panel-title">
+                     <a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false" aria-controls="panel-collapse-id" class="collapsed">
+                     <i class="material-icons">search</i> <%= __('admin.dashboard.search_by_date_range'); %>
+                     <span class="pull-right collapse-toggle-icon"></span>
+                     </a>
+                  </h4>
+               </div>
+               <div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+                  <form id="searchForm" name="searchForm" autocomplete="off">
+                     <div class="panel-body">
+                        <div class="row clearfix">
+                           <!-- Search by Date Range -->
+                           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                              <div class="form-group">
+                                 <div class="form-line">
+												<input class="form-control" id="date-range-picker" name="search_by_registration_date"  placeholder="<%= __('admin.dashboard.search_by_date_range'); %>">
+											</div>
+                                 <input class="form-control hide" id="from_date" type="text" name="from_date">
+                                 <input class="form-control hide" id="to_date" type="text" name="to_date">
+                              </div>
+                           </div>
+                           <button type="button" id="search_date_range" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> >
+                           <i class="material-icons font-14">search</i> 
+                           <%= __('admin.dashboard.search'); %>
+                           </button>
+                           <a href="<%=admin_list_url+'/'+userType+'/poll_performance/list/'+userId%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--Search End -->
+   <!-- Interaction report -->
+   <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <div class="card">
+            <div class="header">
+					<h2><%= __('performance.interaction_review'); %></h2>
+				</div>
+            <div class="body" id="interaction_data">
+               <div class="row clearfix">
+                  <div class="container-fluid">
+                     <div class="row clearfix">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <!-- interactions count-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <a href="javascript.void(0)" class="stats-anchor text-decoration-none">
+                                 <div class="info-box bg-deep-orange m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+                                    <div class="icon">
+                                       <i class="material-icons">track_changes</i>
+                                    </div>
+                                    <div class="content">
+                                       <div class="text"><%= __('performance.interaction'); %></div>
+                                       <div class="number"><%= resultData.total_interactions %></div>
+                                    </div>
+                                 </div>
+                              </a>
+                           </div>
+                            <!-- male count-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <a href="javascript.void(0)" class="stats-anchor text-decoration-none">
+                                 <div class="info-box bg-teal m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+                                    <div class="icon">
+                                       <i class="material-icons">group</i>
+                                    </div>
+                                    <div class="content">
+                                       <div class="text"><%= __("admin.poll_analytics_report.male"); %></div>
+                                       <div class="number"><%= resultData.male_interactions %></div>
+                                    </div>
+                                 </div>
+                              </a>
+                           </div>
+                           <!-- female count-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <a href="javascript.void(0)" class="stats-anchor text-decoration-none">
+                                 <div class="info-box bg-pink m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+                                    <div class="icon">
+                                       <i class="material-icons">group</i>
+                                    </div>
+                                    <div class="content">
+                                       <div class="text"><%= __("admin.poll_analytics_report.female"); %></div>
+                                       <div class="number"><%= resultData.female_interactions %></div>
+                                    </div>
+                                 </div>
+                              </a>
+                           </div>
+                           <!-- business user count-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <a href="javascript.void(0)" class="stats-anchor text-decoration-none">
+                                 <div class="info-box bg-blue-grey m-b-0 hover-zoom-effect hover-expand-effect cursor-pointer all_patients_color">
+                                    <div class="icon">
+                                       <i class="material-icons">card_giftcard</i>
+                                    </div>
+                                    <div class="content">
+                                       <div class="text"><%= __("global.business"); %></div>
+                                       <div class="number"><%= resultData.business_interactions %></div>
+                                    </div>
+                                 </div>
+                              </a>
+                           </div>
+                        </div>
+                        <!--age wise vote count section-->
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                           <div class="card">
+                              <div class="header">
+                                 <h2>
+                                    <%= __("performance.ages"); %>
+                                 </h2>
+                              </div>
+                              <div class="body">
+                                 <ul class="list-group">
+                                 <%
+                                 ageData.map(function(ageVal){%>
+                                       <li class="list-group-item"><%= ageVal.age %><span class="badge"><%= ageVal.interactions %></span></li>
+                                 <%
+                                    });
+                                 %>
+                                    
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                        <!--Followers vs non followers and repeat vs new section-->
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                           <div class="card">
+                              <div class="header">
+                                 <h2>
+                                    <%= __("performance.followers_nonfollowers"); %>
+                                 </h2>
+                              </div>
+                              <div class="body">
+                                 <ul class="list-group">
+                                    <li class="list-group-item"><%= __("admin.user.followers"); %><span class="badge"><%= resultData.total_followers %> </span></li>
+                                    <li class="list-group-item"><%= __("global.non_followers"); %> <span class="badge"><%= resultData.total_non_followers %></span></li>
+                                 </ul>
+                              </div>
+                              <div class="header">
+                                 <h2>
+                                    <%= __("performance.repeat_new_participants"); %>
+                                 </h2>
+                              </div>
+                              <div class="body">
+                                 <ul class="list-group">
+                                    <li class="list-group-item"><%= __("performance.repeat"); %><span class="badge"><%= resultData.total_repeat_participant %></span></li>
+                                    <li class="list-group-item"><%= __("performance.new"); %><span class="badge"><%= resultData.total_new_participant %></span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<%- contentFor('css') %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.css" rel="stylesheet">
+<%- contentFor("script") %>
+<!-- <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery-countto/jquery.countTo.js" type="text/javascript"></script> -->
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+      /**show from date to date val*/
+      var fromDate = '<%=from_date%>';
+      var toDate = '<%=to_date%>';
+      if(fromDate !="" && toDate !=""){
+         fromDate = fromDate.substring(0, 10);
+         toDate = toDate.substring(0, 10);
+         $("#date-range-picker").val(fromDate+ "  " +toDate);
+         $("#from_date").val(fromDate);
+         $("#to_date").val(toDate);
+      }
+       
+      });
+ 
+    /** filter by date wise*/
+    $("#search_date_range").click(function() {
+       let fromDate = $("#from_date").val();
+       let toDate = $("#to_date").val();
+       if(fromDate && toDate){
+          window.location.href = "<%=admin_list_url+'/'+userType%>/poll_performance/list/"+'<%=userId%>'+"/"+fromDate+"/"+toDate;
+       }
+     });
+
+      /**use active tab condition*/
+      var InteractionUrl = "<%=InteractionUrl%>";
+      var currentUrl = $(location).attr('href');
+
+
+      if(currentUrl == InteractionUrl){
+         $("#interaction_tab").removeClass("btn-default");
+         $("#interaction_tab").addClass("bg-teal");
+      }
+ </script>
+ 

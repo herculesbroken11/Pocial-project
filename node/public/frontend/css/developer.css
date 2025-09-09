@@ -1,0 +1,27 @@
+.hide{
+	display:none !important;
+}
+
+.error{
+	color: red;
+}
+
+.toast-popup.error{
+	color : #FFFF;
+}
+
+.no-resize{
+	resize:none;
+}
+
+.nl2br {
+  white-space: pre-wrap;
+}
+
+.m-t-10{
+	margin-top :10px !important;
+}
+
+.asterisk{
+	color: red;
+}

@@ -1,0 +1,385 @@
+<%
+	result					=	(typeof result !== typeof undefined && result) ? result	:	{};
+	var signupFields		=	(result.signup_fields)	 		? result.signup_fields 			:	[]; 
+	var mandatoryOptions	=	(result.mandatory_options) 		? result.mandatory_options 		:	[]; 
+	var messageBoxTitle		=	(result.message_box_title) 		? result.message_box_title 		:	[]; 
+	var typeDropdownTitle	=	(result.type_dropdown_title)	? result.type_dropdown_title	:	[]; 
+	var userType 			=	(typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 				=	(typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<td width="30%">
+								<label for="title" class="control-label"><%= __('admin.leads.campaign_title'); %></label><br>
+								<%=(typeof result !== typeof undefined &&  result.title) ? result.title : 'N/A'%>
+							</td>
+							
+							<td width="40%">
+								<label for="description" class="control-label"><%= __('admin.leads.description'); %></label><br>
+								<p id="shrinkMe2" class="readMore"><%=(typeof result !== typeof undefined &&  result.description) ? result.description : 'N/A'%></p>
+							</td>
+							
+							<td width="30%">
+								<label for="notify_email" class="control-label"><%= __('admin.leads.notify_email'); %></label><br>
+								<ul class="country-data">
+									<% if((result.notify_email).length>0){%>
+										<%	result.notify_email.map(reviewsData=>{%>
+											<li><%= (reviewsData.value) ? reviewsData.value	: "N/A";%> </li>
+										<%});%>
+									<%}else{%>
+										<%= "N/A" %>
+									<%}%>
+								</ul>	
+							</td>
+						</tr>
+						
+						<tr>
+							<td width="30%">
+								<label for="description" class="control-label"><%= __('admin.leads.custom_thank_you_message'); %> (<%= __('admin.leads.title'); %>)</label><br>
+								<p id="shrinkMe4" class="readMore"><%=(typeof result !== typeof undefined &&  result.custom_thank_you_title) ? result.custom_thank_you_title : 'N/A'%></p>
+							</td>
+							
+							<td width="40%">
+								<label for="description" class="control-label"><%= __('admin.leads.custom_thank_you_message'); %> (<%= __('admin.leads.message'); %>)</label><br>
+								<p id="shrinkMe5" class="readMore"><%=(typeof result !== typeof undefined &&  result.custom_thank_you_message) ? result.custom_thank_you_message : 'N/A'%></p>
+							</td>
+							
+							<td width="40%">
+								<label for="description" class="control-label"><%= __('admin.leads.enable_sign_in_option'); %> : </label>
+								<%=(typeof result !== typeof undefined &&  result.signin_option) ? result.signin_option : 'No'%><br>
+								
+								<label for="description" class="control-label"><%= __('admin.leads.enable_kiosk_mode'); %> : </label>
+								<%=(typeof result !== typeof undefined &&  result.kiosk_option) ? result.kiosk_option : 'No'%>
+							</td>
+						</tr>
+						
+						
+						<tr>
+							<td class="text-center" colspan=3>
+								<label for="text_to_display" class="control-label"><%= __('admin.leads.text_to_display'); %></label><br>
+								<p id="shrinkMe1" class="readMore"><%=(typeof result !== typeof undefined &&  result.text_to_display) ? result.text_to_display : 'N/A'%></p>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan=3>
+								<% if(typeof result[IMAGE_FIELD_NAME] !== typeof undefined && result[IMAGE_FIELD_NAME] !=""){
+									let imageDisplay = (result.image) ? result[IMAGE_FIELD_NAME]+"?dim=400x300&type=resize" : result[IMAGE_FIELD_NAME];
+								%>
+									<a href="<%= result[IMAGE_FIELD_NAME]%>" class="items-image" data-lightbox="roadtrip">
+										<img src="<%= imageDisplay %>" alt="Profile image"  />
+									</a>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan=3>
+								<label for="display_url_description" class="control-label"><%= __('admin.leads.display_url_description'); %></label><br>
+								<p id="shrinkMe3" class="readMore"><%-(typeof result !== typeof undefined &&  result.display_url_description) ? result.display_url_description : 'N/A'%></p>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="text-left" colspan=3>
+								<!-- Start Add Fields to the form -->
+								<div class="row clearfix">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="card">
+											<div class="header">
+												<h2><%=(result.form_title) ? result.form_title : 'Registration'%></h2>
+											</div>
+											<div class="body form-horizontal">
+												<ul class="list-unstyled">
+													<!-- Email Collection -->
+													<li>
+														 <div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.email'); %> <span class="required"> *</span>:</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.email'); %>">
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+																<div class="switch">
+																	<span class="email_mendatory"><%= __('admin.leads.mandatory_minimum_required'); %></span>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Name Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_FULLNAME%>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2">Name 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_FULLNAME)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-4 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.first_name'); %>">
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-4 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.last_name'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Password Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_PASSWORD%>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.password'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_PASSWORD)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.password'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Username Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_USERNAME%>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.user_name'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_USERNAME)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.user_name'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													
+													<!-- Dob Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_DOB %>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.date_of_birth'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_DOB)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.date_of_birth'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Zip Code Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_ZIPCODE %>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.zip_code'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_ZIPCODE)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.zip_code'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Phone Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_PHONE %>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.phone_number'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_PHONE)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="form-control" readonly placeholder="<%= __('admin.user.phone_number'); %>">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- Gender Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_GENDER %>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.user.gender'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_GENDER)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-line">
+																		<input class="with-gap" id="gender1" name="gender" type="radio" value="<%= MALE %>"><label class="label_checkbox" for="gender1"><%= __('admin.user.male'); %></label>
+																		<input class="with-gap" id="gender2" name="gender" type="radio" value="<%= FEMALE %>"><label class="label_checkbox" for="gender2"><%= __('admin.user.female'); %></label>
+																		<input class="with-gap" id="gender3" name="gender" type="radio" value="<%= OTHER %>"><label class="label_checkbox" for="gender3"><%= __('admin.user.other'); %></label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													<!-- upload Image Collection -->
+													<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_IMAGE_NAME %>" >
+														<div class="row clearfix">
+															<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<label for="email_address_2"><%= __('admin.leads_subscriber.image_upload'); %> 
+																	<%if(mandatoryOptions.includes(SIGNUP_FIELD_IMAGE_NAME)){%><span class="required"> *</span> <% } %>:
+																</label>
+															</div>
+															<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																<div class="form-group">
+																	<div class="form-lin no-bottom-border">
+																		<input disabled="disabled" name="business_logo" id="business_logo" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+													
+													
+													<!-- Message Collection -->
+													<% if(messageBoxTitle.length>0){ 
+															messageBoxTitle.map(recordsMessage=>{
+													%>
+														<li>
+															<div class="row clearfix">
+																<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																	<label for="email_address_2"><%= recordsMessage.label %> 
+																		<% if(recordsMessage.mandatory=='Yes'){ %><span class="required"> *</span> <% } %>:
+																	</label>
+																</div>
+																<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																	<div class="form-group">
+																		<div class="form-line">
+																			<input class="form-control" readonly placeholder="<%= __('admin.leads.message'); %>">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</li>
+													<% 
+														});
+													}
+													%>
+													
+													<!-- Dropdown Collection -->
+													<% if(typeDropdownTitle.length>0){ 
+															typeDropdownTitle.map(recordsDropdown=>{
+													%>
+														<li>
+															<div class="row clearfix">
+																<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																	<label for="email_address_2"><%= recordsDropdown.label %> 
+																		<% if(recordsDropdown.mandatory=='Yes'){ %><span class="required"> *</span> <% } %>:
+																	</label>
+																</div>
+																<div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+																	<div class="form-group">
+																		<div class="form-line">
+																			<select class="form-control show-tick search_by_status search-select" autocomplete="off">
+																				<%- recordsDropdown.options %>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</li>
+													<% 
+														});
+													}
+													%>
+													
+													
+													<li class="form-line mb-1">
+														<div class="row clearfix">
+															<div class="col-lg-10 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																<button type="button" id="lead-edit-btn-id" class="btn bg-pink btn-sm waves-effect" <%- ADMIN_LOADING_TEXT %> >
+																	<i class="material-icons font-14">save</i> 
+																	<%=(result.button_name) ? result.button_name : 'Save'%>
+																</button>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>
+	
+	<script type="text/javascript">
+		$('.all_fields').hide();
+		
+		/******************************* EDIT WISE MAKE SCRIPT**************************************/
+		let signupFieldsArray 			= '<%= signupFields %>';		
+		let signupFieldsSplitArray		= signupFieldsArray.split(",");
+		
+		/** li show hide edit wise*/
+		signupFieldsSplitArray.map(recordsSignupFields=>{
+			$('.li_show_hide_'+recordsSignupFields).show();
+		})
+		
+	</script>

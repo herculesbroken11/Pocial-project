@@ -1,0 +1,248 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var enterprise 		= (typeof enterprise !== typeof undefined && enterprise) ? enterprise : "";
+	var enterpriseToggle = (enterprise !="" && enterprise == "allow") ? "checked" : "";
+%>
+<div class="container-fluid" id="main-container">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- search by title  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __("admin.pollset.search_by_title"); %>" name="title">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType+'/enterprise_upload_list/'+userId%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header enterprise_upload_list">
+					<h2>
+						<%= __("admin.users.enterprise_upload_list"); %> (<%=name_of_business%>)
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<h6><%= __("admin.users.enterprise_access"); %></h6>
+							<div class="switch">
+								<label>
+									No 
+										<input type="checkbox" <%=enterpriseToggle%> onclick="enterpriseAllowNotAllow(this)">
+										<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</li>
+                        <li>
+							<a href="<%=admin_list_url%>/<%=userType%>/upload_enterprise/<%=userId%>" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.users.add_enterprise"); %>
+								</button>
+							</a>
+						</li>
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.users.title"); %></th>
+								<th><%= __("admin.import.records_status"); %></th>
+								<th><%= __("admin.system.status"); %></th>
+								<th width="15%"><%= __('admin.system.created'); %></th>
+								<th width="10%"><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript">
+	
+		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 2, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ "data": 'title' },
+					{
+						"data"		 : {},
+						"searchable" : 	false,
+						"className"	:	'text-center',
+						"orderable"	 :	false,
+						"field_type":   "<%= EXACT_FIELD %>",
+						"render" 	 : 	function(recordStatus){
+							let returnRecordStatus = "";
+							
+							if(recordStatus.total_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.total_records"); %> : '+recordStatus.total_records+'</p>';
+							}
+							if(recordStatus.success_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.success_records"); %> : '+recordStatus.success_records+'</p>';
+							}
+							if(recordStatus.warning_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.warning_records"); %> : '+recordStatus.warning_records+'</p>';
+							}
+							if(recordStatus.failed_records){
+								returnRecordStatus += '<p class="col-blue-grey"><%= __("admin.import.failed_records"); %> : '+recordStatus.failed_records+'</p>';
+							}
+							return	(returnRecordStatus) ? returnRecordStatus : "N/A";
+						}
+					},
+					{
+						"data"		 : 'status',
+						"searchable" : 	false,
+						"field_name":   "status",
+						"render" 	 : 	function(excelProcess){
+							let processStatus	=	"N/A"
+							if(excelProcess=='<%= LEADS_PENDING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-amber"><%= __("admin.leads_file.pending"); %></span>';
+							}else if(excelProcess=='<%= LEADS_PROCESSING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-blue"><%= __("admin.leads_file.processing"); %></span>';
+							}else if(excelProcess=='<%= LEADS_COMPLETE_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-green"><%= __("admin.leads_file.completed"); %></span>';
+							}else if(excelProcess=='<%= LEADS_REJECTED_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-red"><%= __("admin.leads_file.rejected"); %></span>';
+							}
+							return	processStatus;
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"		 : 	{},
+						"orderable"	 :	false,
+						"searchable" : 	false,
+						"render" 	 : 	function(result){
+							let id = (result._id) ? result._id : "";
+							let slug = (result.slug) ? result.slug : "";
+							var filePath	=	(result.upload_enterprise_file) ? '<%= ENTERPRISE_UPLOAD_EXCEL_URL %>'+result.upload_enterprise_file : '';
+
+							return	'<a href="'+filePath+'" class="btn bg-teal btn-sm waves-effect"  data-toggle="tooltip" data-placement="top" data-original-title="<%= __("admin.system.click_to_download"); %>" title="<%= __("admin.system.click_to_download"); %>"><i class="material-icons font-14">file_download</i></a>'+
+							'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/enterprise_upload_list/delete_enterprise/<%=userId%>/'+id+'" class="btn bg-teal btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_delete_enterprise"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.click_to_delete"); %>" title="<%= __("admin.system.click_to_delete"); %>"><i class="material-icons font-14">delete_forever</i></a>'+
+							'<a href="<%=admin_list_url+'/'+userType%>/enterprise_import_details/'+id+'/<%=userId%>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.leads_file.import_file_logs"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">find_in_page</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url		:	'<%=admin_list_url+"/"+userType+"/enterprise_upload_list/"+userId %>',
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+		/** Function to send ajax request for both*/
+		function enterpriseToggleFunction(socialToggle){
+			$.ajax({
+				url  : "<%=admin_list_url%>/<%=userType%>/update_enetrprise_status/<%=userId %>/"+socialToggle,
+				type : 'post',
+				success:function(response) {
+					window.location.reload();
+				}
+			});
+		}	
+
+		/**enterprise turn allow/not allow*/
+		function enterpriseAllowNotAllow(checkbox) {
+			if (checkbox.checked) {
+				/**enterprise actions to allow the feature*/
+				enterpriseToggleFunction('<%=ALLOW_ENTERPRISE%>');
+			} else {
+				/**enterprise actions to not allow the feature*/
+				enterpriseToggleFunction('<%=NOT_ALLOW_ENTERPRISE%>');
+			}
+		}
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

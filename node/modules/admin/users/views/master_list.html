@@ -1,0 +1,379 @@
+<%
+	var statusType 		= (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+	var userType 		= (typeof user_type !== typeof undefined && user_type)		?	user_type 	:"";
+	var userId 			= (typeof user_id !== typeof undefined && user_id)			?	user_id 	:"";
+	var subUsersIds 	= (typeof sub_users_ids !== typeof undefined && sub_users_ids)	?	sub_users_ids 	:[];
+	var userTypeTitle 	= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var viewPageLink				= 	(viewPageLink)	? viewPageLink	:"";
+	var backUrl						= 	(viewPageLink)	? admin_list_url+'/'+userType+'/view/'+user_id : admin_list_url+'/'+userType;  
+%>
+
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" method="POST">
+							<input type="hidden" id="sub_users_ids" value="<%= subUsersIds %>" name="sub_users_ids">
+							<input type="hidden" id="checked_userid" name="checked_userid">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Name -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="user_name" placeholder="<%= __('admin.global.search_by_name'); %>" name="user_name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Email -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="email" placeholder="<%= __('admin.global.search_by_email'); %> <%= __('admin.global.exact_match'); %>" name="email">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Zip Code -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control" id="zip_code" placeholder="<%= __('admin.global.search_by_zip_code'); %> <%= __('admin.global.exact_match'); %>" name="zip_code">
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="search_btn" class="btn btn-sm waves-effect btn-success"><%= __("admin.global.search")%></button>
+										<button type="button" id="reset_btn" class="btn btn-sm waves-effect btn-danger"><%= __("admin.system.reset")%></button>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="form-group">						 
+										<div id="user_filter_list_error" class="error col-red m-t-10 p-l-15"></div>
+									</div>						
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.sub_user.sub_users") %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+                        <li>
+							<a href="javascript:void(0)" id="add_users">
+								<button type="button" id="add_users_button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add") %>
+								</button>
+							</a>
+						</li>
+						<li>
+							<a href="<%= backUrl %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="row clearfix" >
+						<!-- Tab panes -->
+						<div class="row clearfix">
+							<div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+								<div class="panel-group p-l-15 p-r-15" id="accordion_1" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-col-teal">
+										<div class="panel-heading" role="tab" id="headingTwo_1">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseTwo_1" aria-expanded="false" aria-controls="collapseTwo_1">
+													<i class="material-icons">account_circle</i>
+													<%= __('admin.sub_user.selected_user'); %>
+													(<span id="user_list_count"></span>)
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseTwo_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo_1" aria-expanded="false">
+											<div class="panel-body" id="selected_details">
+												 
+											</div>
+										</div>
+									</div>
+								</div>
+								<p class='text-left col-red p-l-15' id="error"></p>
+							</div>
+						</div>
+					</div>
+					<!-- Users panel -->
+					<div class="row clearfix" >
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="header bg-teal">
+									<h2>
+										<%= __("admin.system.search_user_listing") %>
+									</h2>
+								</div>
+								<div class="body">
+									<div class="row clearfix" id="user_list">
+										<p class='text-center col-red'><%= __('system.no_record_found') %></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	 
+<script type="text/javascript">
+	$(document).ready(function() {
+		var checkedUserIds 		= [];
+		var selectedUserCheckd  = [];
+		document.getElementById("user_name").value = "";
+		document.getElementById("email").value = "";
+		document.getElementById("zip_code").value = "";
+		document.getElementById("checked_userid").value = "";
+
+		/** Function for searching result **/
+		var myFunction = function(e){
+			$("#error").html("");
+			$("#user_filter_list_error").html('');
+			var onload	= false;
+			if( typeof e !== typeof undefined ){
+				if(e.type == "load"){
+					onload = true;
+				}
+				e.stopImmediatePropagation();
+			}
+
+			let userName 		= $("#user_name").val();
+			let email			= $("#email").val();
+			let zipCode			= $("#zip_code").val();
+
+			let limitData = '<%= SEARCH_USERS_LIST_LENGTH %>';
+			if(email.length>=limitData || zipCode.length>=limitData || userName.length>=limitData || onload){
+				$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+				$("#loader_ajax").addClass( "after_ajax_preloader" );
+				ajax_submit("searchForm",function(status,response){
+					if( status ){
+						if( typeof response.data !== typeof undefined && response.data && response.data.length > 0 ){
+							var i=1;
+							var innerHtml = "";
+							$("#user_list").empty();
+
+							// Add selected users ids on page load only
+							if( typeof response.selectedUser !== typeof undefined && response.selectedUser &&  onload ){
+								$.map( response.selectedUser.selected_user ,function(val,index){										
+									if( checkedUserIds.indexOf(val) === -1 ){
+										checkedUserIds.push(val);
+									}
+								});
+								$('#checked_userid').val(checkedUserIds.toString());
+							}
+							 
+							$.map( response.data ,function(module,index){
+								let limit			= 20;
+								let userId			= module["_id"];									
+								let email			= module["email"];
+								let fullName		= module["full_name"];
+								let emailFull		= email;
+								let fullNameFull	= fullName;
+								let checked			= (checkedUserIds.indexOf(userId)==-1) ? "" :"checked";
+				
+								email	 = (email.length>limit) ? email.substring(0,limit)+"..." : email;
+								fullName = (fullName.length>limit) ? fullName.substring(0,limit)+"..." : fullName;
+	
+								// Add selected users in tab panel	
+								if(checkedUserIds.indexOf(userId) != -1 ){
+									let selectedData = "<p class='"+userId+"'><i class='material-icons clickMe' data-id="+userId+">delete</i>"+fullName+ " ("+email+")</p>";
+									if( !(filterItems(userId, selectedUserCheckd)).toString() ){
+										selectedUserCheckd.push(selectedData);
+										$('#selected_details').html(selectedUserCheckd);
+									}
+								}
+								
+								// Add all users to the section	
+								innerHtml += '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >'+
+									'<div class="checkbox_class" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+emailFull+' ('+fullNameFull+')">'+
+										'<input type="checkbox" id="'+userId+'" value="'+userId+'" name="checked_user_ids[]" class="filled-in checkboxstyle" '+checked+' data-email="'+emailFull+'" data-fullName="'+fullNameFull+'" >'+
+										'<label for="'+userId+'" class="info-box bg-orange">'+
+											'<div class="icon">'+
+												'<i class="material-icons">group</i>'+
+											'</div>'+
+											'<div class="content">'+
+												'<div class="text" >'+email+'</div>'+
+												'<div class="text" >'+fullName+'</div>'+
+											'</div>'+
+											'</label>'+
+										'</div>'+
+									'</div>';
+								i++;
+							});
+							$("#user_list_count").html(selectedUserCheckd.length);
+							$("#user_list").html(innerHtml);
+						}
+						else{
+							$("#user_list_count").html(0);
+							$("#user_list").html("<p class='text-center'><%= __('system.no_record_found') %></p>");
+						}
+						$("#loader_ajax").removeClass("after_ajax_preloader");
+						$("#loader_ajax").html('');
+					}
+					else{
+						$("#loader_ajax").removeClass("after_ajax_preloader");
+						$("#loader_ajax").html('');
+					}
+				});
+			}else{
+				var lengthError = "<%= __('admin.sub_user.please_enter_minimum_three_letters'); %>";
+				$("#user_filter_list_error").html(lengthError);
+			}
+			
+			setTimeout(function(){
+				$(function () {
+					//Tooltip
+					$('[data-toggle="tooltip"]').tooltip({
+						container: 'body'
+					});
+					//Popover
+					$('[data-toggle="popover"]').popover();
+				})
+			}, 500);
+		}
+
+		/** Getting result on load **/
+		window.addEventListener("load", myFunction);
+
+		/** Search by name,email and zip code **/
+		$('#search_btn').click(myFunction);
+		
+		/** Function to reset **/
+		$('#reset_btn').click(function(){
+			location.reload();
+		});
+
+		/**
+		* Function to get selected user ids and add selected element
+		*/
+		$(document).on('click','.checkboxstyle',function(e){
+			$("#error").html("");
+			var id 		  	= this.id;
+			var isChecked 	= $("#"+id).prop("checked");
+
+			var email	 	= $(this).attr("data-email");
+			var fullName 	= $(this).attr("data-fullName");
+			let selectedData = "<p class='"+id+"'><i class='material-icons clickMe' data-id="+id+">delete</i>"+fullName+ " ("+email+")</p>";
+
+			if( isChecked == true ){
+				if( checkedUserIds.indexOf(id) === -1 ){
+					checkedUserIds.push(id);
+					$('#checked_userid').val(checkedUserIds.toString());
+					selectedUserCheckd.push(selectedData);
+					$('#selected_details').html(selectedUserCheckd);
+					$("#user_list_count").html(selectedUserCheckd.length);
+				}
+			}else{
+				removeA(checkedUserIds, id);
+				removeA(selectedUserCheckd, selectedData);
+				$('#checked_userid').val(checkedUserIds);
+				$('#selected_details').html(selectedUserCheckd);
+				$("#user_list_count").html(selectedUserCheckd.length);
+			}
+		});
+
+		/**
+		* Function to Deselect ids
+		*/	
+		$(document).on('click','.clickMe',function(e){
+			var clickid	 = ($(this).attr("data-id"));
+			let selectedString = (filterItems(clickid, selectedUserCheckd)).toString(); // selected p tag get string
+			
+			confirmBox("warning","<%= __('admin.system.are_you_sure'); %>","<%= __('admin.sub_user.do_you_want_to_remove_user'); %>",function(result){
+				removeA(checkedUserIds, clickid); // remove text hidden value remove
+				removeA(selectedUserCheckd, selectedString); // remove selected p tag value
+				
+				$("."+clickid).html(''); //accourdian value blank
+				$("#"+clickid).prop("checked", false) //checkBox unchecked label 
+				$('#checked_userid').val(checkedUserIds); // update text hidden value remove value
+				$("#user_list_count").html(selectedUserCheckd.length);
+				swal.close();
+			});
+			e.preventDefault();
+		});
+
+		/**
+		* Function to add technology
+		*/
+		$("#add_users").click(function(){
+			$("#error").html("");
+			startTextLoading("add_users_button");
+			$.ajax({
+				type		: "POST",
+				url			: "<%=admin_list_url+"/"+userType%>/add_sub_users",
+				data		: {
+					user_id 			: "<%=userId%>", 
+					user_type 			: "<%=userType%>",
+					checked_user_ids 	: checkedUserIds,
+				},
+				beforeSend : function() {
+					$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+					$("#loader_ajax").addClass( "after_ajax_preloader" );
+				},success	: function(result){
+					if( result.status == "success" ){
+						$("#loader_ajax").removeClass("after_ajax_preloader");
+						$("#loader_ajax").html('');
+						window.location.href = result.redirect_url;
+					}else{
+						$("#loader_ajax").removeClass("after_ajax_preloader");
+						$("#loader_ajax").html('');
+						window.location.href = result.redirect_url;
+					}
+				}
+			});
+		});
+	});
+
+	/**
+	 * Function to remove element
+	 */
+	function removeA(arr) {
+		var what, a = arguments, L = a.length, ax;
+		while (L > 1 && arr.length) {
+			what = a[--L];
+			while ((ax= arr.indexOf(what)) !== -1) {
+				arr.splice(ax, 1);
+			}
+		}
+		return arr;
+	}
+	
+	/** Function to filter items **/
+	function filterItems(needle, heystack) {
+		var query = needle.toLowerCase();
+		return heystack.filter(function(item) {
+			return item.toLowerCase().indexOf(query) >= 0;
+		});
+	}
+</script>
+	

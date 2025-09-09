@@ -1,0 +1,247 @@
+<%
+	var userType	= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId		= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	rewardResult	= (typeof rewardResult !== typeof undefined && rewardResult) ? rewardResult :{};
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%=__('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_rewards/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="edit-reward" data-submit-btn-id="reward-edit-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="heading" class="control-label"><%= __('admin.rewards.heading'); %> <span class="required"> *</span>:</label>
+										<input name="heading" id="heading" type="text" value="<%=(rewardResult.reward_text) ? rewardResult.reward_text :"";%>" class="form-control" />
+									</div>
+									<span id="heading_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="sub_heading" class="control-label"><%= __('admin.rewards.sub_heading'); %> <span class="required"> *</span>:</label>
+										<input name="sub_heading" id="sub_heading" type="text" value="<%=(rewardResult.reward_sub_heading) ? rewardResult.reward_sub_heading :"";%>" class="form-control" />
+									</div>
+									<span id="sub_heading_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-lineee toggle_button">
+									<label for="expiry_date" class="control-label"><%= __('admin.rewards.expiry_date'); %><span class="required"> *</span>: </label>
+									<div class="demo-switch">
+										<div class="switch">
+											<label>OFF<input type="checkbox" onclick="toogleExpiryDate()" value=true name="toogle_expiry_date" id="toogle_expiry_date" <%= rewardResult.toogle_expiry_date == true ? 'checked' :''%> ><span class="lever"></span>ON</label>
+										</div>
+									</div>
+								</div>
+								
+								<div class="dropdown_wise_dob">
+									<div class="message_dropdown_wise_dob">
+										<select data-live-search="true" name="mm" id="mm" onchange="monthChanged()" class="bear-months"></select>
+										<span id="mm_error" class="error"></span>
+									</div>
+									<div class="message_dropdown_wise_dob">
+										<select data-live-search="true" name="dd" id="dd" class="bear-dates"></select>
+										<span id="dd_error" class="error"></span>
+									</div>
+									<div class="message_dropdown_wise_dob">
+										<select data-live-search="true" name="yy" id="yy" onchange="yearChanged()" class="bear-years"></select>
+										<span id="yy_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-linee">
+										<label for="store_type_id" class="control-label"><%= __('admin.reward.store_type'); %><span class="required"> *</span>: </label>
+										<br>
+										<% storeTypeData.map(records=>{ 
+											let storeTypeIds = rewardResult.store_type_id;
+											var selectedCheckbox = storeTypeIds.some(function (friend) { return friend.equals(records._id)});
+										%>
+											<input type="checkbox" value="<%= records._id %>" id="<%= records._id %>" name="store_type_id[]" class="filled-in" <%= selectedCheckbox == true ? 'checked' :''%> >
+											<label for="<%= records._id %>"><%= records.name %></label>&nbsp;
+										<% }) %>
+									</div>
+									<span id="store_type_id_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-lin no-bottom-border">
+										<input name="old_image" id="old_image" type="hidden" class="form-control"  value="<%=rewardResult.graphic_image %>"/>
+										<input type="hidden" id="reward_image_name" id="reward_image_name">
+										<input type="hidden" id="reward_image_binary" id="reward_image_binary">
+										<label for="image" class="control-label"><%= __("admin.rewards.image"); %> : </label>
+										<input name="image_temp" id="crop" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+										<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.rewards.better_image_ratio") %> <%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+											<i class="material-icons">info</i>
+										</span>
+									</div>
+									<span id="image_temp_error" class="error"></span> 
+									<span id="image_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<% if(rewardResult.graphic_image){ %>
+									<div class="profile_image_css">
+										<a href='<%= LEADS_FORM_URL + rewardResult.graphic_image%>' class='items-image old_image_hide' data-lightbox='roadtrip'>
+											<img src="<%= LEADS_FORM_URL + rewardResult.graphic_image %>?dim=300x150&type=resize" alt="Reward image" class="img-thumbnail" />
+
+											<!-- delte reward image -->
+											<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%=userType%>/delete_reward_image/<%= rewardResult._id %>/<%= userId %>" class="btn bg-black delete_button btn-sm waves-effect confirm_box reward_href_image_delete" data-confirm-message="<%= __("admin.user.do_you_want_to_delete_image"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>"/>
+												<i class="material-icons font-14">delete_sweep</i>
+											</a>
+										</a>
+									</div>
+								<% } %>
+								<div style="display:none" id="cropzee-hidden-canvas" class="image-previewer" data-cropzee="crop"></div>
+							</div>
+						</div>
+							
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="description" class="control-label"><%= __('admin.rewards.description'); %><span class="required"> *</span>: </label>
+										<textarea name="description" rows=4 id="description" class="form-control no-resize ckeditor"><%=(rewardResult.url_desc) ? rewardResult.url_desc :"";%></textarea>
+									</div>
+									<span id="description_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<button type="button"  id="reward-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url%>/<%=userType%>/manage_rewards/<%= userId %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.css">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>animate.min.css" rel="stylesheet">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.css" rel="stylesheet">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_DROPDOWN_CALENDER_PATH%>expiry_calender.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>FileSaver.min.js" defer></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>canvas-toBlob.min.js" defer></script> 
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>reward_image.js"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+		
+		/** Expiry date function */
+		let yearsAfter = Number("<%= EXPIRY_DATE_AFTER_YEARS %>");
+		let startYear	= new Date().getFullYear();
+		let endYear	= new Date().getFullYear()+yearsAfter;
+		
+		years('<%= rewardResult.yy %>', startYear, endYear);
+		dates('<%= rewardResult.dd %>');
+		months('<%= rewardResult.mm %>');
+		
+		function monthChanged() {
+			dates('');
+			let dd = document.getElementById("dd").value;
+			$('#dd_error').html('');
+			if(dd==''){
+				$('#dd_error').html('<%= __('admin.user.please_select_date'); %>')
+			}
+		}
+		function yearChanged() {
+			dates('');
+			months('');
+			let dd = document.getElementById("dd").value
+			let mm = document.getElementById("mm").value
+			$('#dd_error').html('');
+			$('#mm_error').html('');
+			if(dd==''){
+				$('#dd_error').html('<%= __('admin.user.please_select_date'); %>')
+			}
+			if(mm==''){
+				$('#mm_error').html('<%= __('admin.user.please_select_month'); %>')
+			}
+		}
+		
+		/** auto disabled value get in disble not disble expiry date */
+		if(!<%= rewardResult.toogle_expiry_date %>){
+			document.getElementById("mm").disabled = true;
+			document.getElementById("yy").disabled = true;
+			document.getElementById("dd").disabled = true;
+		}
+		
+		/** toogle value get in disble not disble expiry date */
+		function toogleExpiryDate(){
+			if (document.querySelector('#toogle_expiry_date:checked')) {
+				document.getElementById("mm").disabled = false;
+				document.getElementById("yy").disabled = false;
+				document.getElementById("dd").disabled = false;
+			}else{
+				document.getElementById("mm").disabled = true;
+				document.getElementById("yy").disabled = true;
+				document.getElementById("dd").disabled = true;
+			}
+		}
+
+		$(document).ready(function(){
+			
+			/** get file image name */
+			$('#crop').change(function(e){
+				var fileName = e.target.files[0].name;
+				$('#reward_image_name').val(fileName);
+			});
+			
+			/**
+			 * Function to submit form
+			 */
+			$(".btn-submit").click(function(){			
+				updateCkeditorValue();	
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				submit_crop_image_data("edit-reward",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+		});
+		
+	</script>

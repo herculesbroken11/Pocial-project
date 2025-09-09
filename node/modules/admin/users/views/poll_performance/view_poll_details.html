@@ -1,0 +1,164 @@
+<%
+   var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+   var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+   var pollListUrl = admin_list_url+"/"+userType+"/poll_performance/poll_list/"+userId+"/"+PERFORMANCE_VOTES_TAB;
+   var pollId = (typeof poll_id !== typeof undefined && poll_id) ? poll_id : "";
+   var fromDate = from_date;
+   var toDate = to_date;
+ %>
+
+ <div class="container-fluid" id="main-container">
+	<!--search field end-->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view_details'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=pollListUrl%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="list-group">				
+						<div class="list-group-item">
+							<span class="pollslug"><b><%=poll_result.question%> (<%=poll_result.total_count%>) </b></span>
+						</div> 
+				   </div>
+				   <table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.polls.poll_options"); %></th>
+								<th><%= __("global.total"); %></th>
+								<th>Percentage</th>
+								<th><%= __('admin.system.created'); %></th>
+								<th><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<% result.map(function(optionData){%>
+							<tr>
+								<td><%=optionData.option_title%></td>
+								<td><%=optionData.option_vote_count%></td>
+								<td><%=optionData.percentage%>%</td>
+								<td><span class="setDateTimeFormat" data-date-time="<%= (optionData.created) ? optionData.created :'DD/MM/YYYY';%>"></span></td>
+								<td><a href="javascript:void(0)" data-id="<%=optionData._id%>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view"); %>" class="btn bg-teal btn-sm waves-effect view_graph_details"><i class="material-icons font-14">find_in_page</i></a></td>
+							</tr>
+							<%})%>
+						</tbody>
+					</table>
+					<span id="view_graph_html"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){		
+		$(".view_graph_details").click(function(){
+			var optionId = $(this).attr("data-id");
+
+			$.ajax({
+				url: '<%= admin_list_url+"/"+userType+"/poll_performance/view_poll_details/"+userId+"/"+pollId+"/"+fromDate+"/"+toDate%>',
+				type:"POST",
+				data : {'poll_option_id': optionId},
+				beforeSend : function() {
+					$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+					$("#loader_ajax").addClass( "after_ajax_preloader" );
+				},success	: function(response){
+					let pollVoteGraph = (response && response.result) ? response.result : {};
+					
+					let innerHtml =	'<div class="row clearfix">'+
+							'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+								'<a href="javascript:void(0)" class="stats-anchor text-decoration-none">'+
+									'<div class="info-box bg-teal hover-zoom-effect hover-expand-effect cursor-pointer m-b-0 all_patients_color">'+
+										'<div class="icon">'+
+											'<i class="material-icons">group</i>'+
+										'</div>'+
+										'<div class="content">'+
+											'<div class="text p-l-35 font-bold"><%= __("admin.poll_analytics_report.male"); %></div>'+
+											'<div class="number p-l-5">'+pollVoteGraph.male_votes_percentage+ '% - ' +pollVoteGraph.male_votes+'</div>'+
+										'</div>'+
+									'</div>'+
+								'</a>'+
+							' </div>'+
+							'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+								'<a href="javascript:void(0)" class="stats-anchor text-decoration-none">'+
+									'<div class="info-box bg-red hover-zoom-effect hover-expand-effect cursor-pointer m-b-0 all_patients_color">'+
+										'<div class="icon">'+
+											'<i class="material-icons">group</i>'+
+										'</div>'+
+										'<div class="content">'+
+											'<div class="text p-l-35 font-bold"><%= __("admin.poll_analytics_report.female"); %></div>'+
+											'<div class="number p-l-15">'+pollVoteGraph.female_votes_percentage+ '% - ' +pollVoteGraph.female_votes+'</div>'+
+										'</div>'+
+									'</div>'+
+								'</a>'+
+							' </div>'+
+							'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+								'<a href="javascript:void(0)" class="stats-anchor text-decoration-none">'+
+									'<div class="info-box bg-cyan hover-zoom-effect hover-expand-effect cursor-pointer m-b-0 all_patients_color">'+
+										'<div class="icon">'+
+											'<i class="material-icons">group</i>'+
+										'</div>'+
+										'<div class="content">'+
+											'<div class="text p-l-35 font-bold"><%= __("admin.poll_analytics_report.business_user"); %></div>'+
+											'<div class="number p-l-25">'+pollVoteGraph.business_votes_percentage+ '% - ' +pollVoteGraph.business_votes+'</div>'+
+										'</div>'+
+									'</div>'+
+								'</a>'+
+							' </div>'+
+							'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+								'<a href="javascript:void(0)" class="stats-anchor text-decoration-none">'+
+									'<div class="info-box bg-orange hover-zoom-effect hover-expand-effect cursor-pointer m-b-0 all_patients_color">'+
+										'<div class="icon">'+
+											'<i class="material-icons">group</i>'+
+										'</div>'+
+										'<div class="content">'+
+											'<div class="text p-l-35 font-bold"><%= __("admin.poll_analytics_report.anonymous_user"); %></div>'+
+											'<div class="number  p-l-25">'+pollVoteGraph.anonymous_votes_percentage+ '% - ' +pollVoteGraph.anonymous_votes+'</div>'+
+										'</div>'+
+									'</div>'+
+								'</a>'+
+							' </div>'+
+							'</div>'+
+							'<div class="row clearfix" id="vote_graph_div">'+
+							'<canvas id="poll_vote_graph" height="300"></canvas>'+
+						' </div>';
+					$("#view_graph_html").html(innerHtml);
+					
+					$("#loader_ajax").removeClass("after_ajax_preloader");
+					$("#loader_ajax").html('');
+					new Chart(document.getElementById("poll_vote_graph").getContext("2d"), getPollOptionVoteGraphJs(pollVoteGraph));
+				},
+				dataSrc	: 	function(res){
+					return res.data;
+				}	
+				
+			});	
+			
+		});
+	
+	});
+	
+</script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js" type="text/javascript"></script>
+<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/lead_generation_chart.js" type="text/javascript"></script>

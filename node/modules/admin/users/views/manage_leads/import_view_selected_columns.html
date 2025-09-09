@@ -1,0 +1,59 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type :"";
+	var userTypeTitle 	= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var leadId 			= (typeof lead_id !== typeof undefined && lead_id) ? lead_id : "";
+	var csvImportSlug	= (typeof csv_import_slug !== typeof undefined && csv_import_slug) ? csv_import_slug : "";
+	var resultImport	= (typeof result_import !== typeof undefined && result_import) ? result_import : {};
+	var allAolumnValue	= (resultImport && resultImport.all_column_value) ? resultImport.all_column_value : [];
+%>
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2 class="lead-excel-class">
+						<%= __('admin.admin.view_selected'); %> <small>(<%= import_lead_title_name %>)</small>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/manage_leads/import_list/'+leadId+'/'+userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+
+						<% if(allAolumnValue.length>0){ %>
+							<tr>
+								<td class="font-bold col-teal" width="10%"><label for="title" class="control-label"><%= __('admin.users.column_name'); %></label></td>
+								<td class="font-bold col-teal" ><label for="title" class="control-label"><%= __('capture_leads.user_selected_column'); %></label></td>
+							</tr>
+
+							<% allAolumnValue.map(records=>{ %>
+								<tr>
+									<td><label><%= records.fix_column_name %></label></td>
+									<td>
+										<% if(records.ignore_column_value){ %>
+											<%= __('capture_leads.ignore'); %>
+										<% }else{ %>
+											<%= records.selected_column_name %>
+										<% } %>
+									</td>
+								</tr>
+							<% }) %>
+						<% }else{ %>
+							<p class="align-center"><%= __('system.no_record_found'); %></p>
+						<% } %>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	

@@ -1,0 +1,462 @@
+<%
+	var result				= (typeof result !== typeof undefined && result)		?	result		:{};
+	var userId				= (typeof result._id !== typeof undefined)				? 	result._id	:"";
+	var userType 			= (typeof user_type !== typeof undefined && user_type)	?	user_type 	:"";
+	var userTypeTitle 		= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var bussinessInformaton = (result.public_business_informaton)	?	result.public_business_informaton 	:{};
+	var categoryDetails		= (result.category_details)	?	result.category_details 	:[];
+	 
+	var status			= (result.is_active)			? result.is_active			: UN_SUSPEND;
+	var blockedStatus	= (result.is_blocked)			? result.is_blocked			: UN_BLOCK;
+	var verified 		= (result.account_type)			? result.account_type		: NORMAL_USER_ACCOUNT_TYPE;
+
+	var emailVerified 	= (result.is_email_verified)	? result.is_email_verified	: NOT_VERIFIED;
+	var mobileVerified 	= (result.is_mobile_verified)	? result.is_mobile_verified	: NOT_VERIFIED;
+
+	<!-- /** Status Link Label And Class **/ -->
+	var statusLinkText  =	(status == UN_SUSPEND)	? __('admin.users.suspend')	: __('admin.users.unsuspend');
+	var statusLinkTitle =	(status == UN_SUSPEND)	? __('admin.users.click_to_suspended')  : __('admin.system.click_to_unsuspended');
+	var statusLinkIcon  =	(status == UN_SUSPEND)	? "done" : "block";
+	
+	<!-- /** Block Status Link Label And Class **/ -->
+	var blockStatusLinkText  =	(blockedStatus == UN_BLOCK) ? __('admin.user.block') : __('admin.user.un_block');
+	var blockStatusLinkTitle =	(blockedStatus == UN_BLOCK) ? __('admin.users.click_to_block')  : __('admin.users.click_to_not_block');
+	var blockStatusLinkIcon  =	(blockedStatus == UN_BLOCK) ? "done" : "block";
+	
+	<!-- /** Verify Link Class **/ -->
+	var verifyClass		= (verified == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE) ? ""	:"hide";
+	var verifyLinkText  = (verified == BUSSINESS_USER_ACCOUNT_TYPE) ? __('admin.user.basic') : __('admin.user.verified_bussiness');
+	
+	<!-- /** Public Bussiness Link Class **/ -->
+	var publicBusinessLinkClass	= (verified == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE) ? "hide"	:"";
+							
+	<!-- /** Email Link Class **/ -->
+	var emailVerifyClass	= (emailVerified == VERIFIED) ? "hide"	:"";
+	
+	<!-- /** Pocial user link Class **/ -->
+	var pocialUser = (userId == POCIAL_ID) ? "hide"	:"";
+	var signatureImagePath = (result.signature_image) ? SIGNATURE_URL+result.signature_image : "";
+%>
+
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.system.view'); %> (<%=result.full_name%>)</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+						<li class="dropdown">
+							<div class="btn-group">
+								<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<%= __("admin.system.action"); %> <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu min-width-190">
+									<!-- /** Edit Link **/ -->
+									<li>
+										<a href="<%=admin_list_url+'/'+userType%>/edit/<%=userId%>/<%=DEFAULT_ONE%>" class="waves-effect waves-block">
+											<i class="material-icons">mode_edit</i>
+											<%= __("admin.system.edit"); %>
+										</a>
+									</li>
+
+									<!-- /** Suspend Status Link  **/ -->
+									<li>
+										<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_user_status/<%=userId%>/<%=status%>/<%=ACTIVE_INACTIVE_STATUS%>/<%=DEFAULT_ONE%>" class="<%= pocialUser %> waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_change_status",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="<%= statusLinkTitle %>">
+											<i class="material-icons"><%= statusLinkIcon %></i>
+											<%= statusLinkText %>
+										</a>
+									</li>
+
+									<!-- /** Verified Link **/ -->
+									<li>
+										<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_user_status/<%=userId%>/<%=verified%>/<%=VERIFIED_STATUS%>/<%=DEFAULT_ONE%>" class="<%= pocialUser %> waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_verified_account",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>">
+											<i class="material-icons">assignment_turned_in</i>
+											<%= verifyLinkText %>
+										</a>
+									</li>
+
+									<!-- /** convert public bussiness Link **/ -->
+									<li>
+										<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/convert_business_account/<%=userId%>/<%=DEFAULT_ONE%>" class="<%= publicBusinessLinkClass %> waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_business_account") %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>">
+											<i class="material-icons">business</i>
+											<%= __("admin.users.convert_to_business"); %>
+										</a>
+									</li>
+									
+									<!-- /** Sub Users Link **/ -->
+									<li>
+										<a href="<%=admin_list_url+'/'+userType%>/get_master_account/<%=userId%>/<%=DEFAULT_ONE%>" class="waves-effect waves-block <%=verifyClass%> ">
+											<i class="material-icons">account_circle</i>
+											<%= __("admin.users.sub_users"); %>
+										</a>
+									</li>
+									
+									<!-- /** Email Verify Link **/ -->
+									<li>
+										<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/verify_email_or_mobile_status/<%=userId%>/email/<%=DEFAULT_ONE%>"  class="waves-effect waves-block confirm_box <%=emailVerifyClass%> " data-confirm-message="<%= __("admin.user.do_you_want_to_verify_email",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>">
+											<i class="material-icons">verified_user</i>
+											<%= __("admin.user.admin_email_verify"); %>
+										</a>
+									</li>
+									
+									<!-- /** Manage Link **/ -->
+									<li>
+										<a href="javascript:void(0)" onclick=viewManageLink('<%=userId%>') class="waves-effect waves-block">
+											<i class="material-icons">link</i>
+											<%= __("admin.user.manage_link"); %>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+						<tr colspan=4>
+							<th class="text-right"><%= __("admin.user.image"); %></th>
+							<td colspan=3>
+								<% if(typeof result[IMAGE_FIELD_NAME] !== typeof undefined && result[IMAGE_FIELD_NAME] !=""){ %>
+									<a href="<%= result[IMAGE_FIELD_NAME]%>" class="items-image fix_height_width_image" data-lightbox="roadtrip">
+										<img src="<%= result[IMAGE_FIELD_NAME]%>?dim=80x80&type=resize" alt="Profile image"  />
+									</a>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.user.first_name'); %></th>
+							<td><%= (typeof result.fname !== typeof undefined) ? result.fname :"N/A";%></td>
+						 
+							<th class="text-right"><%= __('admin.user.last_name'); %></th>
+							<td><%= (typeof result.lname !== typeof undefined) ? result.lname :"N/A";%></td>
+						</tr>						 
+						<tr>
+							<th class="text-right"><label for="full_name" class="control-label"><%= __('admin.user.email'); %></label></th>
+							<td><%-(typeof result.email !== typeof undefined) ? '<a href="mailto:'+result.email+'">'+result.email+'</a>' : 'N/A'%></td>
+						
+							<th class="text-right"><%= __('admin.user.phone_number'); %></th>
+							<td><%= (typeof result.mobile !== typeof undefined) ? result.mobile :"N/A";%></td>
+						</tr>						
+						<tr>
+							<th class="text-right"><%= __('admin.user.date_of_birth'); %></th>
+							<td><span id="dateofbirth"></span></td>
+						
+							<th class="text-right"><%= __('admin.user.age'); %></th>
+							<td><%= (typeof result.dob !== typeof undefined) ? calculateAge(newDate(result.dob, DATE_AGE_FORMAT)) :"N/A";%></td>
+						</tr>						
+						<tr>
+							<th class="text-right"><%= __('admin.user.zip_code'); %></th>
+							<td><%= (typeof result.zip !== typeof undefined) ? result.zip :"N/A";%></td>
+						
+							<th class="text-right"><%= __('admin.user.user_name'); %></th>
+							<td><%= (typeof result.slug !== typeof undefined) ? result.slug :"N/A";%></td>
+						</tr>						
+						<tr>
+							<th class="text-right"><%= __('admin.user.gender'); %></th>
+							<% var genderName = (result.gender && result.gender == MALE) ? __("admin.user.male") : __("admin.user.female") %>
+							<% if(result.gender == MALE ){ %>
+								<td><%= __("admin.user.male") %></td>
+							<% }else if(result.gender == FEMALE) { %>
+								<td><%= __("admin.user.female") %></td>
+							<% }else if(result.gender == OTHER) { %>
+								<td><%= __("admin.user.other") %></td>
+							<% }else { %>
+								<td>N/A</td>
+							<%}%>
+						
+							<th class="text-right"><%= __('admin.system.status'); %></th>
+							<%
+								var status = (result.is_active && result.is_active == SUSPEND) ? '<span class="label label-danger m-r-5">'+__("admin.users.suspend")+'</span>': '<span class="label label-success m-r-5">'+__("admin.users.unsuspend")+'</span>';
+							%>
+							<td><%- status%></td>
+						</tr>						
+						<tr>
+							<th class="text-right"><%= __('admin.users.email_verify'); %></th>
+							<%
+								var emailVerify = (result.is_email_verified && result.is_email_verified == VERIFIED ) ? ' <span class="label label-info">'+__("admin.user.user_email_verified")+'</span>': ' <span class="label label-danger">'+__("admin.user.user_email_not_verified")+'</span>';
+								
+							%>
+							<td><%- emailVerify%></td>
+						
+							<th class="text-right"><%= __('admin.users.account_type'); %></th>
+							
+							<% if(result.account_type == NORMAL_USER_ACCOUNT_TYPE ){ %>
+								<td> <span class="label label-warning"><%=__("admin.user.normal_user")%></span></td>
+								
+							<% }else if(result.account_type == BUSSINESS_USER_ACCOUNT_TYPE) { %>
+								<td> <span class="label label-success"><%=__("admin.user.bussiness") %></span></td>
+								
+							<% }else if(result.account_type == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE) { %>
+								<td> <span class="label label-info"><%=__("admin.user.public_bussiness") %></span></td>
+								
+							<% }else { %>
+								<td>N/A</td>
+							<%}%>							 
+						</tr>						
+						<tr>
+							<th class="text-right"><%= __('admin.system.modified'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.modified) ? result.modified :'DD/MM/YYYY';%>"></span>
+							</td>
+						
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.user.your_bio'); %></th>
+							<td colspan=3><p class="readMore"><%= (typeof result.your_bio !== typeof undefined && result.your_bio) ? result.your_bio :"N/A";%></p></td>							
+						</tr>
+					</table>					
+					<% if(result.account_type == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE){ %>
+						<div class="col-sm-12 bussiness_class">
+							<div class="card">
+								<div class="header bg-blue-grey">
+									<h2><%= __('admin.user.business_details'); %></h2>
+								</div>
+								<div class="body">
+									<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+										<tr>
+											<th class="text-right" width="20%"><%= __("admin.user.business_logo"); %></th>
+											<td width="30%">
+												<% let businessLogo = (bussinessInformaton.business_logo) ? USERS_URL+bussinessInformaton.business_logo : NO_IMAGE_AVAILABLE %>
+												<a href="<%= businessLogo %>" class="items-image" fix_height_width_image data-lightbox="roadtrip">
+													<img src="<%= businessLogo %>?dim=80x80&type=resize" alt="Profile image" />
+												</a>
+											</td>
+											<th width="20%" class="text-right"><%= __("admin.user.business_banner"); %></th>
+											<td width="30%">
+												<% let businessBanner = (bussinessInformaton.business_banner) ? USERS_URL+bussinessInformaton.business_banner : NO_IMAGE_AVAILABLE %>
+												<a href="<%= businessBanner %>" class="items-image" fix_height_width_image data-lightbox="roadtrip">
+													<img src="<%= businessBanner %>?dim=80x80&type=resize" alt="Profile image" />
+												</a>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.user.business_email'); %></th>
+											<td><%= (bussinessInformaton.business_email) ? bussinessInformaton.business_email :"N/A";%></td>
+										
+											<th class="text-right"><%= __('admin.user.name_of_the_business'); %></th>
+											<td><%= (bussinessInformaton.name_of_the_business) ? bussinessInformaton.name_of_the_business :"N/A";%></td>
+										</tr>
+										<tr>
+										
+											<th class="text-right"><%= __('admin.user.primary_phone'); %></th>
+											<td><%= (bussinessInformaton.primary_phone) ? bussinessInformaton.primary_phone :"N/A";%></td>
+										
+											<th class="text-right"><%= __('admin.user.business_industry'); %></th>
+											<td><%= ((result.business_industry).length>0) ? result.business_industry[0]['name'] :"N/A";%></td>
+										</tr>
+										
+										<tr>
+											<th class="text-right"><%= __('admin.user.redemption_code'); %></th>
+											<td><%= (bussinessInformaton.redemption_code) ? bussinessInformaton.redemption_code :"N/A";%></td>
+										 
+											<th class="text-right"><%= __('admin.user.marketing_headline'); %></th>
+											<td><p class="readMore"><%= (bussinessInformaton.marketing_headline) ? bussinessInformaton.marketing_headline :"N/A";%></p></td>
+										</tr>
+										
+										<tr>
+											<th class="text-right"><%= __('admin.user.marketing_sub_headline'); %></th>
+											<td><p id="shrinkMe" class="readMore"><%= (bussinessInformaton.marketing_sub_headline) ? bussinessInformaton.marketing_sub_headline :"N/A";%></p></td>
+											
+											<th class="text-right"><%= __('admin.user.primary_address'); %></th>
+											<td><%= (bussinessInformaton.primary_address) ? bussinessInformaton.primary_address :"N/A";%></td>
+										</tr>
+											
+										<tr>
+											<th class="text-right"><%= __('admin.user.description'); %></th>
+											<td colspan=3><p class="readMore"><%= (bussinessInformaton.description) ? bussinessInformaton.description :"N/A";%></p></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					<% } %>					
+					<!-- <td>
+						<a href="<%= signatureImagePath%>" class="items-image" data-lightbox="roadtrip">
+							<img src="<%= signatureImagePath%>" alt="Signature image"  />
+						</a>
+					
+					</td> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- get open link details popup -->
+<span id="manage_link_details"></span>
+
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>user_manage_content.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ds = "<%= (result.dob) ? result.dob :"" %>";
+			
+			var date = moment(new Date(ds.substr(0, 16)));
+			var dateofbirth = date.format('<%= DATE_FORMAT %>');
+			$('#dateofbirth').html(dateofbirth);
+		});
+		 
+		/**
+	     * function for use show modal manage content open
+		 */
+		function viewManageLink(userId){
+			if(userId != ""){
+				$('#overlay1').show();
+				$.ajax({
+					'type'		: 	'POST',
+					'url' 		:	"<%=admin_list_url%>/<%=userType%>/get_user_list_modal_open/"+userId,
+					'success': function (response){
+						let result = (response && response.result) ? response.result : "";
+						var id 				= (result._id)					? result._id				: "";
+						var status			= (result.is_active)			? result.is_active			: "<%=UN_SUSPEND%>";
+						var verified 		= (result.account_type)			? result.account_type		: "<%=NORMAL_USER_ACCOUNT_TYPE%>";
+
+						var emailVerified 	= (result.is_email_verified)	? result.is_email_verified	: "<%=NOT_VERIFIED%>";
+						var mobileVerified 	= (result.is_mobile_verified)	? result.is_mobile_verified	: "<%=NOT_VERIFIED%>";
+						
+						/** Verify Link Class **/
+						var verifyClass		= (verified == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE%>") ? ""	:"hide";
+						
+						let innerHtml = '<div class="modal fade modal_open_css" id="show_modal_open" tabindex="-1" role="dialog">'+
+											'<div class="modal-dialog modal-lg" role="document">'+
+												'<div class="modal-content">'+
+													'<div class="card">'+
+														'<div class="header">'+
+															'<h2>'+
+																'<%= __('admin.user.manage_link'); %>'+
+															'</h2>'+
+															'<ul class="header-dropdown m-r--5 btn-right-top-margin">'+
+																'<li>'+
+																	'<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect">'+
+																		'<i class="material-icons font-14">close</i>'+
+																	'</button>'+
+																'</li>'+
+															'</ul>'+
+														'</div>'+
+														'<div class="modal-body row">'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+' ">'+ 
+																'<a href="<%=admin_list_url+'/'+userType%>/view_redemptions/'+id+'" class="waves-effect waves-block '+verifyClass+' ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.view_redemptions"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/my_wallet_rewards/'+id+'" class="waves-effect waves-block">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.my_wallet_rewards"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_rewards/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_rewards"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_emails/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">email</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_emails"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/overview_lead_dashboard/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">dashboard</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.overview_lead_dashboard"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_lead_form"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWING_ADMIN_URL %>/'+id+'" class="waves-effect waves-block ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">sentiment_neutral</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.following_users"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWERS_ADMIN_URL %>/'+id+'" class="waves-effect waves-block ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">sentiment_neutral</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.followers_users"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+														'</div>'+
+													'</div>'+
+												'</div>'+
+											'</div>'+
+										'</div>';
+						$("#manage_link_details").html(innerHtml);
+						$('#show_modal_open').modal('show'); 
+						$('#overlay1').hide(); 
+					}
+				});
+			}
+		}
+	</script>

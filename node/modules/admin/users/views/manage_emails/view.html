@@ -1,0 +1,65 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_emails/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" >
+						<tr>
+							<th width="10%"><%= __('admin.complete_email.template_title'); %></th>
+							<td ><span><%=(typeof result !== typeof undefined && result.template_title) ? result.template_title :''; %></span></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.complete_email.is_sent'); %></th>
+							<td><span class="label label-info m-r-5"><%= result.is_sent %> Users</span></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.complete_email.is_opened'); %></th>
+							<td><span class="label label-info m-r-5"><%= result.is_opened %> Users</span></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.complete_email.opened_percentage'); %></th>
+							<td><span class="label label-primary m-r-5"><%= (result.is_sent) ? round(((result.is_opened/result.is_sent)*100),ROUND_PRECISION) : 0 %>%</span></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.complete_email.subject'); %></th>
+							<td><%=(typeof result !== typeof undefined && result.subject) ? result.subject	:''; %></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.complete_email.description'); %></th>
+							<td><p class="readMore"><%= (typeof result.description !== typeof undefined) ? result.description :"N/A";%></p></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.system.created'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (typeof result !== typeof undefined &&  result.created) ? result.created : 'N/A';%>"></span></td>
+						</tr>
+						<tr>
+							<th><%= __('admin.email_logs.html'); %></th>
+							<td style="pointer-events: none;"><p><%-(typeof result !== typeof undefined && result.body) ? result.body :''; %></p></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>

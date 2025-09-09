@@ -1,0 +1,401 @@
+<%
+	var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var leadId	= (typeof lead_id !== typeof undefined && lead_id) ? lead_id	: "";
+	var winnerId	= (typeof winner_id !== typeof undefined && winner_id) ? winner_id	: "";
+	var winnerEmail = (winner_result.length==1) ? winner_result[0].email : "";
+	var totalWinners = (typeof winners_total !== typeof undefined && winners_total) ? winners_total	: "";;
+	
+	var winnerEmailArray =[];
+	winner_result.map(function(winnerEmails){
+		winnerEmailArray.push(winnerEmails.email)
+	});
+%>
+
+<div class="container-fluid" id="main-container">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- search by heading  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2"  onkeyup="searchDatatable(2)" placeholder="<%= __("admin.rewards.search_by_heading"); %>" name="name">
+											</div>
+										</div>
+									</div>
+									
+									<!-- search by reward  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_3"  onkeyup="searchDatatable(3)" placeholder="<%= __("admin.rewards.search_by_sub_heading"); %>" name="name">
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url+'/'+userType+'/manage_leads/add_selected_reward/'+leadId+'/'+userId +'/'+winnerId %>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.rewards.rewards_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a id="choose_rewards" class="m-r-5 choose_rewards">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">send</i> <%= __("admin.leads.send"); %>
+								</button>
+							</a>
+						</li> 
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/view_entire_subscriber/<%=leadId%>/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="list-group">
+						 <div class="list-group-item">
+							<%if(totalWinners == 1){%>
+							 <span class="winner_email" id="winner_email"><%=winnerEmail%></span>
+							<%}else{%>
+								<span class="total_email" id="total_email"><%=totalWinners%> <%= __("admin.leads.users_selected"); %></span>
+							<%}%>	
+						 </div> 
+					</div>
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="3%" class="p-r-10 text-center" >
+								</th>
+								<th><%= __("admin.rewards.image"); %></th>
+								<th><%= __("admin.rewards.heading"); %></th>
+								<th><%= __("admin.rewards.sub_heading"); %></th>
+								<th><%= __("admin.system.status"); %></th>
+								<th><%= __("admin.system.created"); %> </th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- send reward warning  popup -->
+	<div class="modal fade modal_open_css" id="reward_send_popup" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="card">
+					<div class="header">
+						<div class="align-center">
+							<i class="material-icons font-50">error</i>
+						</div>
+					</div>
+					<!-- append html data -->
+					<div class="modal-body">
+						<span id="view_send_reward_message"></span>
+							<div class="confirm_box">
+								<h4 id="popup_message"></h4><br>
+							</div>
+						 
+							<div class="button-demo align-center">
+								<button type="button" id="exclude_reward_button" class="btn bg-red waves-effect">
+									<%= __("admin.leads.exclude"); %>
+								</button> 
+							
+								<button type="button" id="send_reward_button" class="btn bg-teal waves-effect">
+									<%= __("admin.leads.send"); %>
+								</button> 
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- send reward conformation popup -->
+	<div class="modal fade modal_open_css" id="conformation_popup" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="card">
+					<div class="header">
+						<div class="align-center">
+							<i class="material-icons font-50">error</i>
+						</div>
+					</div>
+					<!-- append html data -->
+					<div class="modal-body">
+						<span id="view_conform_send_message"></span>
+							<div class="confirm_box align-center">
+								<h4 id="message"><%= __("admin.leads.are_you_sure_to_send_reward"); %></h4><br>
+							</div>
+							<div class="button-demo align-center">
+								<button type="button" data-dismiss="modal" id="cancel_send_reward" class="no_hover btn bg-red btn-sm waves-effect">
+									<%= __("admin.system.cancel"); %>
+								</button> 
+								<button type="button" id="send_conform_reward" class="btn bg-teal waves-effect">
+									<%= __("admin.leads.send"); %>
+								</button> 
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript">
+		
+		/** Function to remove last comma */
+		function removeLastComma(strng){
+			var n=strng.lastIndexOf(",");
+			var a=strng.substring(0,n) 
+			return a;
+		}
+		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		var checkboxArray	=	[];
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 5, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data"		: {},
+						"orderable" : false,
+						"render" 	: 	function(result){
+							let rewardId = (result._id) ? result._id :"";
+							
+							return '<div class=" materialize_checkbox">'+
+								'<div class="checkbox_wrapper">'+
+									'<input type="checkbox" class="filled-in chk-col-teal" id="'+rewardId+'" >'+
+									'<label for="'+rewardId+'" class="checkbox data"></label>'+
+								'</div>'+
+							'</div>';
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imagePath	=	(result.graphic_image)	? 	'<%= LEADS_FORM_URL %>'+result.graphic_image	:'<%= NO_IMAGE_AVAILABLE %>';
+							var id 			=	(result._id)			? 	result._id						:'';
+							var imgHtml		=	'';
+							if(imagePath && imagePath !=""){
+								imgHtml = "<a href='"+imagePath+"' class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=50x50&type=crop' class='img-thumbnail'  alt='System Image'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+					{ "data": 'reward_text' },
+					{ "data": 'reward_sub_heading' },
+					{
+						"data"		: 	"is_active",
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "is_active",
+						"render"		: function(status){
+							var statusObject 	= 	<%- JSON.stringify(GLOBAL_STATUS_SEARCH_DROPDOWN)%>;
+							var statusClass		=	(statusObject[status] && statusObject[status]["label_class"]) ? statusObject[status]["label_class"] :"";
+							var statusLabel		=	(statusObject[status] && statusObject[status]["status_name"]) ? statusObject[status]["status_name"] :"";
+							return '<span class="label '+statusClass+'">'+statusLabel+'</span>';
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+				],
+				"ajax":{
+					url		:	'<%=admin_list_url+"/"+userType+"/manage_leads/add_selected_reward/"+leadId+"/"+userId +"/"+winnerId %>',
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+		/**checked single option*/
+		$(document).on('change','.checkbox_wrapper input[type="checkbox"]',function(){
+			$('input[type="checkbox"]').not(this).prop('checked', false);
+			var id          = $(this).attr('id');
+			var isChecked	= $(this).is(':checked');
+			checkboxArray = [];
+			if(isChecked){
+				checkboxArray.push(id);
+			}
+		});
+
+		/** pagination wise selected checkbox*/
+		$(document).on("page.dt", () => {
+			setTimeout(() => {
+				checkboxArray.map(recordId=>{
+					$("#"+recordId).attr("checked", true);	
+				})
+			}, 500);
+		});
+
+
+		/** Select add chose reward listed */
+		$(".choose_rewards").click(function(){
+			let winnerEmails = '<%=winnerEmailArray%>';
+			if(checkboxArray.length < 1){
+				notice("<%= STATUS_ERROR %>","<%= __('admin.leads_file.please_select_atleast_one_product')%>");
+				return false;
+			}else{
+			
+				$.ajax({
+					url: '<%= admin_list_url+"/"+userType+"/manage_leads/validate_send_reward/"+leadId+"/"+userId%>',
+					type:"POST",
+					data : {'subscriber_emails': winnerEmails},
+					success	: function(response){
+						let messageShow = response.message;
+						if(response.status == '<%=STATUS_SUCCESS%>'){
+							$('#conformation_popup').modal('show');
+						}else{
+							$("#popup_message").text(messageShow);
+							$('#reward_send_popup').modal('show');
+						}
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				});
+			}
+			
+		});
+
+
+		/**send lead reward*/
+		$("#send_reward_button").click(function(){
+			sendUserReward(false);
+		});
+
+		/**send conform reward*/
+		$("#send_conform_reward").click(function(){
+			sendUserReward(false);
+		});
+
+		/**send lead reward*/
+		$("#exclude_reward_button").click(function(){
+			sendUserReward(true);
+		});
+
+		/** function for send reward using ajax*/
+		function sendUserReward(excludeFlag){
+			let winnerEmails = '<%=winnerEmailArray%>';
+			let rewardId = checkboxArray[0];
+			$.ajax({
+				url: '<%= admin_list_url+"/"+userType+"/manage_leads/send_reward/"+leadId+"/"+userId%>',
+				type:"POST",
+				data : {'subscriber_emails': winnerEmails,'reward_id':rewardId,'exclude_rewarded':excludeFlag},
+				beforeSend : function() {
+				$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+				$("#loader_ajax").addClass( "after_ajax_preloader" );
+				},
+				success	: function(response){
+					$("#loader_ajax").removeClass("after_ajax_preloader");
+					$("#loader_ajax").html('');
+					window.location.href = response.redirect_url;
+				},
+				dataSrc	: 	function(res){
+					return res.data;
+				}
+			});
+		}
+
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

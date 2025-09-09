@@ -1,0 +1,790 @@
+
+<%
+	var statusType = (typeof status_type !== typeof undefined && status_type) ?	status_type :"";
+	var userType = (typeof user_type !== typeof undefined && user_type) ? user_type 	:"";
+	var userTypeTitle = (FRONT_USER_TYPE[userType]) ? FRONT_USER_TYPE[userType] :"";
+	var orderableAccountType = (userType==ALL_USERS) ? true 	:false;
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false" aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Name -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __('admin.user.search_by_name'); %>" name="name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Email -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1" onkeyup="searchDatatable(1)" placeholder="<%= __('admin.user.search_by_email'); %>" name="email">
+											</div>
+										</div>
+									</div>
+									 
+									<!-- Search by Status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="status_search" name="status_search">
+													<option value=""><%=__("admin.user.search_by_status");%></option>
+													<%
+													if(typeof USER_STATUS_SEARCH_DROPDOWN!== typeof undefined && USER_STATUS_SEARCH_DROPDOWN.length > 0){
+														USER_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{
+															var selectedFlag	= (typeof searchStatus.status_id !== typeof undefined && searchStatus.status_id  && searchStatus.status_id == userType)	? "selected" : "";
+															%>
+															<option value="<%=searchStatus.status_id%>"  <%=selectedFlag%>><%=searchStatus.status_name%></option>
+													<% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="search_by_registration_date"  placeholder="<%= __('admin.user.search_by_registration_date'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+
+									<!-- Search by email status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="email_status_search" name="email_status_search">
+													<option value=""><%=__("admin.user.search_by_email_status");%></option>
+													<%
+													if(typeof EMAIL_STATUS_SEARCH_DROPDOWN!== typeof undefined && EMAIL_STATUS_SEARCH_DROPDOWN.length > 0){
+														EMAIL_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{
+															var selectedEmailFlag	= (typeof searchStatus.status_id !== typeof undefined && searchStatus.status_id  && searchStatus.status_id == userType)	? "selected" : "";
+															%>
+															<option value="<%=searchStatus.status_id%>" <%=selectedEmailFlag%> ><%=searchStatus.status_name%></option>
+													<% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<!-- Search by account type status -->
+									<% if(userType==ALL_USERS){ %>
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select class="form-control show-tick search_by_status" id="account_type_status_search" name="account_type_status_search">
+														<option value=""><%=__("admin.user.search_by_user_account_status");%></option>
+														<%
+														if(typeof FRONT_USER_TYPE_DROP_DOWN!== typeof undefined && FRONT_USER_TYPE_DROP_DOWN.length > 0){
+															FRONT_USER_TYPE_DROP_DOWN.map(searchStatus=>{
+																%>
+																<option value="<%=searchStatus.status_id%>" ><%=searchStatus.status_name%></option>
+														<% 	
+															});
+														} %>
+													</select>
+												</div>
+											</div>
+										</div>
+									<% } %>
+
+									<!-- search by gender   -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="gender_status_search" name="gender_status_search">
+													<option value=""><%=__("admin.user.search_by_gender");%></option>
+													<%
+													if(GENDER_TYPE_DROP_DOWN && Object.keys(GENDER_TYPE_DROP_DOWN).length > 0){
+														Object.keys(GENDER_TYPE_DROP_DOWN).map(searchStatus=>{ %>
+															<option value="<%=GENDER_TYPE_DROP_DOWN[searchStatus]["status_id"]%>"><%=(GENDER_TYPE_DROP_DOWN[searchStatus]["status_name"]) ? GENDER_TYPE_DROP_DOWN[searchStatus]["status_name"] :"";%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Search by username -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" onkeyup="searchDatatable(2)" placeholder="<%= __('admin.user.search_by_username'); %>" name="slug">
+											</div>
+										</div>
+									</div>
+
+									<% if(userType==PUBLIC_BUSSINESS_USERS){ %>
+										<div class="col-xs-12 col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select class="form-control show-tick search_by_status"id="active_plan_name_search" name="active_plan_name_search">
+														<option value=""><%=__("admin.user.search_by_active_plan_name");%></option>
+														<%
+															if(PLAN_NAME_DROP_DOWN && Object.keys(PLAN_NAME_DROP_DOWN).length > 0){
+																Object.keys(PLAN_NAME_DROP_DOWN).map(searchPlan=>{ %>
+																	<option value="<%=PLAN_NAME_DROP_DOWN[searchPlan]["plan_lookup_key"]%>"><%=(PLAN_NAME_DROP_DOWN[searchPlan]["plan_name"]) ? PLAN_NAME_DROP_DOWN[searchPlan]["plan_name"] :"";%></option>
+															<% 	});
+														} %>
+													</select>
+												</div>
+											</div>
+										</div>
+									<% } %>
+
+									<!-- search by enterprise   -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status"id="enterprise_status_search" name="enterprise_status_search">
+													<option value=""><%=__("admin.user.search_by_enterprise");%></option>
+													<%
+													if(ENTERPRISE_TYPE_DROP_DOWN && Object.keys(ENTERPRISE_TYPE_DROP_DOWN).length > 0){
+														Object.keys(ENTERPRISE_TYPE_DROP_DOWN).map(searchStatus=>{ %>
+															<option value="<%=ENTERPRISE_TYPE_DROP_DOWN[searchStatus]["status_id"]%>"><%=(ENTERPRISE_TYPE_DROP_DOWN[searchStatus]["status_name"]) ? ENTERPRISE_TYPE_DROP_DOWN[searchStatus]["status_name"] :"";%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.user.user_management",userTypeTitle) %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+                        <li>
+							<a href="<%=admin_list_url+"/"+userType%>/add" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add") %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="label_parent_class row-border full-length-header hover table table-bordered cb-data-table word-wrap-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="10%"><%= __('admin.user.name'); %></th>
+								<th width="15%"><%= __('admin.user.email'); %></th>
+								<th width="10%"><%= __('admin.user.user_name'); %></th>
+								<th width="10%"><%= __('admin.users.status'); %></th>
+								<th width="10%"><%= __('admin.users.email_verify'); %></th>
+								<th width="10%"><%= __('admin.users.account_type'); %></th>
+								<% if(userType==PUBLIC_BUSSINESS_USERS){ %>
+									<th width="10%"><%= __('admin.users.current_plan'); %></th>
+								<%}%>
+								<th width="10%"><%= __('admin.system.created'); %></th>								
+								<th width="15%"><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- get open link details popup -->
+<span id="manage_link_details"></span>
+
+<div class="modal fade modal_open_css" id="master_turn_on_model" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="card">
+				<div class="header">
+					<h2> <%= __('admin.users.allow_access_platform_this_user'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect">
+								<i class="material-icons font-14">close</i>
+							</button>
+						</li>
+					</ul>
+				</div>
+				<div class="modal-body">
+					<form id="add_turn_on_date" data-submit-btn-id="add-turn-on-date" action="<%=admin_list_url%>/<%=userType%>/add_master_turn_on_date" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<div class="row clearfix">
+							<input type="hidden" name="user_id" id="user_id"/>
+							<input type="hidden" name="allows_access_status" id="allows_access_platform_in_admin"/>
+							<div class="turn_on_date">
+								<div class="form-line">
+									<label id="start_date" class="label-master-date"></label>
+									<input name="master_turn_on_date" id="start_date" type="text" class="form-control" placeholder="<%=__('admin.users.turn_on_date'); %>" readonly>
+								</div>
+								<span id="master_turn_on_date_error" class="error"></span>
+							</div>
+						</div>
+						<br>
+						</br>
+						<button type="button"  id="add-turn-on-date"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-date-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+<%- contentFor('css') %>
+<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css" rel="stylesheet">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable 	= "";
+		$(document).ready(function() {
+
+			var orderFieldNumber = ('<%=userType%>' == '<%=PUBLIC_BUSSINESS_USERS%>') ? 7 :  6 ;
+			
+			dataTable = $('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: [[orderFieldNumber, "desc" ]],
+				"sDom"		: "ltipr",
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"serverSide": true,
+				"scrollX"	: true,
+				"bAutoWidth" : false,
+				"fixedColumns": true,
+				"responsive": true,
+				"scrollX": true,
+				"sScrollX": '100%',
+				"dom": 't<"margin-dataTable-bottom"<"pull-left margin-dataTable-pagination">>',
+				"columns"	: [
+					{
+						"data": 'full_name'
+					},
+					{
+						"data" 		: "email",
+						"render" 	: function(email){
+							return 	(email) ? '<a href="mailto:'+email+'">'+email+'</a>' : email;
+						}
+					},
+					{
+						"data": 'slug'
+					},
+					{
+						"data"			: {},
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "is_active",
+						"render": function(result){
+							var active 		= (result && result.is_active)		 ?	result.is_active		: 0;
+							var active 		= (result && result.is_active)		 ?	result.is_active		: 0;
+							
+							/** suspend Status **/
+							var statusTab	= (active == '<%=SUSPEND%>')	? '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.users.suspend")%></span>': '<span class="label label-success m-l-5 m-t-5"><%=__("admin.users.unsuspend")%></span>';
+							return statusTab;
+						}
+					},
+					{
+						"data"			: {},
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "is_email_verified",
+						"render": function(result){
+							var isEmailVerified 	= (result && result.is_email_verified) ?	result.is_email_verified	: 0;
+							
+							/** Email Verified Status **/
+							var statusTab	= 	(isEmailVerified == '<%=VERIFIED%>') ? '<span class="label label-info m-l-5 m-t-5"><%=__("admin.user.user_email_verified")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.user.user_email_not_verified")%></span>';
+							return statusTab;
+						}
+					},
+					{
+						"data"			: {},
+						"field_type"	: "<%= NUMERIC_FIELD %>",
+						"orderable"		: "<%= orderableAccountType %>",
+						"field_name"	: "account_type",
+						"render": function(result){
+							
+							var accountType = (result && result.account_type) ?	result.account_type : "";
+							var gender = (result && result.gender) ? result.gender : "";
+							var enterprise	= (result && result.enterprise)		 ?	result.enterprise		: "";
+
+							/** verified (bussiness) Status **/
+							var statusTab = "";
+							if(accountType== '<%=PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE%>'){
+								statusTab = '<span class="label label-info m-l-5 m-t-5 data-label"><%=__("admin.user.public_bussiness")%></span>';
+							}else{
+								statusTab = (accountType == '<%=NORMAL_USER_ACCOUNT_TYPE%>')	? '<span class="label label-warning m-l-5 m-t-5 data-label"><%=__("admin.user.normal_user")%></span>': '<span class="label label-success m-l-5 m-t-5 data-label"><%=__("admin.user.bussiness")%></span>';
+							}
+
+							/**gender tab*/
+							var genderTab ="";
+							let genderDropdown 		= 	{};
+							genderDropdown['<%= MALE %>'] 	= 	"Male";
+							genderDropdown['<%= FEMALE %>']	=	"Female";
+							genderDropdown['<%= OTHER %>']	=	"Other";
+							genderTab = (gender) ? '<span class="label label-info m-l-5 m-t-5 data-label">'+genderDropdown[gender]+'</span>' : "N/A";
+
+							/**Enterprises*/
+							var enterpriseTab ='<span class="label label-info m-l-5 m-t-5 data-label"><%=__("admin.user.not_enterprise_user")%></span>';
+							if(enterprise=='<%=ALLOW_ENTERPRISE%>'){
+								enterpriseTab = '<span class="label label-success m-l-5 m-t-5 data-label"><%=__("admin.user.enterprise_user")%></span>';
+							}
+							return statusTab+''+genderTab+''+enterpriseTab;							
+						}
+					},
+					
+					<%if(userType == PUBLIC_BUSSINESS_USERS){ %>
+						{
+						"data" 		: "plan_lookup_key",
+						"render" 	: function(plan_lookup_key){
+								let planLookupKey = (plan_lookup_key) ? plan_lookup_key : "";
+								var planDropdown	= 	<%- JSON.stringify(PLAN_NAME_DROP_DOWN)%>;
+								let plan = planDropdown.find(item => item.plan_lookup_key === planLookupKey);
+								
+							 	return (plan) ? plan.plan_name : "<%= __('admin.plan.free'); %>";
+							}
+					    },
+					<% } %>
+
+					{
+						"data"	 : 'created',
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},					
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render" 		: function(result){
+							var id 				= (result._id)					? result._id				: "";
+							var status			= (result.is_active)			? result.is_active			: "<%=UN_SUSPEND%>";
+							var blockedStatus	= (result.is_blocked)			? result.is_blocked			: "<%=UN_BLOCK%>";
+							var verified 		= (result.account_type)			? result.account_type		: "<%=NORMAL_USER_ACCOUNT_TYPE%>";
+							var segmentStatus 	= (result.show_segment)			? result.show_segment		: false;
+							var uuid        	= (result.UUID)					? result.UUID               :""; 
+							var email       	= (result.email)				? result.email              :""; 
+							var slug        	= (result.slug)					? result.slug               :""; 
+							var subscriptionId  = (result.subscription_id)		? result.subscription_id	: "";
+							var enterprise  	= (result.enterprise)			? result.enterprise			: "";
+
+
+							var allowAccessPlateform 	= (result.allows_access_platform_in_admin)	? result.allows_access_platform_in_admin		: "<%=PAYMENT_SUPER_ADMIN_UNPAID%>";
+
+							var emailVerified 	= (result.is_email_verified)	? result.is_email_verified	: "<%=NOT_VERIFIED%>";
+							var mobileVerified 	= (result.is_mobile_verified)	? result.is_mobile_verified	: "<%=NOT_VERIFIED%>";
+							
+							/** Status Link Label And Class **/
+							var statusLinkText  =	(status == '<%= UN_SUSPEND %>')	? "<%= __('admin.users.suspend'); %>"	: "<%= __('admin.users.unsuspend'); %>" ;
+							var statusLinkTitle =	(status == '<%= UN_SUSPEND %>') ? "<%= __('admin.users.click_to_suspended'); %>"  : "<%= __('admin.system.click_to_unsuspended'); %>";
+							var statusLinkIcon  =	(status == '<%= UN_SUSPEND %>') ? "done" : "block";
+							
+
+							/** Segment show Link Label And Class **/
+							var segmentChangeTitle	=	(segmentStatus !== true) ? "<%= __('admin.users.click_to_segment_show_email'); %>"  : "<%= __('admin.users.click_to_segment_show_username'); %>";
+							var statusSegmentIcon  	=	(segmentStatus !== true) ? "person" : "contact_mail";
+							var segmentShow 		=	(segmentStatus === true) ? '<%=SEGMENT_SHOW_USERNAME%>' :'<%=SEGMENT_SHOW_EMAIL%>';
+							
+							/** Block Status Link Label And Class **/
+							var blockStatusLinkText  =	(blockedStatus == '<%= UN_BLOCK %>') ? "<%= __('admin.user.block'); %>"	: "<%= __('admin.user.un_block'); %>" ;
+							var blockStatusLinkTitle =	(blockedStatus == '<%= UN_BLOCK %>') ? "<%= __('admin.users.click_to_block'); %>"  : "<%= __('admin.users.click_to_not_block'); %>";
+							var blockStatusLinkIcon  =	(blockedStatus == '<%= UN_BLOCK %>') ? "done" : "block";
+
+							/** Verify Link Class **/
+							var verifyClass		= (verified == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE%>") ? ""	:"hide";
+							var verifyLinkText  = (verified == '<%= BUSSINESS_USER_ACCOUNT_TYPE %>') ? "<%= __('admin.user.basic'); %>"	: "<%= __('admin.user.click_to_verifed_user'); %>" ;
+							
+							/** Access Platform link label and class**/
+							var plateformChangeTitle			=	(allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") ? "<%= __('admin.users.denied_platform_this_user'); %>"  : "<%= __('admin.users.allow_access_platform_this_user'); %>";
+							var statusPlatformIcon  			=	(allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") ? "money_off" : "attach_money";
+							var changePlateformConformMessage  	=	(allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") ? "<%= __('admin.user.do_you_want_to_denied_platform_this_user',userTypeTitle.toLowerCase()); %>" : "<%= __('admin.user.do_you_want_to_allow_access_platform_this_user',userTypeTitle.toLowerCase()); %>";
+
+
+							/** business user link Class **/
+							var businessUserClass = (verified != "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>") ? "hide" :"";
+							
+							/** Email Link Class **/
+							var emailVerifyClass	= (emailVerified == "<%= VERIFIED%>") ? "hide"	:"";
+							
+							/** Public Bussiness Link Class **/
+							var publicBusinessLinkClass	= (verified == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>") ? "hide"	:"";
+							
+							/** Mobile Link Class **/
+							var mobileVerifyClass	= (mobileVerified == "<%= VERIFIED%>") ? "hide"	:"";
+							
+							/** Pocial user link Class **/
+							var pocialUser = (id == "<%= POCIAL_ID %>") ? "hide" :"";
+
+							/** cancel subscription link Class **/
+							var cancelSubscriptionClass	= (subscriptionId == "") ? "hide"	:"hide";
+
+
+							/**concate and decode url login by admin*/
+							let concateData = uuid.concat('#@!', email);
+							let loginUrl = concateData.concat('#@!', slug);
+							let decodeLoginUrl = btoa(loginUrl);
+
+							let hideLoginButton = (status == '<%= SUSPEND %>') ? "hide" :"";
+
+							let priceToogle = '<%=PRICE_MONTHLY%>';
+							/**enterprise variable*/
+							let enterpriseChangeTitle = (enterprise == "<%=ALLOW_ENTERPRISE%>") ? "<%= __('admin.users.click_to_enterprise_not_allow'); %>" : "<%= __('admin.users.click_to_enterprise_allow'); %>"; 
+							let enterpriseStatus = (enterprise == "<%=ALLOW_ENTERPRISE%>") ? "<%=NOT_ALLOW_ENTERPRISE%>" : "<%=ALLOW_ENTERPRISE%>"; 
+							let confirMessage = (enterprise == "<%=ALLOW_ENTERPRISE%>")? "<%= __('admin.user.do_you_want_to_not_allow_enterprise'); %>" : "<%= __('admin.user.do_you_want_to_allow_enterprise'); %>";
+							let enterpriseStatusIcon = (enterprise == "<%=ALLOW_ENTERPRISE%>") ? "done" : "block";
+							
+							return	'<a href="<%=admin_list_url+'/'+userType%>/edit/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.edit"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">mode_edit</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/view/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">find_in_page</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_user_status/'+id+'/'+status+'/<%=ACTIVE_INACTIVE_STATUS%>" class="btn bg-teal btn-sm waves-effect '+pocialUser+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_change_status",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+statusLinkTitle+'" title="'+statusLinkTitle+'"><i class="material-icons font-14">'+statusLinkIcon+'</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_user_status/'+id+'/'+verified+'/<%=VERIFIED_STATUS%>" class="btn bg-teal btn-sm waves-effect '+pocialUser+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_verified_account",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+verifyLinkText+'" title="'+verifyLinkText+'"><i class="material-icons font-14">verified_user</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/convert_business_account/'+id+'" class="btn bg-teal btn-sm waves-effect '+publicBusinessLinkClass+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_business_account") %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.users.convert_to_business"); %>" title=""><i class="material-icons font-14">business</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/get_master_account/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.users.sub_users"); %>" class="btn bg-teal btn-sm waves-effect '+verifyClass+'"><i class="material-icons font-14">account_circle</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/verify_email_or_mobile_status/'+id+'/email" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.user.admin_email_verify"); %>" class="btn bg-teal btn-sm waves-effect confirm_box '+emailVerifyClass+'" data-confirm-message="<%= __("admin.user.do_you_want_to_verify_email",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><i class="material-icons font-14">email</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_segment_status/'+id+'/'+segmentShow+'" class="btn bg-teal btn-sm waves-effect '+pocialUser+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_change_segment_status",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+segmentChangeTitle+'" title="'+segmentChangeTitle+'"><i class="material-icons font-14">'+statusSegmentIcon+'</i></a>'+
+									'<a href="javascript:void(0)" onclick=loginAdminFunction("'+decodeLoginUrl+'") data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.users.click_to_login"); %>" class="btn bg-teal btn-sm waves-effect '+hideLoginButton+'"><i class="material-icons font-14">vpn_key</i></a>'+
+									'<a href="javascript:void(0)" onclick=masterTurnOnOff("'+allowAccessPlateform+'","'+id+'") data-toggle="tooltip" data-placement="top" title="" data-original-title="'+plateformChangeTitle+'" class="btn bg-teal btn-sm waves-effect '+businessUserClass+'"><i class="material-icons font-14">'+statusPlatformIcon+'</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/cancel_user_subscription/'+id+'/'+subscriptionId+'" class="btn bg-teal btn-sm waves-effect '+cancelSubscriptionClass+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_cancel_subscription",userTypeTitle.toLowerCase()); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.users.click_to_cancel_subscription"); %>" title="<%= __("admin.users.click_to_cancel_subscription"); %>"><i class="material-icons font-14">cancel</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/offline_payment/'+id+'/'+priceToogle+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.accept_payemnt_offline_manage"); %>" class="btn bg-teal btn-sm waves-effect '+businessUserClass+'"><i class="material-icons font-14">payment</i></a>'+
+								 	'<a href="<%=admin_list_url+'/'+userType%>/view_plan/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view_plan"); %>" class="btn bg-teal btn-sm waves-effect '+businessUserClass+'"><i class="material-icons font-14">receipt</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/enterprise_upload_list/'+id+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.enterprise_upload"); %>" class="btn bg-teal btn-sm waves-effect '+businessUserClass+'"><i class="material-icons font-14">import_contacts</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/update_enetrprise_status/'+id+'/'+enterpriseStatus+'" class="btn bg-teal btn-sm waves-effect '+businessUserClass+' confirm_box" waves-effect waves-block confirm_box" data-confirm-message="'+confirMessage+'" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+enterpriseChangeTitle+'" title="'+enterpriseChangeTitle+'"><i class="material-icons font-14">'+enterpriseStatusIcon+'</i></a>'+
+									'<a href="javascript:void(0)" onclick=viewManageLink("'+id+'") data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.user.manage_link"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">link</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url+"/"+userType+"/"+statusType%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate 						= $('#from_date').val();
+				        d.toDate 						= $('#to_date').val();
+				        d.status_search					= $('#status_search').val();
+						d.email_status_search			= $('#email_status_search').val();
+						d.account_type_status_search	= $('#account_type_status_search').val();
+						d.gender_status_search			= $('#gender_status_search').val();
+						d.active_plan_name_search		= $('#active_plan_name_search').val();
+						d.enterprise_status_search		= $('#enterprise_status_search').val();
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()			
+
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+			
+		/**
+	     * function for use show modal manage content open
+		 */
+		function viewManageLink(userId){
+			if(userId != ""){
+				$('#overlay1').show();
+				$.ajax({
+					'type'		: 	'POST',
+					'url' 		:	"<%=admin_list_url%>/<%=userType%>/get_user_list_modal_open/"+userId,
+					'success': function (response){
+						let result = (response && response.result) ? response.result : "";
+						var id 				= (result._id)					? result._id				: "";
+						var status			= (result.is_active)			? result.is_active			: "<%=UN_SUSPEND%>";
+						var verified 		= (result.account_type)			? result.account_type		: "<%=NORMAL_USER_ACCOUNT_TYPE%>";
+
+						var emailVerified 	= (result.is_email_verified)	? result.is_email_verified	: "<%=NOT_VERIFIED%>";
+						var mobileVerified 	= (result.is_mobile_verified)	? result.is_mobile_verified	: "<%=NOT_VERIFIED%>";
+						
+						/** Verify Link Class **/
+						var verifyClass		= (verified == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE%>") ? ""	:"hide";
+						
+						let innerHtml = '<div class="modal fade modal_open_css" id="show_modal_open" tabindex="-1" role="dialog">'+
+											'<div class="modal-dialog modal-lg" role="document">'+
+												'<div class="modal-content">'+
+													'<div class="card">'+
+														'<div class="header">'+
+															'<h2>'+
+																'<%= __("admin.user.manage_link"); %>'+
+															'</h2>'+
+															'<ul class="header-dropdown m-r--5 btn-right-top-margin">'+
+																'<li>'+
+																	'<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect">'+
+																		'<i class="material-icons font-14">close</i>'+
+																	'</button>'+
+																'</li>'+
+															'</ul>'+
+														'</div>'+
+														'<div class="modal-body row">'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+' ">'+ 
+																'<a href="<%=admin_list_url+'/'+userType%>/view_redemptions/'+id+'" class="waves-effect waves-block '+verifyClass+' ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.view_redemptions"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/my_wallet_rewards/'+id+'" class="waves-effect waves-block">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.my_wallet_rewards"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_rewards/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_rewards"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_emails/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">email</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_emails"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/overview_lead_dashboard/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">dashboard</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.overview_lead_dashboard"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url+'/'+userType%>/manage_leads/'+id+'" class="waves-effect waves-block '+verifyClass+'">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">redeem</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.manage_lead_form"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWING_ADMIN_URL %>/'+id+'" class="waves-effect waves-block ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">sentiment_neutral</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.following_users"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+																'<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWERS_ADMIN_URL %>/'+id+'" class="waves-effect waves-block ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">sentiment_neutral</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.followers_users"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															'<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 '+verifyClass+'">'+
+																'<a href="<%=admin_list_url%>/<%=userType %>/polls/'+id+'" class="waves-effect waves-block ">'+
+																	'<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">'+
+																		'<div class="icon">'+
+																			'<i class="material-icons">poll</i>'+
+																		'</div>'+
+																		'<div class="content">'+
+																			'<div class="text"><%= __("admin.users.poll_list"); %></div>'+
+																		'</div>'+
+																	'</div>'+
+																'</a>'+
+															'</div>'+
+															
+														'</div>'+
+													'</div>'+
+												'</div>'+
+											'</div>'+
+										'</div>';
+						$("#manage_link_details").html(innerHtml);
+						$('#show_modal_open').modal('show'); 
+						$('#overlay1').hide(); 
+					}
+				});
+			}
+		}
+
+		/**function for login by admin*/
+		function loginAdminFunction(decodeLoginUrl){
+			confirmBox("warning","<%= __('admin.system.are_you_sure') %>","<%= __('admin.user.do_you_want_to_login') %>",function(result){
+				let URL = '<%=ADMIN_WISE_USER_LOGIN_URL %>/'+decodeLoginUrl;
+				window.open(URL, '_blank');
+				swal.close();
+			});
+		}
+
+
+		/** function for master turn off and on*/	
+		function masterTurnOnOff(allowAccessPlateform, id) {
+			var changePlateformConformMessage = (allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") ? "<%= __('admin.user.do_you_want_to_denied_platform_this_user',userTypeTitle.toLowerCase()); %>" : "<%= __('admin.user.do_you_want_to_allow_access_platform_this_user',userTypeTitle.toLowerCase()); %>";
+			var platformStatus 				=	(allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") ? '<%=PAYMENT_SUPER_ADMIN_UNPAID%>' :'<%=PAYMENT_SUPER_ADMIN_PAID%>';
+			
+			if (allowAccessPlateform == "<%=PAYMENT_SUPER_ADMIN_PAID%>") {
+				confirmBox("warning", "<%= __('admin.system.are_you_sure') %>", changePlateformConformMessage, function(result) {
+					window.location.href = '<%=admin_list_url+'/'+userType%>/update_allow_access_platform/'+id+'/'+platformStatus;
+					swal.close();
+				});
+			} else {
+				$("#user_id").val(id);
+				$("#allows_access_platform_in_admin").val(platformStatus);
+				$("#master_turn_on_model").modal("show");
+			}
+		}
+
+
+		let minEndDate = new Date;
+		let toStartDate  = moment().startOf('hour');
+		
+
+		/**function is used to schedule start date */
+		$(function() {
+			$('input[name="master_turn_on_date"]').daterangepicker({
+				timePicker: true,
+				autoApply : true,
+				singleDatePicker: true,
+				timePicker24Hour: false,
+				timePickerSeconds: true,
+				autoUpdateInput: true,
+				drops :'down',
+				minDate: new Date,
+				startDate: moment().startOf('hour'),
+				endDate: moment().startOf('hour').add(23, 'hour'),
+				locale: {
+					format: 'YYYY-MM-DD HH:mm:ss'
+				}
+			});
+
+			/**apply button click on calender*/
+			$("#start_date").on('apply.daterangepicker', function(ev, picker) {
+            	$(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+				// minEndDate  = picker.startDate.format('YYYY-MM-DD HH:mm:ss'); /**set end date value*/
+				// toStartDate = minEndDate;
+				
+			});
+
+			/**cancel button click on calender*/
+			$("#start_date").on('cancel.daterangepicker', function(ev, picker) {
+				$("#start_date").val('');
+			});
+		});
+
+
+		/**
+		 * Function to submit product edit modal form
+		 */
+		$(".btn-date-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			ajax_submit("add_turn_on_date",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

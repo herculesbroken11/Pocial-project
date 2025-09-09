@@ -1,0 +1,370 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+.align-left{ text-align:left}
+.align-right{ text-align:right}
+.align-center{ text-align:center}
+.align-justify{ text-align:justify}
+
+.text-uppercase{text-transform: uppercase;}
+.text-lowercase{text-transform: lowercase;}
+.text-capitalize{ text-transform: capitalize;}
+.full_width_field{ width:100%  !important;}
+
+#myWidget{
+    position: relative;
+    display: flex;
+	flex-direction:column;
+	border-radius:10px;
+	/* font-family:'Open Sans'; */
+}
+.text_to_display{font-size:30px; margin:0 0 15px;}
+#myWidget img{max-width:100%; border-radius:15px; }
+#myWidget p.display_url_description{margin:3px 0 0;}
+#myWidget p.display_url_description{font-size: 14px; line-height: 25px}
+
+#myWidget .no_image_banner{width:20%; margin:auto; height:200px}
+
+.form_title{font-size:24px; margin:0px 0 0;}
+
+#captureLeadForm{margin:30px 0 0;}
+
+.divFieldContnr *{
+    /* font-family: 'Open Sans'; */
+}
+.divFieldContnr{
+    width: 48%;
+    float: left;
+    margin-bottom: 40px;
+	max-height: 70px;
+}
+.divFieldContnr:nth-child(even){
+    float: right;
+}
+.divFieldContnr label{
+    width: 100%;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.divFieldContnr label.labelLeadGender{
+    font-weight: normal;
+    display: inline-block;
+    margin-right: 10px;
+    padding: 17px 0;
+    width: auto;
+}
+.divFieldContnr input{
+    width: 92%;
+    height: 54px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #eeeeee;
+    background: #fff;
+    font-size: 17px;
+    outline:none;
+}
+.divFieldContnr select{
+    width: 100%;
+    height: 54px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #eeeeee;
+    background: #fff;
+    font-size: 17px;
+    outline:none;
+}
+.divFieldContnr input[type="radio"],.divFieldContnr input[type="checkbox"]{
+    width: auto;
+    height: auto;
+}
+form.singleFieldForm{
+    width: 100%;
+    /* padding-left: 20%; */
+    /* padding-right: 20%; */
+}
+form.singleFieldForm .statusError{
+    width: 100%;
+	text-align: right;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+form.singleFieldForm .divFieldContnr{
+    width: 100%;
+}
+form.singleFieldForm .divFieldContnr label{
+    display: none;
+}
+form.singleFieldForm .divFieldContnr input{
+    width: 95%;
+    outline:none;
+	border-color:#000 !important;
+	border-radius:30px !important;
+}
+.divFieldContnr.divSubmitContnr{
+    width: 100%;
+    float: none;
+	clear:both;
+}
+.divFieldContnr.divSubmitContnr .submitBtnClass{
+    width: 100%;
+    float: left;
+    background: #b9ae6f;
+    color: #ffff;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 26px;
+    height: 63px;
+    font-weight: 900;
+    font-style: italic;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    outline:none;
+}
+.submitBtnClass.singleSubmitBtnClass{
+    position: absolute;
+    border: none;
+    background: none;
+    font-size: 30px;
+    /* color: #FFF; */
+    transform: translate(-45px, 14%);
+    outline:none;
+    cursor: pointer;
+}
+.submitBtnClass.singleSubmitBtnClass:after {
+    content: ' \279C';
+}
+.errorInField {
+    border: 1px solid #ff0000 !important;
+}
+.statusSuccess {
+    position: absolute;
+    background: #d1e7dd;
+    border: 1px solid #badbcc;
+	color: #0f5132;
+    width: 95%;
+	right:0;
+	left:0;	
+	margin:auto;
+    padding: 10px 5px;
+	font-size:14px;
+    z-index: 100;
+	border-radius:5px;
+    /* font-family: 'Open Sans'; */
+	font-weight: 600;
+}
+.statusError {
+    position: absolute;
+    background: #d07171;
+    border: 1px solid #521515;
+    width: 98%;
+    padding: 5px;
+    z-index: 100;
+    /* font-family: 'Open Sans'; */
+}
+
+#myWidget p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+#myWidget .thank-you-lead{padding:20px 30px 35px; text-align:center;}
+#myWidget .thank-you-lead figure{margin:0 0 15px;}
+#myWidget .thank-you-lead h3{font-size:18px; margin:0;}
+#myWidget .thank-you-lead p{font-size:13px; color:#5D5D5D; margin:0; }
+#myWidget .thank-you-leadcontent{text-align:center; max-width:475px; margin:auto; background-color:#f1f5f7; padding:32px 30px; border-radius:15px;}
+#myWidget .thank-you-leadcontent p{margin:0px;font-weight:600;}
+#myWidget .thank-you-leadcontent .wallet_captured_lead_button{padding:8px 20px; background-color:#40a194 !important; border:1px solid #40a194 !important; font-weight:500; border-radius:24px; font-size:15px; outline: none !important; text-transform: capitalize;}
+#myWidget .thank-you-leadcontent .wallet_captured_lead_button {text-decoration:none; color:#fff;cursor:pointer}
+#myWidget .thank-you-leadcontent .wallet_captured_lead_button img{margin:0 10px 0px 0; border-radius:0px !important;}
+#myWidget .thank-you-leadcontent .wallet_captured_lead_button:hover{background-color:#3188A3 !important;border:1px solid #3188A3 !important;}
+
+#myWidget .powerby{text-align:right; padding:30px 0 0; color:#b7b7b7; font-size:13px;}
+#myWidget .powerby a{text-decoration:none; color:#b7b7b7;}
+#myWidget .powerby img{max-width:43px; margin:0 0 0 10px; filter:grayscale(100); border-radius:0; vertical-align:middle; border-radius:0px !important;}
+
+/* #myWidget {margin: 50px auto 20px;padding: 30px 40px;  overflow:hidden; border-top:7px solid #3188a3;} */
+#myWidget {margin: 50px auto 20px;padding: 30px 40px;  overflow:hidden; }
+#myWidget .divFieldContnr input {width: 100%;}
+#myWidget .divFieldContnr label.labelLeadGender {margin-right: 25px;padding: 0 4px;margin-bottom: 0;height: 47px;line-height: 47px;}
+#myWidget .divFieldContnr label.labelLeadGender input {width: auto;}
+#myWidget .divFieldContnr label {font-size: 14px; margin: 0 0 8px; font-weight: normal;}
+#myWidget .divFieldContnr.divSubmitContnr .submitBtnClass {width: auto;float: right;background: #3188A3;font-size: 16px;height: 47px;font-weight: 600;font-style: inherit; /**font-family: 'Open Sans';*/ border: none;	outline: none;padding: 0 38px;border-radius: 6px; text-transform:capitalize;	display: block;margin: auto; }
+#myWidget .singleFieldForm .divFieldContnr.divSubmitContnr .submitBtnClass {width: auto;float: none;background: #000;font-size: 16px;height: 47px;font-weight: 600;font-style: inherit; /**font-family: 'Open Sans';*/ border: none;	outline: none;padding: 0 38px;border-radius: 30px; text-transform:capitalize;	display: block;margin: auto; }
+#myWidget .statusError {background: #f8d7da;border: 1px solid #f5c2c7;width: 91%;top: auto; bottom:78px;left: 0;right: 0; margin:auto; color: #842029; font-size: 14px;padding: 8px 15px;font-weight: 600; border-radius:5px;}
+#myWidget .divFieldContnr.divSubmitContnr {padding-bottom: 0;}
+
+#myWidget .divFieldContnr input[type="text"], #myWidget .divFieldContnr input[type="password"], #myWidget .divFieldContnr input[type="email"], #myWidget .divFieldContnr input[type="file"], .divFieldContnr select{height:47px; border:1px solid #D1D1D1; border-radius:5px; font-size:16px; color:#B7B7B7;}
+.image_new_design input { line-height: 100% !important; }
+
+.image_new_design input#image_name::file-selector-button {
+	padding: 20px 30px;
+    margin: -.375rem -.75rem;
+    -webkit-margin-end: .75rem;
+    margin-inline-end: .75rem;
+    color: #fff	;
+    background-color: #3188A3;
+    pointer-events: none;
+    border-color: inherit;
+    border-width: 0; font-size: 15px;
+    border-radius: 0;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	
+	position:absolute;
+	height:100%;
+	top:6px;
+	left:0;
+	padding-top:0;
+	padding-bottom:0;
+	display:flex;
+	align-items: center;
+	justify-content:center
+}
+
+.image_new_design input{min-height: 25px; position: relative;}
+
+.required{
+	color: #b94a48;
+	font-size: 12px
+}
+
+span.error {
+    color: #f44336;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+@media(max-width:767px){
+	#myWidget .divFieldContnr {width: 100%;float: none;margin-bottom: 25px;}
+	#myWidget {max-width: 100%;margin: 50px 20px 20px;padding: 30px 25px;display: block;}
+	#myWidget .divFieldContnr.divSubmitContnr {padding-top: 25px;float: none;}
+	#myWidget .statusError {bottom:10px;}
+	#myWidget .no_image_banner {display: block;}
+}
+
+
+.divFieldContnr {width: 50%;float: none;display: inline-block;padding: 0 10px;vertical-align: top;}
+.divFieldContnr:nth-child(2n) {float: none;}
+
+
+
+#myWidget .divFieldContnr.divSubmitContnr .submitButtonHoverClass:hover {background: #fff !important; color: #3188A3 !important; border: 1px solid #3188A3 !important;}
+
+#captureLeadForm .divFieldContnr {max-height: 100%;}
+
+#captureLeadForm .divFieldContnr.image_new_design input {padding-left: 130px;padding-top: 22px;padding-bottom: 22px;font-size: 16px !important;}
+
+#captureLeadForm .divFieldContnr input {
+    color: #333 !important;
+}
+
+#myWidget .divFieldContnr label.labelLeadGender input {top: 2px;position: relative;}
+
+/**active deactive css*/
+.deactivated_campaign_box {border-radius: 5px; text-align: center; width: 482px; height: 240px; margin: 10px auto 10px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; align-content: center; position: relative;padding: 20px 20px 42px;cursor: default}
+.deactivated_campaign_box::after{background-image: url(./images/mask-bg.svg); content: "";height: 100%; width: 100%;position: absolute !important;left: 0; right: 0;bottom: 0;top: 0;}
+.deactivated_campaign_content {width: 100%;}
+.deactivated_campaign_content h3 {color: #333;font-family: Arial, Helvetica, sans-serif;font-size: 16px;  margin: 20px 0 0;}
+.poweredby_pocial {position: absolute;bottom: 13px;left: 0;right: 0; text-align: center;padding: 0px 20px;align-items: center;display: flex;justify-content: center;}
+.poweredby_pocial span {color: #B7B7B7;font-size: 12px;display: inline-block;font-family: Arial, Helvetica, sans-serif;}
+.poweredby_pocial .deactivated_powerd_by {max-width: 43px !important;border-radius:0px !important; margin: 0px 0 0 6px;filter: grayscale(100);}
+
+@media (max-width:767px){
+	.deactivated_campaign_box {width: 100%;padding: 20px 0px 42px;}
+	.deactivated_campaign_content {padding: 0 10px;}
+}
+
+
+/** START NEW CSS BY MULTIPLE EMBED */
+
+.myWidget{
+    position: relative;
+    display: flex;
+	flex-direction:column;
+	border-radius:10px;
+	/* font-family:'Open Sans'; */
+}
+.myWidget img{max-width:100%; border-radius:15px; }
+.myWidget p.display_url_description{margin:3px 0 0;}
+.myWidget p.display_url_description{font-size: 14px; line-height: 25px}
+
+.myWidget .no_image_banner{width:20%; margin:auto; height:200px}
+
+.myWidget p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.myWidget .thank-you-lead{padding:20px 30px 35px; text-align:center;}
+.myWidget .thank-you-lead figure{margin:0 0 15px;}
+.myWidget .thank-you-lead h3{font-size:18px; margin:0;}
+.myWidget .thank-you-lead p{font-size:13px; color:#5D5D5D; margin:0; }
+.myWidget .thank-you-leadcontent{text-align:center; max-width:475px; margin:auto; background-color:#f1f5f7; padding:32px 30px; border-radius:15px;}
+.myWidget .thank-you-leadcontent p{margin:0px;font-weight:600;}
+.myWidget .thank-you-leadcontent .wallet_captured_lead_button{padding:8px 20px; background-color:#40a194 !important; border:1px solid #40a194 !important; font-weight:500; border-radius:24px; font-size:15px; outline: none !important; text-transform: capitalize;}
+.myWidget .thank-you-leadcontent .wallet_captured_lead_button {text-decoration:none; color:#fff;cursor:pointer}
+.myWidget .thank-you-leadcontent .wallet_captured_lead_button img{margin:0 10px 0px 0; border-radius:0px !important;}
+.myWidget .thank-you-leadcontent .wallet_captured_lead_button:hover{background-color:#3188A3 !important;border:1px solid #3188A3 !important;}
+
+.myWidget .powerby{text-align:right; padding:30px 0 0; color:#b7b7b7; font-size:13px;}
+.myWidget .powerby a{text-decoration:none; color:#b7b7b7;}
+.myWidget .powerby img{max-width:43px; margin:0 0 0 10px; filter:grayscale(100); border-radius:0; vertical-align:middle; border-radius:0px !important;}
+
+/* .myWidget {margin: 50px auto 20px;padding: 30px 40px;  overflow:hidden; border-top:7px solid #3188a3;} */
+.myWidget {margin: 50px auto 20px;padding: 30px 40px;  overflow:hidden; }
+.myWidget .divFieldContnr input {width: 100%;}
+.myWidget .divFieldContnr label.labelLeadGender {margin-right: 25px;padding: 0 4px;margin-bottom: 0;height: 47px;line-height: 47px;}
+.myWidget .divFieldContnr label.labelLeadGender input {width: auto;}
+.myWidget .divFieldContnr label {font-size: 14px; margin: 0 0 8px; font-weight: normal;}
+.myWidget .divFieldContnr.divSubmitContnr .submitBtnClass {width: auto;float: right;background: #3188A3;font-size: 16px;height: 47px;font-weight: 600;font-style: inherit; /**font-family: 'Open Sans';*/ border: none;	outline: none;padding: 0 38px;border-radius: 6px; text-transform:capitalize;	display: block;margin: auto; }
+.myWidget .singleFieldForm .divFieldContnr.divSubmitContnr .submitBtnClass {width: auto;float: none;background: #000;font-size: 16px;height: 47px;font-weight: 600;font-style: inherit; /**font-family: 'Open Sans';*/ border: none;	outline: none;padding: 0 38px;border-radius: 30px; text-transform:capitalize;	display: block;margin: auto; }
+.myWidget .statusError {background: #f8d7da;border: 1px solid #f5c2c7;width: 91%;top: auto; bottom:78px;left: 0;right: 0; margin:auto; color: #842029; font-size: 14px;padding: 8px 15px;font-weight: 600; border-radius:5px;}
+.myWidget .divFieldContnr.divSubmitContnr {padding-bottom: 0;}
+
+.myWidget .divFieldContnr input[type="text"], .myWidget .divFieldContnr input[type="password"], .myWidget .divFieldContnr input[type="email"], .myWidget .divFieldContnr input[type="file"], .divFieldContnr select{height:47px; border:1px solid #D1D1D1; border-radius:5px; font-size:16px; color:#B7B7B7;}
+
+@media(max-width:767px){
+	.myWidget .divFieldContnr {width: 100%;float: none;margin-bottom: 25px;}
+	.myWidget {max-width: 100%;margin: 50px 20px 20px;padding: 30px 25px;display: block;}
+	.myWidget .divFieldContnr.divSubmitContnr {padding-top: 25px;float: none;}
+	.myWidget .statusError {bottom:10px;}
+	.myWidget .no_image_banner {display: block;}
+}
+
+.myWidget .divFieldContnr.divSubmitContnr .submitButtonHoverClass:hover {background: #fff !important; color: #3188A3 !important; border: 1px solid #3188A3 !important;}
+.myWidget .divFieldContnr label.labelLeadGender input {top: 2px;position: relative;}
+
+.captureLeadForm{margin:30px 0 0;}
+.captureLeadForm .divFieldContnr {max-height: 100%;}
+.captureLeadForm .divFieldContnr.image_new_design input {padding-left: 130px;padding-top: 22px;padding-bottom: 22px;font-size: 16px !important;}
+.captureLeadForm .divFieldContnr input { color: #333 !important;}
+
+.image_new_design input.image_name::file-selector-button {
+	padding: 20px 30px;
+    margin: -.375rem -.75rem;
+    -webkit-margin-end: .75rem;
+    margin-inline-end: .75rem;
+    color: #fff	;
+    background-color: #3188A3;
+    pointer-events: none;
+    border-color: inherit;
+    border-width: 0; font-size: 15px;
+    border-radius: 0;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	
+	position:absolute;
+	height:100%;
+	top:6px;
+	left:0;
+	padding-top:0;
+	padding-bottom:0;
+	display:flex;
+	align-items: center;
+	justify-content:center
+}
+
+/** END NEW CSS BY MULTIPLE EMBED */

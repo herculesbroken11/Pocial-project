@@ -1,0 +1,34 @@
+<div class="modal fade modal_open_css" id="send_test_email_template_modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.system.send_test'); %></h4>
+			</div>
+			<hr/>
+			<div class="modal-body">
+				<div class="body">
+					<form id="send-test-email-template" action="<%= admin_list_url%>/<%= PUBLIC_BUSSINESS_USERS %>/send_test_email" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<input type="hidden" name="page_body" id="page_body_send_test" class="form-control"/>
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="email" class="control-label"><%= __("admin.user.email"); %><span class="required"> *</span> :</label>
+										<input type="text" name="email" id="email" class="form-control"/>
+									</div>
+									<span id="email_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<button type="button" id="send-test-status-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-send-test-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+								<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.close"); %></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

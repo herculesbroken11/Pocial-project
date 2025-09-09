@@ -1,0 +1,546 @@
+<%
+	result 							= 	(typeof result !== typeof undefined && result) ? result								:{};
+	var userType 					= 	(typeof user_type !== typeof undefined && user_type) ? user_type					:"";
+	var categoryResult				= 	(typeof category_result !== typeof undefined && category_result) ? category_result	:"";
+	var userTypeTitle 				= 	(FRONT_USER_TYPE[userType])				?	FRONT_USER_TYPE[userType] 				:"";
+	var gender						= 	(result.gender != "") 					? 	result.gender							:"";
+	var publicBussinessInformaton	= 	(result.public_business_informaton) 	? 	result.public_business_informaton		:{};
+	var assignUserIntrestCategory	= 	(result.interest_category)				? 	result.interest_category				:[];
+	var accountType					= 	(result.account_type)					? 	result.account_type						:"";
+	var viewPageLink				= 	(viewPageLink)	? viewPageLink	:"";
+	var backUrl						= 	(viewPageLink)	? admin_list_url+'/'+userType+'/view/'+user_id : admin_list_url+'/'+userType;
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.user.edit_user',userTypeTitle) %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%= backUrl %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-user" data-submit-btn-id="user-add-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<input name="excel_lead_forms_id" id="excel_lead_forms_id" type="hidden" class="form-control" value="<%=(result.excel_lead_forms_id) ? result.excel_lead_forms_id :"";%>" />
+						<input name="lead_forms_id" id="lead_forms_id" type="hidden" class="form-control" value="<%=(result.lead_forms_id) ? result.lead_forms_id :"";%>" />
+						<input name="front_user_type" id="front_user_type" type="hidden" class="form-control"  value="<%=userType %>"/>
+						<% 						
+							var oldImage	= 	(result.profile_image) ? result.profile_image :''; 
+							var image 	  	=	(oldImage!='') ? result[IMAGE_FIELD_NAME] :	ADD_PROFILE_IMAGE_ICON;
+							var imageCrop	=	(oldImage!='') ? result[IMAGE_FIELD_NAME]+"?dim=240x247&type=resize" : ADD_PROFILE_IMAGE_ICON;
+						%>
+						
+						<div class="row clearfix ">
+							<div class="col-sm-8">
+								<div class="form-group">
+									<div class="form-lin no-bottom-border">
+										<label for="image" class="control-label"><%= __("admin.user.profile_image"); %> :</label>
+										<input type="hidden" id="profile_image_name" id="profile_image_name">
+										<input type="hidden" id="profile_image_binary" id="profile_image_binary">
+										<input name="old_image" id="old_image" type="hidden" class="form-control"  value="<%=oldImage %>"/>
+										<input name="profile_image_temp" accept="image/*" id="crop" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+										<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.user.better_image_ratio") %> <%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+											<i class="material-icons">info</i>
+										</span>
+									</div>
+									<span id="profile_image_temp_error" class="error"></span> 
+									<span id="profile_image_error" class="error"></span> 
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="profile_image_css">
+									<a href='<%=image%>' class='items-image old_image_hide' data-lightbox='roadtrip'>
+										<img src="<%=imageCrop%>" alt="Master image" class=" img-thumbnail" />
+										
+										<% if(result.profile_image){ %>
+											<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%=userType%>/user_delete_image/<%=result._id%>/<%= USER_PROFILE_IMAGE_DELETE %>" class="btn bg-black delete_button old_image_hide btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_delete_image"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>"> <i class="material-icons font-14">delete_sweep</i></a>
+										<% } %>
+									</a>
+								</div>
+								<div style="display:none" id="cropzee-hidden-canvas" class="image-previewer" data-cropzee="crop"></div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="first_name" class="control-label"><%= __('admin.user.first_name'); %> <span class="required"> *</span>:</label>
+										<input name="first_name" id="first_name" type="text" class="form-control" value="<%=(result.fname) ? result.fname :"";%>" />
+									</div>
+									<span id="first_name_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="last_name" class="control-label"><%= __('admin.user.last_name'); %> <span class="required"> *</span>:</label>
+										<input name="last_name" id="last_name" type="text" class="form-control" value="<%=(result.lname) ? result.lname :"";%>" />
+									</div>
+									<span id="last_name_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line cursor-not-allowed">
+										<label for="email" class="control-label"><%= __('admin.user.email'); %><span class="required"> *</span>:
+											<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.user.email_update'); %>" >
+										</label>
+										<input name="old_email" id="old_email" type="hidden" class="form-control readonly" value="<%=(result.email) ? result.email :"";%>" readonly="true" />
+										<input name="email" id="email" type="text" class="form-control" value="<%=(result.email) ? result.email :"";%>" />
+									</div>
+									<span id="email_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="user_name" class="control-label"><%= __('admin.user.user_name'); %><span class="required"> *</span>: </label>
+										<input name="user_name" id="user_name" type="text" class="form-control" value="<%=(result.slug) ? result.slug :"";%>" />
+									</div>
+									<span id="user_name_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<label for="mobile_number" class="control-label"><%= __('admin.user.phone_number'); %><span class="required"> *</span>:</label>
+								<div class="input-group">
+									<div class="form-line cursor-not-allowed">
+										<input name="mobile" id="mobile" type="text" class="form-control" value="<%=(result.mobile) ? result.mobile :"";%>" />
+									</div>
+									<span id="mobile_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="zip" class="control-label"><%= __('admin.user.zip_code'); %><span class="required"> *</span>:</label>
+										<input name="zip" id="zip" type="text" class="form-control" value="<%=(result.zip) ? result.zip :"";%>" />
+									</div>
+									<span id="zip_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="gender" class="control-label"><%= __('admin.user.gender'); %><span class="required"> *</span>: </label>
+										<br>
+										<input class="with-gap" id="gender1" name="gender" type="radio" value="<%= MALE %>" <%= result.gender && result.gender == MALE ? 'checked' :''%> >
+										<label class="label_checkbox" for="gender1"  ><%= __('admin.user.male'); %></label>
+										
+										<input class="with-gap" id="gender2" name="gender" type="radio" value="<%= FEMALE %>" <%= result.gender && result.gender == FEMALE ? 'checked' :''%> >
+										<label class="label_checkbox" for="gender2"><%= __('admin.user.female'); %></label>
+										
+										<input class="with-gap" id="gender3" name="gender" type="radio" value="<%= OTHER %>" <%= result.gender && result.gender == OTHER ? 'checked' :''%> >
+										<label class="label_checkbox" for="gender3"><%= __('admin.user.other'); %></label>
+									</div>
+									<span id="gender_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-linew">
+										<label for="dateofbirth" class="control-label"><%= __('admin.user.date_of_birth'); %><span class="required"> *</span>: </label><br />
+										<div class="dropdown_wise_dob">
+											<div class="message_dropdown_wise_dob">
+												<select data-live-search="true" name="mm" id="mm" onchange="monthChanged()" class="bear-months"></select>
+												<span id="mm_error" class="error"></span>
+											</div>
+											<div class="message_dropdown_wise_dob">
+												<select data-live-search="true" name="dd" id="dd" class="bear-dates"></select>
+												<span id="dd_error" class="error"></span>
+											</div>
+											<div class="message_dropdown_wise_dob">
+												<select data-live-search="true" name="yy" id="yy" onchange="yearChanged()" class="bear-years"></select>
+												<span id="yy_error" class="error"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-linee">
+										<label for="account_type" class="control-label"><%= __('admin.users.account_type'); %><span class="required"> *</span>: </label>
+										<br>
+										<input class="with-gap account_type" id="account_type1" name="account_type" type="radio" value="<%= NORMAL_USER_ACCOUNT_TYPE %>" <%= result.account_type && result.account_type == NORMAL_USER_ACCOUNT_TYPE ? 'checked' :''%> >
+										<label class="label_checkbox" for="account_type1"  ><%= __('admin.user.normal_user'); %></label>
+										
+										<input class="with-gap account_type" id="account_type2" name="account_type" type="radio" value="<%= BUSSINESS_USER_ACCOUNT_TYPE %>" <%= result.account_type && result.account_type == BUSSINESS_USER_ACCOUNT_TYPE ? 'checked' :''%> >
+										<label class="label_checkbox" for="account_type2"><%= __('admin.user.bussiness'); %></label>
+										
+										<input class="with-gap account_type" id="account_type3" name="account_type" type="radio" value="<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>" <%= result.account_type && result.account_type == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE ? 'checked' :''%> >
+										<label class="label_checkbox" for="account_type3"><%= __('admin.user.public_bussiness'); %></label>
+									</div>
+									<span id="account_type_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="your_bio" class="control-label"><%= __('admin.user.your_bio'); %> : </label>
+										<textarea name="your_bio" id="your_bio" class="form-control"><%= (result.your_bio) ? result.your_bio : ''%></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						 <!-- bussiness details start -->
+						<div class="col-sm-12 bussiness_class">
+							<div class="card">
+								<div class="header bg-blue-grey">
+									<h2><%= __('admin.user.business_details'); %></h2>
+								</div>
+								<div class="body">
+									<%
+										var businessBannerOldimage = (typeof publicBussinessInformaton !== typeof undefined && publicBussinessInformaton.business_banner) ? publicBussinessInformaton.business_banner :"";
+										var businessRewardOldimage = (typeof publicBussinessInformaton !== typeof undefined && publicBussinessInformaton.reward_image) ? publicBussinessInformaton.reward_image :"";
+										var businessBanner = (publicBussinessInformaton.business_banner) ? (USERS_URL+publicBussinessInformaton.business_banner) : NO_IMAGE_AVAILABLE	
+										var businessBannerCrop = (publicBussinessInformaton.business_banner) ? (USERS_URL+publicBussinessInformaton.business_banner)+"?dim=330x200&type=resize" : "";
+										var businessRewarimageUrl = (publicBussinessInformaton.reward_image) ? (USERS_URL+publicBussinessInformaton.reward_image)+"?dim=330x200&type=resize" : "";
+									%>
+									<div class="row clearfix">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<div class="form-lin no-bottom-border">
+													<label for="image" class="control-label"><%= __("admin.user.business_banner"); %> :</label>
+													<input type="hidden" id="business_banner_image_name" id="business_banner_image_name">
+													<input type="hidden" id="business_banner_binary" id="business_banner_binary">
+													
+													<input name="business_banner_temp" id="business_banner" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+													<input name="banner_old_image" id="banner_old_image" type="hidden" value="<%=businessBannerOldimage%>"/>
+													<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.user_business_banner.better_image_ratio") %> <%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+														<i class="material-icons">info</i>
+													</span>
+												</div>
+												<span id="business_banner_temp_error" class="error"></span> 
+												<span id="business_banner_error" class="error"></span> 
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<% if(businessBannerCrop!='' && accountType==PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE){ %>
+												<div class="profile_image_css">
+													<a href='<%=businessBanner%>' class='items-image businessBanner' data-lightbox='roadtrip'>
+														<img src="<%=businessBannerCrop%>" alt="Master image" class=" img-thumbnail" />
+														<% if(businessBannerOldimage){ %>
+															<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%=userType%>/user_delete_image/<%=result._id%>/<%= USER_BANNER_IMAGE_DELETE %>" class="btn bg-black businessBanner delete_button btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_delete_image"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>"> <i class="material-icons font-14">delete_sweep</i></a>
+														<% } %>
+													</a>
+												</div>
+											<% } %>
+											<div style="display:none" id="business-banner-cropzee-hidden-canvas" class="image-previewer" data-cropzee="business_banner"></div>
+										</div>
+									</div>
+
+									<!-- reward image upload -->
+									<div class="row clearfix">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<div class="form-lin no-bottom-border">
+													<label for="image" class="control-label"><%= __("admin.user.reward_image"); %> :</label>
+													<input name="reward_image" id="reward_image" accept="image/*" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+													<input name="old_reward_image" id="old_reward_image" type="hidden" value="<%= businessRewardOldimage %>"/>
+													<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+														<i class="material-icons">info</i>
+													</span>
+												</div>
+												<span id="reward_image_error" class="error"></span> 
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<% if(businessRewarimageUrl!='' && accountType==PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE){ %>
+												<div class="profile_image_css">
+													<a href='<%= businessRewarimageUrl %>' class='items-image' data-lightbox='roadtrip'>
+														<img src="<%= businessRewarimageUrl %>" alt="Master image" class=" img-thumbnail" />
+														<% if(businessRewardOldimage){ %>
+															<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%=userType%>/user_delete_image/<%=result._id%>/<%= USER_REWARD_IMAGE_DELETE %>" class="btn bg-black businessBanner delete_button btn-sm waves-effect confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_delete_image"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>"> <i class="material-icons font-14">delete_sweep</i></a>
+														<% } %>
+													</a>
+												</div>
+											<% } %>
+										</div>
+									</div>
+									<!-- reward image upload -->
+
+									<div class="row clearfix">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="name_of_the_business" class="control-label"><%= __('admin.user.name_of_the_business'); %> : </label>
+													<input name="name_of_the_business" id="name_of_the_business" type="text" class="form-control" value="<%=(publicBussinessInformaton.name_of_the_business) ? publicBussinessInformaton.name_of_the_business :"";%>" />
+												</div>
+												<span id="name_of_the_business_error" class="error"></span> 
+											</div>
+										</div> 
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="primary_address" class="control-label"><%= __('admin.user.primary_address'); %> : </label>
+													<input name="primary_address" id="maps_integration" type="text" value="<%=(publicBussinessInformaton.primary_address) ? publicBussinessInformaton.primary_address :"";%>" class="form-control"/>
+												</div>
+												<span id="primary_address_error" class="error"></span>
+											</div>
+										</div>
+										<input name="latitude" id="latitude" type="hidden" class="form-control latitude" value="<%=(publicBussinessInformaton.latitude) ? publicBussinessInformaton.latitude :"33.8547";%>" />
+										<input name="longitude" id="longitude" type="hidden" class="form-control longitude" value="<%=(publicBussinessInformaton.longitude) ? publicBussinessInformaton.longitude :"35.8623";%>" />
+										
+										<div class="row clearfix" style="display: none;" >
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="map_canvas" id="map" style="width:100%;height:300px;"></div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="business_industry" class="control-label"><%= __('admin.user.business_industry'); %> : </label>
+													<select data-live-search="true" class="form-control show-tick search_by_status search-select" id="business_industry" name="business_industry"  autocomplete="off">											
+														<option value=""><%= __('admin.users.please_select_business_industry'); %></option>
+														<%- business_industry %>
+													</select>
+												</div>
+												<span id="business_industry_error" class="error"></span> 
+											</div>
+										</div>
+									</div>
+										
+									<div class="row clearfix">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="redemption_code" class="control-label"><%= __('admin.user.redemption_code'); %> : </label>
+													<input name="redemption_code" id="redemption_code" type="text" class="form-control"  value="<%=(publicBussinessInformaton.redemption_code) ? publicBussinessInformaton.redemption_code :"";%>" />
+													<span class='tooltipHelp random_code_span' style="cursor:pointer;">
+														<i class="material-icons random_code">refresh</i>
+													</span>
+												</div>
+												<span id="redemption_code_error" class="error"></span> 
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="marketing_headline" class="control-label"><%= __('admin.user.marketing_headline'); %> : </label>
+													<input name="marketing_headline" id="marketing_headline" type="text" class="form-control"  value="<%=(publicBussinessInformaton.marketing_headline) ? publicBussinessInformaton.marketing_headline :"";%>" />
+												</div>
+												<span id="marketing_headline_error" class="error"></span> 
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="marketing_sub_headline" class="control-label"><%= __('admin.user.marketing_sub_headline'); %> : </label>
+													<input name="marketing_sub_headline" id="marketing_sub_headline" type="text" class="form-control"  value="<%=(publicBussinessInformaton.marketing_sub_headline) ? publicBussinessInformaton.marketing_sub_headline :"";%>" />
+												</div>
+												<span id="marketing_sub_headline_error" class="error"></span> 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="alert alert-info">
+									<i class="material-icons pull-left font-18">info</i>&nbsp; <%= __('admin.user.please_leave_blank_if_you_do_not_want_to_change_password'); %>
+								</div>
+							</div>
+						</div> 
+
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="password" class="control-label"><%= __('admin.user.password'); %> 
+											<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.user.password_tooltip'); %>" > : 
+										</label>
+										<div class="password_section">
+											<input name="password" id="password" type="password" class="form-control"/>
+											<a class="password_eye" id="togglePassword" href="javascript:void(0)"><img src="<%=WEBSITE_ADMIN_IMG_URL%>hide-eye.svg" alt="eye"> <img class="show_eye" src="<%=WEBSITE_ADMIN_IMG_URL%>show-eye.svg" alt="eye"></a>
+										</div>
+									</div>
+									<span id="password_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="confirm_password" class="control-label"><%= __('admin.user.confirm_password'); %> : </label>
+										<div class="password_section">
+											<input name="confirm_password" id="confirm_password" type="password" class="form-control"/>
+											<a class="password_eye" id="toggleConfirmPassword" href="javascript:void(0)"><img src="<%=WEBSITE_ADMIN_IMG_URL%>hide-eye.svg" alt="eye"> <img class="show_eye" src="<%=WEBSITE_ADMIN_IMG_URL%>show-eye.svg" alt="eye"></a>
+										</div>
+									</div>
+									<span id="confirm_password_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<button type="button"  id="user-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url+'/'+userType%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.css">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>animate.min.css" rel="stylesheet">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.css" rel="stylesheet">
+	 
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>password_section.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>redemption_code/random_generate.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_DROPDOWN_CALENDER_PATH%>calender.js" type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>FileSaver.min.js" defer></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>canvas-toBlob.min.js" defer></script> 
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>business_banner.js"></script>
+	
+	<script type="text/javascript">
+		
+		/** Start Date of birth function */
+		let startDateDOB = Number("<%= START_DATE_DOB_YEAR %>");
+		let endDateDOB		= new Date().getFullYear();
+		
+		months('<%= result.mm %>');
+		dates('<%= result.dd %>');
+		years('<%= result.yy %>', startDateDOB, endDateDOB);
+	 
+		function monthChanged() {
+			dates('');
+			let dd = document.getElementById("dd").value;
+			$('#dd_error').html('');
+			if(dd==''){
+				$('#dd_error').html('<%= __('admin.user.please_select_date'); %>')
+			}
+		}
+		function yearChanged() {
+			dates('');
+			months('');
+			let dd = document.getElementById("dd").value;
+			let mm = document.getElementById("mm").value;
+			$('#dd_error').html('');
+			$('#mm_error').html('');
+			if(dd==''){
+				$('#dd_error').html('<%= __('admin.user.please_select_date'); %>')
+			}
+			if(mm==''){
+				$('#mm_error').html('<%= __('admin.user.please_select_month'); %>')
+			}
+		}		
+		/** End Date of birth function */
+		
+		
+		$(document).ready(function(){
+			/** get file image name */
+			$('#crop').change(function(e){
+				let fileName = e.target.files[0].name;
+				$('#profile_image_name').val(fileName);
+			});
+			$('#business_banner').change(function(e){
+				let fileName = e.target.files[0].name;
+				$('#business_banner_image_name').val(fileName);
+			});
+			
+			
+			<!-- start account type bussiness details open -->
+			let accountType = '<%= typeof result.account_type != "undefined" && result.account_type != "" ? result.account_type :"" %>';
+			$('.bussiness_class').hide()
+			if(accountType == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>"){
+				$('.bussiness_class').show()
+			}
+			
+			$('.account_type').change(function(){
+				let selectedVal = $(this).val();
+				if(selectedVal == "<%= PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE %>"){
+					$('.bussiness_class').show()
+				}else{
+					$('.bussiness_class').hide()
+				}
+			})
+			<!-- end account type bussiness details open -->
+			
+			/**
+			 * Function to submit form
+			 */
+			$(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+
+				/*** client side validation for reward image*/
+					/** Get the file input element*/
+					var fileInputRewardImage = $('#reward_image')[0];
+
+					/** Get the selected file*/
+					var fileRewardImage = fileInputRewardImage.files[0];
+
+					/** Check file type*/
+					var allowedTypes = '<%= ALLOWED_IMAGE_MIME_EXTENSIONS %>'
+					if (fileInputRewardImage.files.length !== 0 && !allowedTypes.includes(fileRewardImage.type)) {
+						$('#reward_image_error').html('<%= ALLOWED_IMAGE_ERROR_MESSAGE %>');
+						$("html,body").animate({ scrollTop: $('#reward_image_error').offset().top - 150 }, "slow");
+						stopTextLoading(btnId);
+						return;
+					}
+				/*** client side validation for reward image*/
+				 
+				startTextLoading(btnId);
+				submit_crop_image_data("add-user",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+		});
+		
+		/** Phone number format */
+		$(function () {
+			jQuery(function () {
+				jQuery('#mobile').on('input', function (e) {
+					jQuery(this).attr("maxlength", "14");
+					mobileText = jQuery(this);
+					var inputValue = mobileText.val();
+
+					// Remove any non-numeric characters
+					var numericValue = inputValue.replace(/\D/g, '');
+
+					// Format the numeric value with dashes
+					var formattedValue = numericValue.replace(/(\d{3})(\d{1,3})(\d{1,4})/, '$1-$2-$3');
+
+					// Update the input value with the formatted value
+					mobileText.val(formattedValue);
+				});
+			});
+		});
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>store.js"></script>

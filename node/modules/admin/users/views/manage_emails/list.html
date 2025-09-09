@@ -1,0 +1,342 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+<!-- attach reward start -->
+<div class="modal fade modal_open_css" id="show_reward_list_modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="header">
+					<h4 class="modal-title" id="largeModalLabel">
+						<span id="order_number"></span>
+						<%= __('admin.email_broadcast.assign_reward'); %></h4>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="body">
+					<form id="update-attach-reward" action="<%= admin_list_url%>/<%= userType%>/attach_reward_in_template" method="post" class="on_click_submit" role="form">
+						
+						<span class="error no_reward_list"></span>
+						
+						<div class="row clearfix reward_show">
+							<input type="hidden" name="tempalte_id" id="tempalte_id" />
+							<input type="hidden" name="user_id" id="user_id" />
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="title" class="control-label"><%= __('admin.email_broadcast.select_reward'); %> <span class="required"> *</span>:</label>
+										<select data-live-search="true" class="form-control show-tick" id="mySelect" name="attach_reward" >
+											
+											
+										</select>
+									</div>
+									<span id="attach_reward_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						<hr/>
+						<button type="button" id="update-shipping-status-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-submit update-attach-reward-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- attach reward end -->
+
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<!-- Search by Date Range -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+										</div>
+										<input class="form-control hide" id="from_date" type="text" name="from_date">
+										<input class="form-control hide" id="to_date" type="text" name="to_date">
+									</div>
+								</div>
+								
+								<!-- search by template title -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_0" onkeyup="searchDatatable(0)" placeholder="<%= __('admin.email_template.search_by_template_title'); %>">
+										</div>
+									</div>
+								</div>
+								
+								<!-- search by subject -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_1" onkeyup="searchDatatable(1)" placeholder="<%= __('admin.email_template.search_by_subject'); %>">
+										</div>
+									</div>
+								</div>
+								
+							
+								<!-- search by reward name -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_2" onkeyup="searchDatatable(2)" placeholder="<%= __('admin.email_template.search_by_reward_name'); %>">
+										</div>
+									</div>
+								</div>
+								
+								<!-- search by status -->
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<select class="form-control show-tick"id="column_filter_3" onchange="searchDatatable(3)" name="status">
+												<option value=""><%=__("admin.master.search_by_status");%></option>
+												<%
+												if(STATUS_DROP_DOWN && Object.keys(STATUS_DROP_DOWN).length > 0){
+													Object.keys(STATUS_DROP_DOWN).map(searchStatus=>{ %>
+														<option value="<%=STATUS_DROP_DOWN[searchStatus]["status_id"]%>"><%=(STATUS_DROP_DOWN[searchStatus]["status_name"]) ? STATUS_DROP_DOWN[searchStatus]["status_name"] :"";%></option>
+												<% 	});
+												} %>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+									<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType+'/manage_emails/'+userId%>">
+										<%= __("admin.system.reset")%>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.pocial_email.pocial_email_templates'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li> 
+						<li>
+							<a href="<%=admin_list_url%>/<%= userType%>/manage_emails/add/<%= userId %>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li> 
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="20%" ><%= __('admin.email_template.template_title'); %></th>
+								<th width="20%" ><%= __('admin.email_template.subject'); %></th>
+								<th width="15%" ><%= __('admin.email_template.attach_reward_name'); %></th>
+								<th width="15%" ><%= __('admin.system.status'); %></th>
+								<th width="15%" ><%= __('admin.system.modified'); %></th>
+								<th width="15%" ><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css" rel="stylesheet">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 4, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ "data": 'template_title' },
+					{ "data": 'subject' },
+					{
+						"data"			:	'attach_reward_name',
+						"searchable"	: 	false,
+						"render" 		: 	function(rewardName){
+							return (rewardName) ? rewardName :"N/A";
+						}
+					},
+					{
+						"data"		: 	{},
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "is_active",
+						"render"		: function(result){
+							var isActive	= 	(result.is_active)	?	result.is_active	:'<%=DEACTIVE%>';
+							var isDraft 	= 	(result.status) 	? result.status : "";
+							
+							var statusObject 	= 	<%- JSON.stringify(GLOBAL_STATUS_SEARCH_DROPDOWN)%>;
+							var statusClass		=	(statusObject[isActive] && statusObject[isActive]["label_class"]) ? statusObject[isActive]["label_class"] :"";
+							var statusLabel		=	(statusObject[isActive] && statusObject[isActive]["status_name"]) ? statusObject[isActive]["status_name"] :"";
+
+							var draftTab = (isDraft == '<%=DRAFT_STATUS%>')	? '<span class="label label-warning "><%=__("admin.polls.is_draft")%></span>': '<span class="label label-success"><%=__("admin.polls.not_draft")%></span>';
+							var statusTab = '<span class="label '+statusClass+'">'+statusLabel+'</span>';
+							return statusTab+ ' &nbsp;' +draftTab;
+						}
+					},
+					{
+						"data"			:	'modified',
+						"searchable"	: 	false,
+						"render" 		: 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id			= 	(result._id)		?	result._id			:"";
+							var slug		= 	(result.slug)		?	result.slug			:"";
+							var userId		= 	(result.user_id)	?	result.user_id		:"";
+							var isActive	= 	(result.is_active)	?	result.is_active	:'<%=DEACTIVE%>';
+							 
+							/** Active or deactive Status **/
+							var statusConfirmMsg  =	(isActive == '<%= ACTIVE %>') ? "<%= __('confirm_text.deactivate_email_template'); %>"	: "<%= __('confirm_text.activate_email_template'); %>" ;
+							var statusLinkTitle =	(isActive == '<%= ACTIVE %>') ? "<%= __('admin.system.click_to_deactivate'); %>"  : "<%= __('admin.system.click_to_activate'); %>";
+							var statusLinkIcon  =	(isActive == '<%= ACTIVE %>') ? "done" : "block";
+ 						
+							var businessTemplateUrlHideClass = (userId != "<%= POCIAL_ID %>") ? "hide"	:"";
+							
+							
+							return	'<a href="<%=admin_list_url+'/'+userType%>/manage_emails/edit/'+id+'/<%= UPDATE_TEMPLATE_URL_TYPE %>/<%= userId %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.edit"); %>" class="btn bg-teal btn-sm waves-effect" ><i class="material-icons font-14">mode_edit</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/manage_emails/edit/'+id+'/<%= DUPLICATE_TEMPLATE_URL_TYPE %>/<%= userId %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.email_template.duplicate"); %>" class="btn bg-teal btn-sm waves-effect" ><i class="material-icons font-14">control_point_duplicate</i></a>'+
+									'<a href="<%=admin_list_url+'/'+userType%>/manage_emails/view/'+id+'/<%= userId %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.view"); %>" class="btn bg-teal btn-sm waves-effect" ><i class="material-icons font-14">find_in_page</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url+'/'+userType%>/manage_emails_template_status_change/'+id+'/'+isActive+'/<%=ACTIVE_INACTIVE_STATUS%>/<%= userId %>" class="btn bg-teal btn-sm waves-effect confirm_box" data-confirm-message="'+statusConfirmMsg+'" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" data-toggle="tooltip" data-placement="top" title="" data-original-title="'+statusLinkTitle+'"><i class="material-icons font-14">'+statusLinkIcon+'</i></a>'+
+									'<a href="javascript:void(0)" onclick="showModalOpenRewards(event)" data-tempalte_id="'+id+'" data-user_id="'+userId+'" class="btn bg-teal btn-sm waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.email_broadcast.assign_reward"); %>"><i class="material-icons font-14">card_giftcard</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url		:	"<%=admin_list_url+"/"+userType+"/manage_emails/"+userId %>",
+					type	: 	"POST",
+					data : function (d) {
+						d.fromDate	= $('#from_date').val();
+						d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		 
+		
+		/**
+	     * function for use show modal open
+		 */
+		function showModalOpenRewards(event){
+			var currentTarget = event.currentTarget;
+			if(currentTarget != ""){
+				let tempalteId = $(currentTarget).attr('data-tempalte_id');
+				let userId = $(currentTarget).attr('data-user_id');
+				
+				$("#tempalte_id").val(tempalteId);
+				$("#user_id").val(userId);
+				
+				let htmlSelectOption	= '<option value=""><%= __("admin.email_broadcast.please_select_reward"); %></option>';
+				let noRewardMessage		= '<%= __("admin.email_broadcast.no_reward_please_create_new_reward"); %>';
+				
+				$('#overlay1').show();
+				$.ajax({
+					'type'		: 	'POST',
+					'url' 		:	"<%=admin_list_url%>/<%=userType%>/get_rewards_dropdown_list/"+tempalteId+"/"+userId,
+					'success': function (response){
+						let optionsData = (response && response.result) ? response.result : "";
+						
+						if(optionsData=='' || optionsData==null){
+							$('.no_reward_list').html(noRewardMessage);
+							$('.reward_show').hide();
+							$('#show_reward_list_modal').modal('show');
+							$('#overlay1').hide();
+						}else{
+							htmlSelectOption+=optionsData.toString();
+							
+							$("#mySelect").html(htmlSelectOption);
+							$("#mySelect").selectpicker('refresh');
+							 
+							$('#show_reward_list_modal').modal('show');
+							$('#overlay1').hide();
+						}
+					}
+				});
+			}
+		}
+		
+		/** update attach reward in template */
+		$('.update-attach-reward-submit').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('update-attach-reward',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>
+	
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

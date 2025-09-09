@@ -1,0 +1,378 @@
+<%
+	var result			= (typeof result !== typeof undefined && result) ? result : "";	
+	var tempalteId 		= (typeof tempalte_id !== typeof undefined && tempalte_id) ? tempalte_id : "";	
+	var tempalteUrlType = (typeof tempalte_url_type !== typeof undefined && tempalte_url_type) ? tempalte_url_type : "";	
+	var saveButtonName	= (tempalteUrlType==UPDATE_TEMPLATE_URL_TYPE) ? __("admin.system.update") : __("admin.system.save");
+	var formTitleName	= (tempalteUrlType==UPDATE_TEMPLATE_URL_TYPE) ? __("admin.system.edit") : __("admin.email_template.duplicate");
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+%>
+
+<div class="container-fluid" id="main-container">
+	<!--Instruction Note Start -->
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-col-pink">
+						<div class="panel-heading" role="tab" id="panel-heading-id">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+								   aria-controls="panel-collapse-id" class="collapsed">
+									<i class="material-icons">note</i> <%= __('admin.system.note'); %>
+									<span class="pull-right collapse-toggle-icon"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<div class="col-xs-12 col-sm-12">
+										<div class="form-group">
+											<h5 class="paragraph_text"><%= __('manage_email.mandatory_constant_subheading'); %></h5>
+											<ul class="list-group mandatory_constant_subheading">
+												<li class="list-group-item clearfix">
+													1) <%= __('manage_email.reward_image_constant_template'); %>
+													<button type="button" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_email_constant"); %>" onclick="copyToClipboard('<%= REWARD_IMAGE_EMAIL_COPY_CONSTANT %>')" class="btn btn-default waves-effect pull-right">
+														<i class="material-icons">content_copy</i>
+													</button>
+												</li>
+												<!-- <li class="list-group-item clearfix">
+													2) <%= __('manage_email_template.link_constant_email_template'); %>
+													<button type="button" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_email_constant"); %>" onclick="copyToClipboard('<%= LINK_EMAIL_COPY_CONSTANT %>')" class="btn btn-default waves-effect pull-right">
+														<i class="material-icons">content_copy</i>
+													</button>
+												</li> -->
+												<li class="list-group-item clearfix">
+													2) <%= __('manage_email.wallet_constant_email_template'); %>
+													<button type="button" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_email_constant"); %>" onclick="copyToClipboard('<%= WALLET_EMAIL_COPY_CONSTANT %>')" class="btn btn-default waves-effect pull-right">
+														<i class="material-icons">content_copy</i>
+													</button>
+												</li>
+												<li class="list-group-item clearfix">
+													3) <%= __('manage_email.business_constant_email_template'); %>
+													<button type="button" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_email_constant"); %>" onclick="copyToClipboard('<%= BUSINESS_NAME_COPY_CONSTANT %>')" class="btn btn-default waves-effect pull-right">
+														<i class="material-icons">content_copy</i>
+													</button>
+												</li>
+												<li class="list-group-item clearfix">
+													4) <%= __('manage_email.current_year_constant_email_template'); %>
+													<button type="button" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_email_constant"); %>" onclick="copyToClipboard('<%= CURRENT_YEAR_EMAIL_COPY_CONSTANT %>')" class="btn btn-default waves-effect pull-right">
+														<i class="material-icons">content_copy</i>
+													</button>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!--Instruction Note End -->
+	<div class="card">
+		<div class="header">
+			<h2>
+				<%= formTitleName %>
+			</h2>
+			<ul class="header-dropdown m-r--5 btn-right-top-margin">
+				<% if(result.status !="" && result.status==DRAFT_STATUS){ %>
+				<li>
+					<button type="button" class="btn bg-indigo waves-effect btn-discard-draft-submit">
+						<i class="material-icons font-14">delete_forever</i> <%= __("admin.system.discard_draft"); %>
+					</button>
+				</li>
+				<% } %>
+				<li>
+					<button type="button" onclick="sendTestEmailTemplate()" class="btn bg-green waves-effect">
+						<i class="material-icons font-14">send</i> <%= __("admin.system.send_test"); %>
+					</button>
+				</li>
+				<% if(tempalteUrlType==UPDATE_TEMPLATE_URL_TYPE && userId==POCIAL_ID){ %>
+					<li>
+						<a href="<%= admin_list_url%>/<%= userType %>/manage_emails/edit/<%= tempalteId %>/<%= DUPLICATE_TEMPLATE_URL_TYPE %>/<%= userId %>">
+							<button type="button" class="btn bg-indigo waves-effect">
+								<i class="material-icons font-14">control_point_duplicate</i> <%= __("admin.email_template.duplicate"); %>
+							</button>
+						</a>
+					</li>
+				<% } %>
+				<li>
+					<button type="button" onclick="onSavedesign()" class="btn bg-indigo waves-effect">
+						<i class="material-icons font-14">update</i> <%= saveButtonName %>
+					</button>
+				</li>
+				<li>
+					<a href="<%=admin_list_url%>/<%=userType%>/manage_emails/<%= userId %>">
+						<button type="button" class="btn bg-indigo waves-effect">
+							<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+						</button>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="body"> 
+			<div class="row clearfix">
+				<div class="col-sm-12">
+					<div id="editor-container" style="height: 500px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Save email template details modal open -->
+<div class="modal fade modal_open_css" id="save_email_template_modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.email_template.welcome_email_template'); %></h4>
+			</div>
+			<hr/>
+			<div class="modal-body">
+				<div class="body">
+					<form id="update-email-template" action="<%= admin_list_url%>/<%= userType%>/manage_emails/edit/<%= tempalteId %>/<%= tempalteUrlType %>/<%= userId %>" method="post" autocomplete="off" class="on_click_submit" role="form">
+						<input type="hidden" name="design_json" id="design_json" class="form-control"/>
+						<input type="hidden" name="page_body" id="page_body" class="form-control"/>
+						
+						<!-- START SMTP DETAILS -->
+						<div class="col-sm-12 col-md-12 smtp_details_show_hide">
+							<div class="thumbnail">
+								<div class="caption">
+									<h3><%= __("admin.welcome_email.smtp_details"); %></h3>
+									<p>
+										<div class="row clearfix">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="from_email" class="control-label"><%= __("admin.welcome_email.from_email"); %><span class="required"> *</span> :</label>
+														<input type="text" name="from_email" id="from_email" value="<%= (result.from_email) ? result.from_email : "" %>" class="form-control" />
+													</div>
+													<span id="from_email_error" class="error"></span> 
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="host" class="control-label"><%= __("admin.welcome_email.host"); %><span class="required"> *</span> :</label>
+														<input type="text" name="host" id="host" value="<%= (result.host) ? result.host : "" %>" class="form-control" />
+													</div>
+													<span id="host_error" class="error"></span> 
+												</div>
+											</div>
+										</div>
+										
+										<div class="row clearfix">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="port" class="control-label"><%= __("admin.welcome_email.port"); %><span class="required"> *</span> :</label>
+														<input type="text" name="port" id="port" class="form-control" value="<%= (result.port) ? result.port : "" %>" />
+													</div>
+													<span id="port_error" class="error"></span> 
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="email_password" class="control-label"><%= __("admin.welcome_email.email_password"); %><span class="required"> *</span> :</label>
+														<input type="text" name="email_password" id="email_password" class="form-control" value="<%= (result.email_password) ? result.email_password : "" %>" />
+													</div>
+													<span id="email_password_error" class="error"></span> 
+												</div>
+											</div>
+										</div>
+									</p>
+									<p>
+										<span id="smtp_error" class="error"></span> 
+									</p>
+								</div>
+							</div>
+						</div>
+						<!-- END SMTP DETAILS -->
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="template_title" class="control-label"><%= __("admin.complete_email.template_title"); %><span class="required"> *</span> :</label>
+										<input type="text" name="template_title" id="template_title" value="<%= (result.template_title) ? result.template_title : "" %>" class="form-control"/>
+									</div>
+									<span id="template_title_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="subject" class="control-label"><%= __("admin.complete_email.subject"); %><span class="required"> *</span> :</label>
+										<input type="text" name="subject" id="subject" value="<%= (result.subject) ? result.subject : "" %>" class="form-control"/>
+									</div>
+									<span id="subject_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="from" class="control-label"><%= __("admin.welcome_email.from"); %><span class="required"> *</span> :</label>
+										<input type="text" name="from" id="from" value="<%= (result.from) ? result.from : "" %>" class="form-control"/>
+									</div>
+									<span id="from_error" class="error"></span> 
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="title" class="control-label"><%= __('admin.email_broadcast.select_reward'); %> <span class="required"> *</span>:</label>
+										<select data-live-search="true" class="form-control" id="mySelect" name="attach_reward" >
+											<option value=""><%= __("admin.email_broadcast.please_select_reward"); %></option>
+											<%- rewards_dropdown %>
+										</select>
+									</div>
+									<span id="attach_reward_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="description" class="control-label"><%= __("admin.complete_email.description"); %><span class="required"> *</span> :</label>
+										<textarea name="description" id="description" class="form-control" ><%= (result.description) ? result.description : "" %></textarea>
+									</div>
+									<span id="description_error" class="error"></span> 
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<button type="button" id="complete-status-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+								<button type="button" data-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.close"); %></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<!-- Send test email template modal open -->
+<%- include('./sent_test_email_modal.html') %>
+
+<!-- JSON PARSE was not happening so hidden field was taken -->
+<input type="hidden" name="last_design_json" id="last_design_json" value="<%= (result.design_json) ? JSON.stringify(result.design_json) : "" %>" class="form-control"/>
+
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script src="https://editor.unlayer.com/embed.js"></script>
+	
+	<script type="text/javascript">
+		const editor = 	unlayer.createEditor({
+			id: 'editor-container',
+			projectId: 1234,
+			displayMode: 'email'
+		})
+		let jsonString 		= "";
+		let htmlData		= "";
+		let jsonDesignData	= $("#last_design_json").val();
+		
+		$(document).ready(function(){
+			let emailTemplateSubject	= "<%= (result && result.subject) ? result.subject : "" %>";
+			let emailTemplateDescription	= "<%= (result && result.description) ? result.description : "" %>";
+
+			const old				= JSON.stringify(jsonDesignData).replace('{EMAIL_HEADING}', emailTemplateSubject).replace('{EMAIL_DESCRIPTION}', emailTemplateDescription);
+			const loadDesignData	= JSON.parse(old);
+			setTimeout(function(){
+				editor.loadDesign(JSON.parse(loadDesignData))
+			}, 500);
+
+			// setTimeout(function(){
+			// 	editor.loadDesign(JSON.parse(jsonDesignData))
+			// }, 500);
+			
+			/*** save email template data*/
+			$('.btn-submit').click(function(){
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				ajax_submit('update-email-template',function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+						stopTextLoading(btnId);
+					}
+				});				
+			});
+			
+			/*** send test email template data*/
+			$('.btn-send-test-submit').click(function(){
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				ajax_submit('send-test-email-template',function(status,response){
+					if(status){
+						stopTextLoading(btnId);
+						$('#send_test_email_template_modal').modal('hide');
+					}else{
+						changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+						stopTextLoading(btnId);
+					}
+				});			
+			});
+
+			/*** discard draft email */
+			$('.btn-discard-draft-submit').click(function(){
+				confirmBox("warning","<%= __("admin.system.are_you_sure") %>","<%= __("admin.eamil_template.you_want_to_discard_draft_email") %>",function(result){
+					window.location.href = '<%=admin_list_url+'/'+userType%>/manage_emails/delete_template_draft/<%= tempalteId %>/<%= userId %>';
+					swal.close();		
+				});
+			});
+		});
+		
+		/** this function is used to get html body in template*/
+		function onSavedesign() {
+			$('#overlay1').show();
+			editor.exportHtml(function (data) {
+				editor.saveDesign(function (design) {
+					jsonString = JSON.stringify(design);
+					htmlData = data.html;
+					$('#overlay1').hide();
+					$('#design_json').val(jsonString);
+					$('#page_body').val(htmlData);
+
+					/**
+					$('#template_title').val('<%= (result.template_title) ? result.template_title : "" %>');
+					$('#subject').val('<%= (result.subject) ? result.subject : "" %>');
+					$('#description').val('<%= (result.description) ? result.description : "" %>');
+					$('#from').val('<%= (result.from) ? result.from : "" %>');
+					$('#from_email').val('<%= (result.from_email) ? result.from_email : "" %>');
+					$('#host').val('<%= (result.host) ? result.host : "" %>');
+					$('#email_password').val('<%= (result.email_password) ? result.email_password : "" %>');
+					$('#port').val('<%= (result.port) ? result.port : "" %>');*/
+					$('#template_title_error, #subject_error, #from_error, #attach_reward_error, #description_error, #from_email_error, #host_error, #email_password_error, #port_error').html('');
+
+					$('#save_email_template_modal').modal('show');
+				});				
+			});
+		}
+
+		/** this function is used to send test email template*/
+		function sendTestEmailTemplate(){
+			$('#overlay1').show();
+			editor.exportHtml(function(data) {
+				htmlData	= data.html;
+				$('#overlay1').hide();
+				$('#page_body_send_test').val(htmlData);
+				$('#send_test_email_template_modal').modal('show');
+			});
+		}
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>html2canvas.js"></script>

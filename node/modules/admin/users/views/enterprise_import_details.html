@@ -1,0 +1,226 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ?	user_type :"";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var enterpriseId 	= (typeof enterprise_id !== typeof undefined && enterprise_id) ? enterprise_id : "";
+	
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by email -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0" onkeyup="searchDatatable(0)" placeholder="<%= __('admin.user.search_by_email'); %>">
+											</div>
+										</div>
+									</div>
+									<!-- Search by zip code -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1" onkeyup="searchDatatable(1)" placeholder="<%= __('admin.user.search_by_zipcode'); %>">
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url+'/'+userType+'/enterprise_import_details/'+enterpriseId+'/'+userId%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2 class="lead-excel-class">
+						<%= __("admin.leads_file.import_file_logs"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/enterprise_upload_list/'+userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+                    <table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th><%= __('admin.user.email'); %></th>
+                                <th><%= __('admin.user.zip_code'); %></th>
+                                <th><%= __('admin.user.website_url'); %></th>
+                                <th><%= __('admin.user.instagram_url'); %></th>
+								<th><%= __('admin.user.location_name'); %></th>
+								<th><%= __('admin.import.reasons'); %></th>
+                                <th><%= __('admin.system.status'); %></th>
+                                <th><%= __('admin.system.created'); %> </th>
+                            </tr>
+                        </thead>
+                    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		var checkboxArray	=	{};
+
+		$(document).ready(function() {
+			
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: 	[[7, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data" 		: "email",
+						"render" 	: function(email){
+							if(email){
+								return 	(email) ? '<a href="mailto:'+email+'">'+email+'</a>' : email;
+							}else{
+								return "N/A"
+							}
+						}
+					},
+					{
+						"data" 		: "zip_code",
+						"render" 	: function(zip_code){
+							return 	(zip_code) ? zip_code : "N/A";
+						}
+					},
+                    {
+						"data" 		: "website_url",
+						"render" 	: function(website_url){
+							return 	(website_url) ? website_url : "N/A";
+						}
+					},
+                    {
+						"data" 		: "instagram_profile_url",
+						"render" 	: function(instagram_profile_url){
+							return 	(instagram_profile_url) ? instagram_profile_url : "N/A";
+						}
+					},
+					{
+						"data" 		: "location_name",
+						"render" 	: function(location_name){
+							return 	(location_name) ? location_name : "N/A";
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false, 
+						"render": function(result){
+							/** Failed reason **/						
+							var failed_reason	=	(result && result.failed_reason) ? result.failed_reason : [];
+							 
+							var sub_array = "";
+							for( i=0; i<failed_reason.length; i++ ){
+								sub_array	+=	'<li>'+failed_reason[i]+'</li>'
+							}
+							
+							if(sub_array.length==0){
+								sub_array='<li><%= __("admin.system.no_reasons_found"); %></li>'
+							}
+							return sub_array;
+    
+						}
+					},
+				
+                    {
+						"data"		 : 'sheet_status',
+						"searchable" : 	false,
+						"field_name":   "sheet_status",
+						"render" 	 : 	function(excelProcess){
+							let processStatus	=	"N/A"
+							if(excelProcess=='<%= LEADS_PENDING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-amber"><%= __("admin.leads_file.pending"); %></span>';
+							}else if(excelProcess=='<%= LEADS_PROCESSING_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-blue"><%= __("admin.leads_file.processing"); %></span>';
+							}else if(excelProcess=='<%= LEADS_COMPLETE_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-green"><%= __("admin.leads_file.completed"); %></span>';
+							}else if(excelProcess=='<%= LEADS_REJECTED_EXCEL_PROCESS %>'){
+								processStatus	=	'<span class="label bg-red"><%= __("admin.leads_file.rejected"); %></span>';
+							}
+							return	processStatus;
+						}
+					},
+					{
+						"data"	: 'created',
+						"orderable"	: false,
+						"searchable" : false,
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url+"/"+userType+"/enterprise_import_details/"+enterpriseId+"/"+userId %>",
+					type	: 	"POST",
+					data	: function (d) {},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw();
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

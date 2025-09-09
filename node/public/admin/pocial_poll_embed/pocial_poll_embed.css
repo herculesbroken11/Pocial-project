@@ -1,0 +1,3146 @@
+@font-face {
+	font-family: 'axiformabold';
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.eot');
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.woff2') format('woff2'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.woff') format('woff'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.ttf') format('truetype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-bold-webfont.svg#axiformabold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'axiformaextrabold';
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.eot');
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.woff2') format('woff2'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.woff') format('woff'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.ttf') format('truetype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-extrabold-webfont.svg#axiformaextrabold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+@font-face {
+	font-family: 'axiformamedium';
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.eot');
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.eot?#iefix') format('embedded-opentype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.woff2') format('woff2'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.woff') format('woff'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.ttf') format('truetype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-medium-webfont.svg#axiformamedium') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'axiformasemibold';
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.eot');
+	src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.woff2') format('woff2'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.woff') format('woff'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.ttf') format('truetype'),
+		url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma-semibold-webfont.svg#axiformasemibold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'axiformabook';
+    src: url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma_book-webfont.woff2') format('woff2'),
+         url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma_book-webfont.woff') format('woff'),
+         url('https://d5cvgp25mt3yl.cloudfront.net/uploads/embed_fonts/axiforma_book-webfont.svg#axiformabook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul li {
+	font-size: 14px;
+}
+
+a {
+	-moz-transition: all 0.5s ease 0s;
+	-ms-transition: all 0.5s ease 0s;
+	-o-transition: all 0.5s ease 0s;
+	-webkit-transition: all 0.5s ease 0s;
+	transition: all 0.5s ease 0s;
+	outline: none;
+}
+
+figure {
+	margin: 0;
+}
+
+img {
+	max-width: 100%;
+	-ms-transition: all .8s ease 0s;
+	-moz-transition: all .8s ease 0s;
+	-o-transition: all .8s ease 0s;
+	-webkit-transition: all .8s ease 0s;
+	transition: all .8s ease 0s
+}
+
+.btn:focus,
+.btn.focus {
+	outline: 0;
+	box-shadow: none;
+}
+
+.btn-primary {
+	background-color: #3188A3;
+	border: none;
+	outline: 0;
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	padding: 6px 26px;
+	line-height: 1.5;
+	border-radius: 24px;
+	font-size: 15px;
+	font-family: 'axiformasemibold';
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+	background-color: #3DA092;
+	box-shadow: none;
+}
+
+.btn-secondary {
+	background-color: #ffffff;
+	border: none;
+	outline: 0;
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	padding: 6px 26px;
+	line-height: 1.5;
+	border-radius: 24px;
+	font-size: 15px;
+	font-family: 'axiformasemibold';
+	color: #333333;
+	-webkit-box-shadow: 0px 0px 10px 0px #0000001D;
+	box-shadow: 0px 0px 10px 0px #0000001D;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus {
+	background-color: #3DA092;
+	box-shadow: none;
+}
+
+@keyframes ripple {
+	from {
+		transform: scale(1);
+		opacity: 0.4;
+	}
+
+	to {
+		transform: scale(30);
+		opacity: 0;
+	}
+}
+
+.right-login-image figure {
+	-webkit-animation: ImgBounce 0.9s ease-in-out 0s infinite alternate;
+	animation: ImgBounce 0.9s ease-in-out 0s infinite alternate;
+	animation-name: ImgBounce;
+}
+
+@-webkit-keyframes ImgBounce {
+	0% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	100% {
+		-webkit-transform: translateY(-30px);
+		transform: translateY(-30px);
+	}
+}
+
+@keyframes ImgBounce {
+	0% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	100% {
+		-webkit-transform: translateY(-30px);
+		transform: translateY(-30px);
+	}
+}
+
+
+@keyframes zoom-in-zoom-out {
+	0% {
+		transform: scale(0.7, 0.7);
+	}
+
+	50% {
+		transform: scale(1.0, 1.0);
+	}
+
+	100% {
+		transform: scale(0.7, 0.7);
+	}
+}
+
+@media (min-width:992px) and (max-width:1199px) {}
+
+/**/
+.upload_files {
+	border: 1px solid #ddd;
+	min-height: 270px;
+	border-radius: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.custom-upload input {
+	width: auto;
+	margin: auto;
+	display: flex;
+	opacity: 0;
+	cursor: pointer;
+	z-index: 99;
+	position: relative;
+	height: 50px;
+}
+
+.custom-upload a {
+	display: inline-block;
+	color: #3188A3;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.custom-upload figure {
+	position: absolute;
+	right: 0;
+	left: 0;
+	margin: auto;
+	text-align: center;
+	top: 15px;
+	bottom: auto;
+	padding: 10px 10px;
+}
+
+.custom-upload {
+	position: relative;
+	padding: 20px 20px 20px;
+}
+
+.custom-upload .drag_image {
+	display: block;
+	padding: 23px 0 10px;
+	font-size: 12px;
+	color: #5d5d5d;
+}
+
+.custom-upload figure img {
+	width: 51px;
+}
+
+.create_poll_right {
+	padding-top: 20px;
+}
+
+.create_poll_box {
+	padding: 0 0 30px;
+}
+
+.attach_file a {
+	box-shadow: 0px 3px 6px #00000029;
+	height: 29px;
+	width: 29px;
+	display: block;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 29px;
+	background-color: #fff;
+}
+
+.attach_file {
+	position: absolute;
+	right: 13px;
+	top: 12px;
+}
+
+.text_question .form-control {
+	border: none;
+	padding: 0;
+	font-size: 24px;
+	color: #333;
+	box-shadow: none;
+}
+
+.text_question .form-control::placeholder {
+	color: #5d5d5d;
+	opacity: 0.5;
+}
+
+.text_question {
+	padding: 12px 0 10px;
+}
+
+.poll_tab_boxes .form-group .form-control {
+	height: 69px;
+	border-radius: 8px;
+	box-shadow: none;
+	border: 1px solid #D1D1D1;
+}
+
+.poll_tab_boxes {
+	position: relative;
+	padding: 0 0 0 80px;
+}
+
+.poll_tab_boxes label {
+	border-radius: 8px;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 69px;
+	width: 68px;
+	margin-top: -1px;
+	background-color: #DFEAED;
+	text-align: center;
+}
+
+.poll_tab_boxes label img {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: center;
+	transform: translateY(-50%);
+}
+
+.poll_tab_boxes label input {
+	width: 100%;
+	margin: auto;
+	display: flex;
+	opacity: 0;
+	cursor: pointer;
+	height: 100%;
+}
+
+.poll_content ul li {
+	display: block;
+	padding: 7px 0;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link {
+	border: none;
+	font-size: 12px;
+	color: #333;
+	padding: 5px 0px 5px 30px;
+	position: relative;
+}
+
+.media_text_poll .nav-tabs {
+	border-bottom: none;
+	margin: 15px 0 13px;
+}
+
+.media_text_poll .nav-tabs .nav-item {
+	margin-right: 25px;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link.active i {
+	background-color: #3188a3;
+	border: none;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link i {
+	border: 1px solid #DBDBDB;
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+	border-radius: 4px;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: -2px 0 0;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link.active i img {
+	display: none;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link i .active_img {
+	display: none;
+}
+
+.media_text_poll .nav-tabs .nav-item .nav-link.active i .active_img {
+	display: inline-block;
+}
+
+.add_option {
+	border: 1px dashed #D1D1D1;
+	border-radius: 10px;
+	height: 69px;
+	line-height: 69px;
+	text-align: center;
+	margin: 10px 0 0;
+}
+
+.add_option a {
+	font-size: 14px;
+	color: #333;
+}
+
+.add_option a img {
+	margin: -6px 12px 0 0;
+}
+
+.add_option a {
+	font-size: 14px;
+	color: #333;
+	text-decoration: none;
+}
+
+.next_cancel {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 33px 0 0;
+}
+
+.next_cancel .cancel_btn a {
+	font-size: 12px;
+	color: #5d5d5d;
+	text-decoration: none;
+}
+
+.next_cancel .bottom-group {
+	margin: 0;
+}
+
+.next_cancel .bottom-group .btn-primary {
+	padding: 12px 24px 11px 23px;
+	font-size: 13px;
+}
+
+.poll_tab_boxes .form-group .delete-field {
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.poll_tab_boxes .form-group {
+	position: relative;
+}
+
+.poll_tab_boxes .form-group .delete-field img {
+	width: 15px;
+	height: 17px;
+}
+
+
+/*==================31-03-2022 Ishwar Work =================*/
+
+.right_sec_fix {
+	overflow-y: auto;
+	height: 100%;
+	padding-bottom: 68px;
+	background-color: #fff;
+}
+
+.right-fixed {
+	position: fixed;
+	right: 0px;
+	top: 87px;
+	width: 395px;
+	border: 1px #eeecec solid;
+	height: calc(100vh - 88px);
+}
+
+.right-fixed::after {
+	position: absolute;
+	left: -80px;
+	width: 164px;
+	background-image: url(../images/shapes.svg);
+	background-repeat: no-repeat;
+	content: '';
+	height: 100%;
+	top: 0;
+	z-index: -1;
+	background-position: center;
+}
+
+.right_sec_fix .right_fix_contact {
+	padding: 18px 30px;
+	border-bottom: 1px #ccc solid;
+	margin: 0px auto;
+}
+
+.right_sec_fix .right_fix_contact h3 {
+	font-size: 18px;
+	color: #333333;
+	font-family: Axiforma, 'axiformasemibold';
+	margin-bottom: 36px;
+}
+
+.right_sec_fix .right_fix_contact h3 span {
+	width: 24px;
+	height: 18px;
+	font-size: 13px;
+	color: #5d5d5d;
+}
+
+.right_sec_fix .right_fix_contact .heading_right {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading figure {
+	flex: 0 0 34px;
+	height: 34px;
+	max-width: 34px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading figure img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading h4 {
+	font-size: 14px;
+	color: #333333;
+	margin: auto 15px;
+	font-family: Axiforma, 'axiformasemibold';
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-height: 34px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading_right_sec {
+
+	padding-left: 10px;
+}
+
+.right_sec_fix .right_fix_contact .heading_right .inner_heading_right_sec p {
+	font-size: 10px;
+	color: #b7b7b7;
+	margin-bottom: 0;
+	font-family: 'axiformamedium';
+}
+
+
+.right_sec_fix .right_text_box {
+	padding: 15px 0px 0;
+}
+
+.right_sec_fix .right_text_box p {
+	font-size: 12px;
+	color: #333333;
+	margin-bottom: 15px;
+}
+
+.right_sec_fix .coment_sec {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.right_sec_fix .coment_sec a {
+	text-decoration: none;
+}
+
+.right_sec_fix .coment_sec a .active {
+	color: #3188a3;
+}
+
+.right_sec_fix .coment_sec .like_sec {
+	display: flex;
+	align-items: center;
+}
+
+.right_sec_fix .coment_sec .like_sec a,
+.right_sec_fix .coment_sec .unlinke_box a {
+	height: 25px;
+	border-radius: 13px;
+	color: #000;
+	font-size: 14px;
+	padding: 0 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.right_sec_fix .coment_sec .like_sec a span,
+.right_sec_fix .coment_sec .unlinke_box a span {
+	height: 16px;
+}
+
+.right_sec_fix .coment_sec .like_sec a:hover,
+.right_sec_fix .coment_sec .unlinke_box a:hover {
+	background-color: #ECF2F5;
+}
+
+.right_sec_fix .coment_sec .like_sec a .linke_box,
+.right_sec_fix .coment_sec .unlinke_box a .linke_box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.right_sec_fix .coment_sec .like_sec a img,
+.right_sec_fix .coment_sec .unlinke_box a img {
+	margin-left: 9px;
+}
+
+
+.right_sec_fix .coment_sec .like_sec .linke_box img {
+	width: 17px;
+	height: 14px;
+	margin-left: 5px;
+}
+
+.right_sec_fix .coment_sec .like_sec .unlinke_box {
+	display: flex;
+	margin-left: 22px;
+}
+
+
+.right_sec_fix .coment_sec .share_right_box {
+	display: flex;
+	align-items: cente;
+}
+
+.right_sec_fix .coment_sec .share_right_box span {
+	font-size: 12px;
+	font-family: Axiforma, 'axiformasemibold';
+	color: #5d5d5d;
+}
+
+.right_sec_fix .coment_sec .share_right_box img {
+	margin-right: 10px;
+	height: 13px;
+}
+
+
+.form-group.cstum_design {
+	display: flex;
+	position: fixed;
+	bottom: 0px;
+	width: 379px;
+}
+
+.form-group.cstum_design input {
+	height: 68px;
+	border: 0;
+	border-top: 1px #eeecec solid;
+	border-radius: 0;
+	font-size: 14px;
+	font-family: 'axiformamedium';
+}
+
+.form-group.cstum_design a.send_sec {
+	position: absolute;
+	right: 22px;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+
+.body-comment {
+	padding-right: 395px;
+}
+
+/* New CSS here */
+.poll_tab_boxes .form-group .embed_progress {
+	height: 69px;
+	position: relative;
+	border-radius: 10px;
+	background-color: transparent;
+	border: 1px solid #EAEAEA;
+}
+
+.poll_tab_boxes .form-group .embed_progress::before {
+	background-image: url(../images/progress-shape.svg);
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 100%;
+	width: 40px;
+	left: 0;
+	top: 0;
+	content: '';
+	z-index: 1;
+}
+
+.poll_tab_boxes .form-group .embed_progress>span {
+	position: absolute;
+	font-size: 16px;
+	color: #000;
+	font-family: 'axiformamedium';
+	top: 0;
+	left: 0;
+}
+
+.poll_tab_boxes .form-group .embed_progress .pocial_progress_bar_embed {
+	background-color: #e1f0f7;
+	border-radius: 10px;
+}
+
+.poll_tab_boxes .form-group .embed_progress .pocial_progress_bar_embed span {
+	position: absolute;
+	font-size: 16px;
+	color: #000;
+	font-family: 'axiformamedium';
+	top: 0;
+	right: 0;
+}
+
+.poll-carousel.owl-carousel .owl-dots .owl-dot.active {
+	background: rgb(73, 185, 165);
+	/* Old browsers */
+	background: -moz-linear-gradient(top, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#49b9a5', endColorstr='#2e84a4', GradientType=0);
+	/* IE6-9 */
+}
+
+.poll-carousel.owl-carousel .owl-dots {
+	text-align: center;
+	position: absolute;
+	bottom: -22px;
+	left: 0px;
+	width: 100%;
+
+}
+
+.poll-carousel.owl-carousel .owl-dots .owl-dot {
+	height: 12px;
+	width: 12px;
+	border-radius: 50%;
+	-ms-transition: all 0.5s ease 0s;
+	-moz-transition: all 0.5s ease 0s;
+	-o-transition: all 0.5s ease 0s;
+	-webkit-transition: all 0.5s ease 0s;
+	transition: all 0.5s ease 0s;
+	background-color: #a9a9a9;
+	outline: none;
+	margin-right: 7px;
+	display: inline-block;
+}
+
+.poll-carousel {
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.poll-carousel .owl-stage-outer {
+	padding: 80px 0px;
+}
+
+.poll-name strong {
+	display: block;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 12px 0px;
+}
+
+.poll-carousel .owl-item .poll-block {
+	-moz-transform: scale(0.89);
+	-ms-transform: scale(0.89);
+	-o-transform: scale(0.89);
+	-webkit-transform: scale(0.89);
+	transform: scale(0.89);
+	-ms-transition: all .8s ease 0s;
+	-moz-transition: all .8s ease 0s;
+	-o-transition: all .8s ease 0s;
+	-webkit-transition: all .8s ease 0s;
+	transition: all .8s ease 0s;
+}
+
+.poll-carousel .owl-item.center .poll-block {
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+.poll-carousel .owl-item .poll-block {
+	text-align: center;
+}
+
+.poll-carousel .owl-item img {
+	display: inline-block;
+	width: 100%;
+}
+
+.poll-carousel.owl-carousel .owl-dots .owl-dot.active {
+	background: rgb(73, 185, 165);
+	/* Old browsers */
+	background: -moz-linear-gradient(top, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(73, 185, 165, 1) 0%, rgba(46, 132, 164, 1) 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#49b9a5', endColorstr='#2e84a4', GradientType=0);
+	/* IE6-9 */
+	width: 17px;
+	border-radius: 100px;
+}
+
+.poll-carousel.owl-carousel .owl-dots {
+	text-align: center;
+	position: absolute;
+	bottom: -22px;
+	left: 0px;
+	width: 100%;
+}
+
+.poll-carousel.owl-carousel .owl-dots .owl-dot {
+	height: 6px;
+	width: 6px;
+	border-radius: 50%;
+	-ms-transition: all 0.5s ease 0s;
+	-moz-transition: all 0.5s ease 0s;
+	-o-transition: all 0.5s ease 0s;
+	-webkit-transition: all 0.5s ease 0s;
+	transition: all 0.5s ease 0s;
+	background-color: #a9a9a9;
+	outline: none;
+	margin-right: 7px;
+	display: inline-block;
+}
+
+.videoblock {
+	overflow: hidden;
+	border-radius: 20px;
+	display: flex;
+	max-height: 768px;
+	align-items: center;
+	justify-content: center;
+}
+
+.poll-image {
+	position: relative;
+	border-radius: 20px;
+	overflow: hidden;
+	max-height: 768px;
+}
+
+.poll-image::before {
+	background: transparent linear-gradient(2deg, #000000 0%, #00000000 82%) 0% 0% no-repeat padding-box;
+	width: 100%;
+	height: 138px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	content: '';
+}
+
+.check-circle {
+	position: absolute;
+	width: 43px;
+	height: 43px;
+	border: solid 2px #fff;
+	border-radius: 50%;
+	background-color: transparent;
+	right: 30px;
+	bottom: 30px;
+}
+
+.poll-image figure {
+	height: 100%;
+}
+
+.poll-image figure img {
+	height: 100%;
+	object-fit: cover;
+}
+
+.donate-button {
+	padding: 0 10px;
+}
+
+.donate-button a {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.donate-button a span {
+	margin-left: auto;
+}
+
+.donate-button a img {
+	/* top: 50%;
+transform: translateY(-50%);
+right: 16px;
+position: absolute; */
+	margin-left: auto;
+	-ms-transition: all .8s ease 0s;
+	-moz-transition: all .8s ease 0s;
+	-o-transition: all .8s ease 0s;
+	-webkit-transition: all .8s ease 0s;
+	transition: all .8s ease 0s;
+	position: relative;
+}
+
+.poll_tab_boxes.donate_box label {
+	top: 0;
+	transform: none;
+}
+
+.top_box {
+	border: 1px solid #ddd;
+	border-radius: 10px;
+
+	height: 254px;
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.top_box>div {
+	flex: 0 0 100%;
+	max-width: 100%;
+}
+
+.top_links .share_link {
+	border: 1px solid #DDDADA;
+	width: 27px;
+	height: 27px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.top_links .share_link:hover {
+	background-color: #3188A3;
+	border-color: #3188A3;
+}
+
+.top_links .share_link:hover img {
+	filter: brightness(0) invert(1);
+}
+
+.mid_links a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 95px;
+	height: 95px;
+	margin: 0 auto;
+	background-image: url(../images/logo-circle1.svg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.mid_links a figure {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 75px;
+	height: 75px;
+}
+
+.left_data a {
+	font-size: 14px;
+	color: #000;
+	text-decoration: none;
+}
+
+.mid_data .total_count {
+	font-size: 14px;
+	color: #000;
+}
+
+.mid_data .total_count span {
+	background-color: #6EABBE;
+	border-radius: 25px;
+	padding: 0 10px;
+	height: 27px;
+	line-height: 31px;
+	color: #fff;
+	margin-left: 10px;
+}
+
+.user_list {
+	display: flex;
+	align-items: center;
+}
+
+.user_list ul {
+	display: flex;
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.user_list ul li figure {
+	border: 2px solid #FFFFFF;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+}
+
+.user_list ul li {
+	position: relative;
+}
+
+.user_list ul li:first-child {
+	z-index: 1;
+}
+
+.user_list ul li:last-child {
+	z-index: -1;
+}
+
+.user_list ul li+li {
+	margin-left: -15px;
+}
+
+.top_links {
+	margin-bottom: auto;
+}
+
+.bottom_links {
+	margin-top: auto;
+}
+
+@media (max-width:991px) {
+	.body-comment {
+		padding-right: 0;
+	}
+
+	.right-fixed {
+		display: none;
+	}
+
+	.poll-name strong {
+		font-size: 12px;
+	}
+
+	.check-circle {
+		right: 10px;
+		bottom: 10px;
+		width: 25px;
+		height: 25px;
+	}
+}
+
+@media (max-width:767px) {
+	.top_box {
+		padding: 10px;
+	}
+
+	.left_data a,
+	.mid_data .total_count,
+	.user_list {
+		font-size: 12px;
+	}
+
+	.left_data {
+		flex: 0 0 100%;
+		max-width: 100%;
+		text-align: center;
+		padding-bottom: 15px;
+	}
+
+	.bottom_links {
+		flex-wrap: wrap;
+	}
+}
+
+
+/********performance popup ********/
+
+.performance-popup {
+	width: 928px;
+}
+
+.performance-popup .back-link {
+	padding-left: 28px;
+}
+
+.carnival-head {
+	margin-top: 25px;
+	padding: 0 28px;
+}
+
+.carnival-head h2 {
+	font-size: 20px;
+	color: #333333;
+	font-family: Axiforma, 'axiformabold';
+	margin-bottom: 10px;
+}
+
+.carnival-head p {
+	font-size: 13px;
+	color: #5D5D5D;
+	font-family: Axiforma, 'axiformamedium';
+	margin-bottom: 0;
+
+}
+
+.carnival-head .vote-box {
+	margin-top: 34px;
+	margin-bottom: 37px;
+}
+
+.carnival-head .vote-box span {
+	font-size: 15px;
+	color: #333333;
+	font-family: Axiforma, 'axiformasemibold';
+}
+
+.carnival-head .vote-box span.vote-counter {
+	padding: 6px 11px;
+	background-color: #3188A3;
+	border-radius: 15px;
+	color: #fff;
+	margin-left: 20px;
+	font-family: Axiforma, 'axiformamedium';
+}
+
+/* div#performance-accordion{
+padding: 28px;
+} */
+div#performance-accordion .accordion-item {
+	border: none;
+	/* padding: 10px 0; */
+}
+
+.performance-popup .accordion .accordion-item .accordion-header {
+	padding: 17px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.performance-popup .accordion .accordion-item.open .accordion-header {
+	border-bottom: none;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button {
+	width: auto;
+	background-color: transparent;
+	border: none;
+	padding-right: 0;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button:not(.collapsed) {
+	box-shadow: none;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button::after {
+	display: none;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button {
+	background-color: #3188A3;
+	color: #fff;
+	border: 1px solid #3188A3;
+	padding: 8px 16px 6px 16px;
+	width: 70px;
+	border-radius: 30px;
+	line-height: 18px;
+	font-family: Axiforma, 'axiformamedium';
+	font-size: 15px;
+	position: relative;
+
+}
+
+.performance-popup .accordion .accordion-header .accordion-button.collapsed {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	color: #3188A3;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button.collapsed span.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button.collapsed span.hide {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button span {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 1;
+	visibility: visible;
+}
+
+.performance-popup .accordion .accordion-header .accordion-button span.show {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.performance-popup .accordion h2.accordion-heading {
+	flex: 1;
+	padding: 10px 28px;
+	margin-bottom: 0;
+}
+
+.performance-popup .accordion h2.accordion-heading span.heading {
+	margin-bottom: 0;
+	font-size: 16px;
+	color: #5d5d5d;
+	font-family: Axiforma, 'axiformamedium';
+}
+
+.performance-popup .accordion h2.accordion-heading span.heading strong {
+	color: #333333;
+	font-family: Axiforma, 'axiformabold';
+}
+
+.performance-popup .accordion h2.accordion-heading span {
+	font-size: 16px;
+	color: #3188A3;
+	line-height: 18px;
+	margin-right: 27px;
+	font-family: Axiforma, 'axiformabold';
+}
+
+div#performance-accordion .accordion-item .accordion-body {
+	padding: 10px 28px 39px;
+}
+
+div#performance-accordion .accordion-item.open {
+	background-color: #F9FCFC;
+	border-left: 8px solid #3188A3;
+}
+
+div#performance-accordion .accordion-item .accordion-body .accordion-percentage-indicator ul {
+	display: flex;
+	align-items: center;
+	margin-bottom: 47px;
+}
+
+div#performance-accordion .accordion-item .accordion-body .accordion-percentage-indicator ul li {
+	display: flex;
+	align-items: center;
+	width: 25%;
+	padding-right: 10px;
+}
+
+div#performance-accordion .accordion-item .accordion-body .accordion-percentage-indicator ul li .content {
+	margin-left: 25px;
+}
+
+div#performance-accordion .accordion-item .accordion-body .accordion-percentage-indicator ul li .content p {
+	margin-bottom: 0;
+	font-size: 16px;
+	line-height: 18px;
+	color: #5d5d5d;
+	font-family: Axiforma, 'axiformamedium';
+	margin-bottom: 3px;
+}
+
+div#performance-accordion .accordion-item .accordion-body .accordion-percentage-indicator ul li .content span {
+	font-family: Axiforma, 'axiformabold';
+	font-size: 16px;
+	color: #333333;
+}
+
+div#performance-accordion .accordion-item.open {
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+}
+
+
+
+/*************** squre-page ****************/
+
+.offers-section {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
+	padding: 20px 45px 20px;
+	text-align: center;
+	margin: 20px 0px 0;
+	position: relative;
+	z-index: 1;
+}
+
+.text-poll-box {
+	padding: 0 45px;
+}
+
+.offers-section .offer-head figure {
+	margin: -8px 0 0;
+}
+
+.offers-section::before {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 95%;
+	z-index: 1;
+	border-top: 1px solid #000;
+	content: "";
+	margin: 0 auto;
+}
+
+.offers-section .offer-head {
+	background-color: #fff;
+	display: flex;
+	padding: 0px 40px;
+	position: relative;
+	z-index: 1;
+	align-items: center;
+}
+
+.offers-section .offer-head h2 {
+	margin-left: 0px;
+	margin-bottom: 0;
+	font-size: 38px;
+	text-transform: capitalize;
+	color: #333333;
+	font-style: italic;
+	font-family: 'axiformabold';
+
+}
+
+.offers-section .offer-head h2 img {
+	margin: -16px 0 0;
+}
+
+.product-select-box .squre-inner-box {
+	width: 100%;
+	margin: 0 auto;
+	max-width: 435px;
+	border: 1px solid #DBDBDB;
+}
+
+.product-select-box .product-selector {
+	padding: 25px 0;
+	background-color: #fff;
+	position: relative;
+	/* display: inline-block; */
+}
+
+.product-select-box .squre-inner-box figure::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	top: auto;
+	left: 0;
+	right: 0;
+	height: 110px;
+	background: url(../images/after-white-shadow.svg) no-repeat center;
+}
+
+.product-select-box .product-selector .formcheck {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	padding: 8px 20px;
+	margin-bottom: 15px;
+}
+
+.product-select-box .product-selector .formcheck:nth-last-child(1) {
+	margin-bottom: 0;
+}
+
+.product-select-box .product-selector .formcheck label {
+	font-size: 18px;
+	color: #333333;
+	font-family: Axiforma, 'axiformamedium';
+	line-height: 21px;
+}
+
+.product-select-box .product-selector .formcheck .pocial-formcheck-input:checked[type=radio] {
+	background-image: url(../images/product_white_check_icon-01.svg);
+	background-size: 15px;
+}
+
+.product-select-box .product-selector .formcheck .pocial-formcheck-input {
+	width: 23px;
+	height: 23px;
+	border-color: #5D5D5D;
+}
+
+.product-select-box .product-selector .formcheck .pocial-formcheck-input:checked {
+	background-color: #3188A3;
+	border-color: #3188A3;
+}
+
+.product-select-box .product-selector .formcheck .pocial-formcheck-input:checked:focus {
+	background-color: #3188A3;
+	border-color: #3188A3;
+	box-shadow: none;
+	outline: none;
+}
+
+.product-select-box h2 {
+	font-size: 32px;
+	color: #333333;
+	text-align: center;
+	margin-bottom: 35px;
+	font-family: Axiforma, 'axiformamedium';
+	margin-top: 40px;
+}
+
+.product-select-box {
+	padding: 0 45px 50px;
+}
+
+.product-select-box .squre-inner-box figure {
+	position: relative;
+}
+
+.product-select-box .squre-inner-box figure button.fullscreen-view {
+	border: none;
+	background-color: transparent;
+	position: absolute;
+	top: 26px;
+	right: 31px;
+}
+
+/*************** squre-bar-view **********/
+.product-select-box .product-selector.percent-view ul li {
+	padding: 0 20px 23px;
+	position: relative;
+}
+
+.product-select-box .product-selector.percent-view ul li:nth-last-child(1) {
+	padding-bottom: 0;
+}
+
+.product-select-box .product-selector.percent-view ul li h4 {
+	margin-bottom: 0;
+	font-size: 18px;
+	color: #333333;
+	font-family: Axiforma, 'axiformamedium';
+	line-height: 21px;
+}
+
+.product-select-box .product-selector.percent-view ul li span.progress-number {
+	font-size: 19px;
+	color: #333333;
+	font-family: Axiforma, 'axiformabold';
+	line-height: 20px;
+}
+
+.product-select-box .product-selector.percent-view ul li .embed_progress {
+	height: 4px;
+	background-color: #bcd6de;
+}
+
+.product-select-box .product-selector.percent-view ul li .embed_progress .pocial_progress_bar_embed {
+	background-color: #3188A3;
+}
+
+
+/************ text-poll-box ********/
+
+ul.poll-inner-section {
+	display: flex;padding-bottom: 10px; 
+}
+.main_div_thanks_answering ul.poll-inner-section {justify-content: center;}
+
+
+.text-poll-box h2 {
+	font-size: 28px;
+	color: #333333;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-family: Axiforma, 'axiformamedium';
+}
+
+ul.poll-inner-section li {
+	width: 25%;
+	padding: 22px 16px 22px 30px;
+	margin-right: 12px;
+	border: 1px solid #DBDBDB;
+	border-radius: 7px;
+	position: relative;
+	overflow: hidden;
+}
+.pocial-992px-to-1199px ul.poll-inner-section .pocial_text_option_li{width: 33.33%;}
+
+/* ul.poll-inner-section li::before {position: absolute;content: '';left: -2px;top: 0;width: 40px;height: 100%;background-repeat: no-repeat;background-image: url(https://app.pocial.com/assets/images/progress-shape.svg);z-index: 1;} */
+ul.poll-inner-section .pocial_single_option_li:before{ display: none;}
+ul.poll-inner-section .pocial_single_option_li .single-option:before{position: absolute;content: '';left: -2px;top: 0;width: 40px;height: 100%;background-repeat: repeat;background-image: url(https://app.pocial.com/assets/images/progress-shape.svg);z-index: 1;}
+
+ul.poll-inner-section li:nth-last-child(1) {
+	margin-right: 0;
+}
+
+ul.poll-inner-section li .formcheck {
+	padding: 0;
+	margin-bottom: 0;
+}
+
+ul.poll-inner-section li .formcheck .pocial-formcheck-label {
+	font-size: 17px;
+	color: #333333;
+	text-transform: capitalize;
+	font-family: Axiforma, 'axiformamedium';
+	line-height: 21px;padding-right: 15px;z-index: 3;position: relative;margin: 0;
+}
+
+ul.poll-inner-section li .formcheck .pocial-formcheck-input {
+	float: right;
+	width: 20px;
+	height: 20px;margin: 0;
+	border-color: #5D5D5D;min-width: 20px;
+}
+
+ul.poll-inner-section li .formcheck .pocial-formcheck-input:checked {
+	background-color: #3188A3;
+	border-color: #3188A3;
+}
+
+ul.poll-inner-section li .formcheck .pocial-formcheck-input:checked:focus {
+	background-color: #3188A3;
+	border-color: #3188A3;
+	box-shadow: none;
+	outline: none;
+}
+
+/************ text-poll2-box ********/
+
+ul.poll-inner-section.vertical-section {
+	display: block;
+}
+
+ul.poll-inner-section.vertical-section li {
+	width: 100%;
+	max-width: 485px;
+	margin-right: 0;
+	margin-bottom: 20px;
+}
+
+ul.poll-inner-section.vertical-section li:nth-last-child(1) {
+	margin-bottom: 0;
+}
+
+/* reward-enticement-section */
+
+.reward-enticement-section .right-box .heading h2 {
+	font-size: 28px;
+	color: #333333;
+}
+
+.reward-enticement-section .right-box .heading h2 a {
+	color: #3188A3;
+	text-decoration: none;
+}
+
+.reward-enticement-section .right-box .heading p {
+	font-size: 24px;
+	color: #5D5D5D;
+	font-family: 'axiformamedium';
+}
+
+.reward-enticement-section .right-box a.reward_sign_in {
+	display: block;
+	text-decoration: none;  outline: none;
+	font-size: 24px;
+	color: #3DA092;
+	font-family: 'axiformamedium';
+}
+
+.reward-enticement-section .right-box button.sign-in {
+	font-size: 16px; outline: none;
+	font-family: 'axiformamedium';
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	padding: 24px 35px;
+	border-radius: 50px;
+	border: none;
+	background-color: #3188A3;
+}
+
+.reward-enticement-section .right-box button.sign-in img {
+	margin-left: 15px;
+}
+
+/* big-images */
+.product-select-box.big-image .squre-inner-box {
+	border: none;
+	max-width: 939px;
+}
+
+.product-select-box.big-image ul.poll-inner-section {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 44px;
+}
+
+.product-select-box.big-image ul.poll-inner-section li {
+	width: 100%;
+	max-width: 660px;
+	margin-right: 0;
+	margin-bottom: 20px;
+}
+
+.product-select-box.big-image ul.poll-inner-section li:nth-last-child(1) {
+	margin-right: 0;
+}
+
+
+/*front-page-css*/
+.free_lunch_detail {
+	padding: 22px 0 10px;
+}
+
+.free_lunch_detail h2 {
+	font-size: 27px;font-weight: normal;
+	color: #333333;
+	text-align: left;
+	margin-bottom: 20px;
+	font-family: 'axiformamedium' !important;
+}
+
+.free_lunch {
+	padding: 20px 45px;
+}
+
+.page_custom_height {
+	min-height: calc(100vh - 180px);
+}
+.beverage_list_detail .fullscreen-view img {
+	max-width: 22px;
+}
+.free_lunch_heading h1 {
+	color: #333;
+	/* font-family: 'axiformabold'; */
+	font-size: 40px;
+	font-style: italic;
+	margin: 0;
+	display: inline-block;
+	padding: 0px 40px 0px 75px;
+	position: relative;
+	background-color: #fff;
+	z-index: 3;font-weight: normal;
+	font-family: sans-serif !important;
+    font-weight: 600;
+}
+
+.pocial_media_li .beverage_list_detail .pocial_media_play_icon {
+	display: block;
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	background-color: rgba(0,0,0,0.3);cursor: pointer;
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+	margin: auto;
+}
+.pocial_media_li .beverage_list_detail .pocial_media_play_icon .pocial_play_icon {
+	
+	filter: brightness(0) invert(1) !important;
+	
+}
+.free_lunch_heading h1 img {
+	margin: 0;
+	position: absolute;
+	left: 29px;
+	top: -8px;
+	max-width: 36px;
+}
+
+.free_lunch_heading {
+	padding: 20px 0 20px;
+	text-align: center;
+	position: relative;
+}
+
+.free_lunch_heading::after {
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	margin: auto;
+	width: 100%;
+	height: 1px;
+	background-color: #333;
+	content: "";
+}
+
+.food_detail li {
+	width: 25%;
+	padding: 10px 10px;
+}
+
+.food_detail {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -4px;
+	;
+}
+
+.beverage_list_detail {
+	position: relative;
+}
+
+.beverage_list_detail figure img {
+	width: 100%;transition: all 0.5s ease 0s;
+	-moz-transition: all 0.5s ease 0s;
+	-ms-transition: all 0.5s ease 0s;
+	-o-transition: all 0.5s ease 0s;
+	-webkit-transition: all 0.5s ease 0s; object-fit: cover;aspect-ratio: 1 / 1;
+}
+.beverage_list_detail:hover figure img {
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}
+.beverage_list_detail:hover figure .fullscreen-view img{-webkit-transform: inherit;-moz-transform: inherit;-ms-transform: inherit;-o-transform: inherit;transform: inherit;object-fit:inherit;aspect-ratio: inherit;}
+
+.beverage_list_contant {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding: 20px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.beverage_list_contant span {
+	font-size: 16px;
+	color: #fff;
+	line-height: normal;
+	position: relative;
+	z-index: 3;
+}
+.beverage_list_contant span.media_option_percentage{font-family: 'axiformabold';}
+.beverage_list_contant label {
+	color: #fff;
+	font-size: 21px;
+	line-height: normal;
+	position: relative;
+	z-index: 3;
+}
+
+.beverage_list_contant:after {
+	background-image: url(../images/after-shadow.svg);
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	content: "";
+	height: 106px;
+	width: 100%;
+}
+
+.beverage_list_contant .formcheck {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	padding: 0px;
+	margin-bottom: 0px;
+	width: 100%;
+	position: relative;
+	z-index: 3;
+}
+
+.beverage_list_contant .formcheck .pocial-formcheck-input[type="radio"] {
+	border-radius: 50%;
+}
+
+.beverage_list_contant .formcheck label {
+	color: #fff;
+	font-family: Axiforma, 'axiformamedium';
+	line-height: normal;
+	position: relative;
+	z-index: 3;
+}
+
+.beverage_list_contant .formcheck .pocial-formcheck-input {
+	width: 23px;
+	height: 23px;
+	border-color: #5D5D5D;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	-webkit-print-color-adjust: exact;
+	color-adjust: exact;
+	border: 2px solid #fff;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	box-shadow: none;
+}
+
+.beverage_list_contant .formcheck .pocial-formcheck-input:checked[type="radio"] {
+	background: url(https://app.pocial.com/assets/images/product_white_check_icon.svg);
+	background-size: 15px;
+}
+
+.beverage_list_contant .formcheck .pocial-formcheck-input:checked {
+	background-color: #3188A3;
+	border-color: #3188A3;
+}
+
+.beverage_list_detail .fullscreen-view {
+	position: absolute;
+	right: 0;
+	top: 0;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;z-index: 3;
+	margin: 13px 15px;box-shadow: 0px 1px 13px rgba(0,0,0,0.12);
+}
+
+.progress_embed .embed_progress {
+	display: flex;
+	overflow: hidden;
+	font-size: .75rem;
+	background-color: #adcfda;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 0;
+	height: 5px;
+}
+
+.progress_embed .pocial_progress_bar_embed {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	overflow: hidden;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	background-color: #3188a3;
+}
+
+.poll_answered .formcheck {
+	flex-direction: inherit;
+	padding: 30px 20px;
+}
+
+.poll_answered {
+	padding: 0px;
+}
+
+.total_count {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 40px 0 10px;color: #333;
+	align-items: center;
+}
+
+.total_count .total_count_left strong {
+	font-weight: normal;
+	text-transform: capitalize;
+	font-size: 18px; color: #333;
+}
+
+.total_count .total_count_left span {
+	background-color: #6eabbe;
+	line-height: normal;
+	display: inline-block;
+	padding: 9px 21px 5px;
+	color: #fff;
+	font-size: 16px;
+	border-radius: 22px;
+	margin: 0 0 0 10px;
+	font-family: Axiforma, 'axiformabold';
+}
+
+.total_count_right strong {
+	color: #40a194;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 0 8px 0 0;
+}
+
+.total_count_right span {
+	font-family: Axiforma, 'axiformabold';
+	font-size: 16px;
+	display: inline-block;
+}
+
+.ul.poll-inner-section li {
+	width: 25%;
+	padding: 22px 16px 22px 30px;
+	margin-right: 12px;
+	border: 1px solid #DBDBDB;
+	border-radius: 7px;
+	position: relative;
+	overflow: hidden;
+}
+
+.pocial_embed_loading_class {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	text-align: center;
+	z-index: 33;
+	width: 100%;
+	transform: translateY(-50%);height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+	display: none;
+}
+
+.remove_popup .pocial_embed_loading_class {
+	display: inline-block;
+}
+
+.pocial_embed_loading_class img {
+	max-width: 130px;
+}
+
+div.pocialEmbedPollContainer {
+	/* position: absolute; */
+	width: 100%;
+	top: 0;
+	font-family: 'axiformamedium'; background-color: #fff;padding: 0 0 50px;position: relative;
+}
+
+div.pocialEmbedPollContainer:after {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	content: "";
+	z-index: 9;
+	width: 100%;
+	display: none;
+}
+
+div.pocialEmbedPollContainer.remove_popup:after {
+	display: block;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section {
+	margin-top: 40px;
+	padding: 10px 45px;background-color: #fff;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 {
+	font-size: 27px;
+	line-height: 29px;
+	padding-bottom: 10px;
+	max-width: 385px;
+	margin: auto;
+	font-weight: normal;
+	font-family: 'axiformamedium';
+}
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 span {
+	padding: 0 0 5px;
+	display: inline-block;font-family: 'axiformabook';
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {
+	margin-bottom: 40px;
+	font-size: 18px;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading {
+	margin-bottom: 18px;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {
+	text-decoration: none;
+	font-size: 18px;
+	color: #3DA092;
+	font-family: 'axiformamedium';
+	margin-bottom: 35px;padding: 5px 0 0;
+}
+.reward-enticement-section .right-box .heading {
+	border-bottom: 1px solid rgba(112, 112, 112, 0.2);
+	margin-bottom: 40px !important;
+}
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {
+	padding: 20px 30px 17px;cursor: pointer;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {
+	max-width: 150px;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {
+	bottom: 9px;
+}
+
+
+.reward_enticement_sectionembed_1669032135160 {
+	display: none;
+}
+
+.reward_enticement_sectionembed_1669032135160 .images_panel {
+	position: relative;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {
+	position: absolute;
+	top: 135px;
+	left: 38%;
+	right: 0;
+	text-align: center;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align: center;
+	bottom: 85px;
+	display: inline-block;
+	width: auto;overflow: inherit !important;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {
+	background: url(https://app.pocial.com/assets/images/logo-before-bg.svg) no-repeat;
+	position: absolute;
+	content: "";
+	left: -8px;
+	right: 0;
+	top: -67px;
+	text-align: center;
+	width: 360px;
+	height: 360px;
+	margin: auto;
+	background-size: 360px;
+	z-index: 1;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {
+	background: url(https://app.pocial.com/assets/images/logo-circle1.svg) no-repeat;
+	position: absolute;
+	content: "";
+	left: 71px;
+	right: 0;
+	top: 15px;
+	text-align: center;
+	width: 250px;
+	height: 201px;
+	margin: auto;
+	background-size: 180px;
+	z-index: 3;
+	opacity: 0.8;
+}
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 148px;height: 146px;z-index: 9;position: relative;}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {
+	border-radius: 50%;
+	margin: 24px 0 0;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box {
+	text-align: center;display: inline-block;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {
+	margin: auto;
+}
+
+.pocial_after_vote .page_custom_height {
+	min-height: auto;
+}
+
+.pocial_cross_enticement {
+	position: absolute;
+	right: 45px;
+	top: -40px;
+	width: 18px;
+	height: 18px;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section {
+	position: relative;
+}
+
+.pocial_embed_sigin_1669032135160 .popup-content {
+	position: relative;
+}
+
+.pocial_embed_signup_1669032135160 .registration_content {
+	position: relative;
+}
+
+ .pocial_embed_sigin_1669032135160 {
+	display: none;
+}  
+
+.pocial_embed_signup_1669032135160 {
+	display: none;
+}
+
+.pocial_verify_otp_1669032135160 {
+	display: none;
+}
+
+.pocial_embed_forget_password_1669032135160 {
+	display: none;
+}
+
+.pocial_embed_forget_reset_password_1669032135160 {
+	  display: none; } 
+
+.pocialEmbedPollContainer .required {
+	color: #b94a48;
+}
+
+.pocialEmbedPollContainer span.error {
+	color: #f44336;
+	display: block;
+	font-size: 12px;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+.pocialEmbedPollContainer .pointer {cursor: pointer;}
+
+/**/
+
+
+.pocial_media_li .beverage_list_detail {position: relative;padding: 0px 0px 0px 0px;border-radius: 0px;overflow: hidden;border: 1px solid #f1f1f1;}
+ul.poll-inner-section .pocial_media_li {padding: 4px 4px;margin-right: 0;border: none;border-radius: 0;position: inherit;overflow: inherit;height: 100%;}
+.pocial_media_li .beverage_list_detail figure .pocial_play_icon {position: absolute;left: 0;top: 50%;max-width: 18px;transform: translateY(-50%);right: 0;text-align: center;margin: auto;}
+.pocial_media_li .beverage_list_detail figure {position: relative;height: 100%;display: flex;align-items: center;justify-content: center;}
+.pocial_media_li .beverage_list_contant::after {background-image: url(../images/after-shadow.svg);position: absolute;left: 0;right: 0;bottom: 0;content: "";height: 106px;width: 100%;opacity: 0.5;}
+.pocial_media_li .beverage_list_detail::before {background-image: url(../images/after-shadow.svg);position: absolute;left: 0;right: 0;top: 0;content: "";height: 75px;width: 100%;opacity: 0.5;transform: rotate(180deg);z-index: 3;}
+.pocial_media_li .beverage_list_contant .formcheck label {color: #fff !important;line-height: normal;position: relative;z-index: 3;}
+ul.poll-inner-section .pocial_media_li .formcheck .pocial-formcheck-input {border-color: #fff;}
+* {box-sizing: border-box}
+.pocial_gallery {position: absolute;top: 50%;left: 0;right: 0;margin: auto;transform: translateY(-50%);z-index: 9;text-align: center;}
+.gallery_after_popup::before {position: fixed;left: 0;right: 0;top: 0;bottom: 0;content: "";width: 100%;z-index: 9;background-color: rgba(0, 0, 0, 0.8);}
+span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 550px;margin: auto;border-radius: 7px 7px 7px 7px;}
+.beverage_list_contant.poll_answered .formcheck.media-option {padding: 20px 20px;}
+.gallery_after_popup .pocialEmbedBodyContainer .pocialEmbedPopupCloseBtn.pointer {position: absolute; right: 0px; top: 0; color: #ccc; background-color: rgba(0,0,0,0.4); border: none !important; outline: none; font-size: 18px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; align-content: center; border-radius: 0px 7px 0px 0px; z-index:3 ;}
+.gallery_after_popup .pocialEmbedBodyContainer { width: auto; display: inline-block;margin: auto; position: relative; overflow: hidden; }
+.gallery_after_popup .pocialEmbedBodyContainer img {width: auto; object-fit: contain;border-radius: 7px;}
+.pocial-ctal_link-button a {width: 100%;height: 50px;display: flex;align-items: center;justify-content: center;position: relative;border-radius: 0px 0px 10px 10px;font-size: 16px;background-color: #3188A3;	padding: 6px 26px;margin: -1px 0 0;color: #fff !important; cursor: pointer;border-top: 1px solid #adcfda;overflow: hidden;}
+.pocial-ctal_link-button a:hover{background-color: #3DA092;}
+.pocial-ctal_link-button a img {margin: 0 0 0 5px;}
+.pocial-ctal_link-button a span {text-align: center;display: inline-block;margin: 0px auto;}
+ul.poll-inner-section .pocial_text_option_li {margin-right: 0;border: none;border-radius: 0;position: relative;overflow: inherit;padding: 4px 4px;}
+ul.poll-inner-section .pocial_text_option_li .formcheck {margin-right: 0;border: 1px solid #EAEAEA;border-radius: 7px;position: relative;overflow: hidden;padding: 22px 16px 22px 30px;background-color: #fff;}
+ul.poll-inner-section .pocial_text_option_li .pocial-ctal_link-button {margin-top: -1px;padding: 0 9px;}
+.pocial_text_option_li .formcheck .progress_embed {display: flex;justify-content: space-between;align-items: center;flex-wrap: wrap;padding-right: 35px;}
+.pocial_text_option_li .full_progress_bg .progress_embed .embed_progress {background-color: #E4F2F8;}
+.pocial_text_option_li .formcheck .embed_progress .pocial_progress_bar_embed {background-color: #cde5ef;z-index: 3;}
+.pocial_text_option_li .formcheck .progress_embed .embed_progress{ height: 100%;}
+.pocial_text_option_li .formcheck .progress_embed .pocial-formcheck-label {z-index: 9;position: relative;}
+.pocial_text_option_li .formcheck .progress_embed .text_option_percentage {z-index: 3;position: relative;}
+.pocial_text_option_li .progress_embed .embed_progress {background-color: transparent;}
+.pocial_text_option_li .progress_embed .embed_progress::before {background: url(https://app.pocial.com/assets/images/progress-shape.svg) no-repeat;background-repeat: repeat;position: absolute;height: 100%;width: 40px;left: 0;top: 0;content: '';z-index: 1;}
+.pocial_text_option_li .progress_embed .embed_progress::after {position: absolute;left: 0;right: 0;top: 0;bottom: 0;content: "";height: 100%;width: 0px;opacity: 0;visibility: hidden;background-color: #E4F2F8;z-index: -1;transition: all .5s ease 0s;}
+.pocial_text_option_li:hover .progress_embed .embed_progress::after {width: 100%;opacity: 1;visibility: visible;}	
+
+.free_lunch_single_media_option .free_lunch_detail {max-width: 700px;margin: auto;padding-top: 0px;}
+.free_lunch_single_media_option .free_lunch_detail h2 {text-align: center;}
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image {text-align: center;}
+.free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {display: block;max-width: 500px;margin: auto;}
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li {width: 100%;}
+
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li {width: 100%;padding: 12px 0px;border: none;border-radius: 0;margin: 0;overflow: inherit;}
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck.single-option{border: 1px solid #EAEAEA;border-radius: 7px;position: relative;padding: 22px 28px 22px 30px;overflow: hidden;background-color: #fff;}
+
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .single-option::after {position: absolute;left: 0;right: 0;top: 0;bottom: 0;content: "";height: 100%;width: 0px;opacity: 0;visibility: hidden;background-color: #E4F2F8;z-index: -1;transition: all .5s ease 0s;}
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li:hover .single-option::after {width: 100%;opacity: 1;visibility: visible;z-index: 1;}	
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li:hover .single-option::before{z-index: 3;}
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck .pocial-formcheck-input {z-index: 3;position: relative;}
+
+.free_lunch_single_media_option .pocial-ctal_link-button {margin: -1px 9px 0 9px;}
+
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image {text-align: center;height: 300px;overflow: hidden;border-radius: 15px;margin-bottom: 20px;position: relative;}
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image .single_option_image {width: 100%;}
+.free_lunch_single_media_option {padding-bottom: 50px;}
+
+.free_lunch_single_media_option ul.food_detail.poll-inner-section .pocial_single_option_li .formcheck .pocial-formcheck-input:checked {background-color: #3188A3;border-color: #3188A3;}
+.free_lunch_single_media_option .pocial_single_option_li .formcheck.single-option .progress_embed {display: flex;justify-content: space-between;align-items: center;}
+.free_lunch_single_media_option ul.poll-inner-section li .formcheck .pocial-formcheck-label {z-index: 3;}
+.free_lunch_single_media_option .progress_embed .single_option_percentage {z-index: 3;position: relative;}
+.free_lunch_single_media_option .progress_embed .pocial_progress_bar_embed {background-color: #cde5ef;}
+.free_lunch_single_media_option .progress_embed .embed_progress {height: 100%;}
+
+.free_lunch_single_media_option .pocial_single_option_li .progress_embed .embed_progress {background-color:transparent;}
+.free_lunch_single_media_option .pocial_single_option_li .full_progress_bg .progress_embed .embed_progress {background-color: #E4F2F8;}
+
+.free_lunch_single_media_option .pocial_single_option_li .progress_embed .embed_progress::before {background: url(https://app.pocial.com/assets/images/progress-shape.svg) no-repeat;background-repeat: no-repeat;position: absolute;height: 100%;width: 40px;left: -1px;top: -1px;content: '';z-index: 1;}
+
+.free_lunch_single_media_option .pocial_single_option_li .progress_embed .embed_progress::after {position: absolute;left: 0;right: 0;top: 0;bottom: 0;content: "";height: 100%;width: 0px;opacity: 0;visibility: hidden;background-color: #E4F2F8;z-index: -1;transition: all .5s ease 0s;}
+.free_lunch_single_media_option .pocial_single_option_li:hover .progress_embed .embed_progress::after {width: 100%;opacity: 1;visibility: visible;}	
+
+.free_lunch_single_media_option .progress_embed .single_option_percentage {z-index: 3;position: relative;font-size: 17px;}
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image .fullscreen-view.pointer {position: absolute;right: 0px;top: 0px;background-color: transparent;border: none; height: 22px;box-shadow: 0px 1px 13px rgba(0,0,0,0.18);display: flex;align-items: center; margin: 15px;}
+
+.pocial_poll_question_and_options ul.poll-inner-section .pocial_text_option_li .formcheck::before {background: url(https://app.pocial.com/assets/images/progress-shape.svg) no-repeat;background-repeat: no-repeat;position: absolute;height: 100%;width: 40px;left: -1px;top: 0px;content: '';z-index: 1;background-repeat: repeat;z-index: 4;}
+
+
+.pocial_poll_question_and_options ul.poll-inner-section .pocial_text_option_li .formcheck::after {position: absolute;left: 0;right: 0;top: 0;bottom: 0;content: "";height: 100%;width: 0px;opacity: 0;visibility: hidden;background-color: #E4F2F8;z-index: -1;transition: all .5s ease 0s;}
+.pocial_poll_question_and_options ul.poll-inner-section .pocial_text_option_li:hover .formcheck::after {width: 100%;opacity: 1;visibility: visible;z-index: 1;}	
+
+
+ul.poll-inner-section .pocial_text_option_li .formcheck .pocial-formcheck-input {position: absolute;right: 14px;top: 50%;transform: translateY(-50%);z-index: 3;}
+ul.poll-inner-section .pocial_text_option_li .formcheck {padding-right: 38px;height: auto;}
+
+ul.poll-inner-section .pocial_text_option_li .formcheck .progress_embed .text_option_percentage {z-index: 9;position: absolute;right: 15px;top: 50%;transform: translateY(-50%);color: #333;}
+
+.pocial_no_record {position: absolute;right: 0;left: 0;top: 50%;transform: translateY(-50%);text-align: center;}
+.pocial_success_message {
+	background-color: #d1e7dd;
+	display: inline-block;
+	padding: 18px 38px 13px 15px;
+	border-radius: 5px;
+	line-height: normal;
+	color: #146c43;
+	border: 1px solid #a3cfbb;
+	font-size: 13px;
+	position: fixed;right: 0;left: 0;top:10px;margin: auto;max-width: 430px;width: auto;line-height: 20px;z-index: 99999;transition: 0.3s;
+}
+.pocial_success_message .pocial_coss_message {position: absolute;right: 8px;top: 50%;font-size: 15px; cursor: pointer;transform: translateY(-50%);}
+
+.pocial_error_message {background-color: #f8d7da;display: inline-block;padding: 18px 38px 13px 15px;border-radius: 5px;font-size: 13px;color: #b02a37;border: 1px solid #f1aeb5;position: fixed;right: 0;left: 0; top:10px;margin: auto;max-width: 430px;width: auto;line-height: 20px;z-index: 99999;transition: 0.3s;}
+.pocial_error_message .pocial_coss_message{position: absolute;right: 8px;top: 50%;font-size: 15px;cursor: pointer;transform: translateY(-50%);}
+
+.hide_success_message{ display: none;}
+.hide_error_message{ display: none;}
+
+.reward_enticement_sectionembed_1669032135160 .pocial-row {padding: 0 0 40px;display: flex;align-items: center;flex-wrap: wrap;max-width: 1200px;margin: auto;}
+.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {
+	width: 60%;text-align: center;
+}
+.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 40%;}
+.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 640px;}
+
+
+/*Login-css-start*/
+.popup-content.login_content {padding: 30px 30px;max-width: 480px;margin: auto;box-shadow: 0px 1px 24px rgba(0,0,0,0.15);border-radius: 7px;background-color: #fff;}
+.popup-content.login_content .popup_heading .logo_popup {max-width: 120px;}
+.popup-content.login_content .popup_heading h2 {font-size: 22px;font-weight: normal;margin: 38px 0 12px;font-family: 'axiformabold';}
+.popup-content.login_content .popup_heading h3 {color: #5D5D5D;font-weight: normal;font-size: 13px; margin: 0px;font-family: Axiforma, 'axiformamedium';}
+.popup-content.login_content .goggle_mail ul {display: flex;align-items: center;flex-wrap: wrap;}
+.popup-content.login_content .goggle_mail ul li {padding: 5px 12px;}
+.popup-content.login_content .goggle_mail ul li a {outline: none;width: 46px;height: 44px;border: 1px solid #B7B7B7;display: flex;align-items: center;justify-content: center;border-radius: 9px;color: #333;text-decoration: none;font-size: 12px;padding: 6px 11px;}
+.popup-content.login_content .goggle_mail ul li:first-child {padding-left: 0;}
+.popup-content.login_content .register-section {padding: 30px 0 0px;}
+.popup-content.login_content .register-section .pocial-form-group {display: block;margin: 0 0 28px;}
+.popup-content.login_content .register-section .pocial-form-group label {display: block;font-size: 13px;text-align: left;margin: 0 0 8px;font-family: Axiforma, 'axiformamedium';}
+.popup-content.login_content .register-section .pocial-form-group .pocial-form-control {height: 49px;width: 100%;box-shadow: none;border: 1px solid #B7B7B7;outline: none;padding: 6px 20px;font-size: 13px;border-radius: 6px;}
+.popup-content.login_content .goggle_mail {padding: 22px 0 0;}
+.popup-content.login_content .seprate_border {margin: 22px 0 0;display: inline-block;min-width: 220px;text-align: center;position: relative;}
+.popup-content.login_content .seprate_border::after {border-bottom: 1px dashed #B7B7B7;position: absolute;right: 0;left: 0;top: 50%;bottom: auto;content: "";width: 100%;transform: translateY(-50%);}
+.popup-content.login_content .seprate_border span {font-size: 16px;display: inline-block;background-color: #fff;z-index: 9;padding: 0 12px;position: relative;}
+.popup-content.login_content .pocial_cross_enticement {top: 16px;right: 16px;width: 14px;height: 14px;}
+.pocial_embed_sigin_1669032135160 {padding: 0 0 40px;}
+.popup-content.login_content .signupbtn {outline: none;display: flex;align-items: center;justify-content: space-between;flex-wrap: wrap;padding: 10px 0 10px;}
+.popup-content.login_content .signupbtn a {outline: none;color: #3188A3;text-decoration: none;font-size: 14px;font-family: Axiforma, 'axiformamedium';}
+.popup-content.login_content .signupbtn .pocial-btn-primary {outline: none;min-width: 122px;height: 50px;font-size: 16px;background-color: #3DA092;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformabold';cursor: pointer;}
+.popup-content.login_content .signupbtn .pocial-btn-primary:hover{background-color: #3188A3;}
+.popup-content.login_content .signupbtn .pocial-btn-primary img {margin: 0 0 0 14px;}
+.popup-content.login_content .signupbtn .pocial-btn-primary:hover img {margin: 0 0 0 21px;}
+.account_link {padding: 45px 0 20px;text-align: center;padding: 30px 0 20px; border-top: 1px solid #d1d1d1; margin-top: 24px;}
+.account_link span {display: block;padding: 0 0 12px;font-size: 14px;}
+.popup-content.login_content .account_link .pocial-btn-primary{outline: none;min-width: 175px;height: 50px;font-size: 16px;background-color: #333;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap; margin: auto;font-family: 'axiformabold';cursor: pointer;}
+.popup-content.login_content .account_link .pocial-btn-primary img {margin: 0 0 0 14px;}
+.popup-content.login_content .account_link .pocial-btn-primary:hover img {margin: 0 0 0 21px;}
+
+/*Login-css-end*/
+
+
+/*Signup-css-start*/
+.pocial_embed_signup_1669032135160 .registration_content {padding: 12px 20px 0;max-width: 480px;margin: auto;}
+.pocial_embed_signup_1669032135160 .registration_content .popup_signup_heading .logo_popup {max-width: 120px;}
+.pocial_embed_signup_1669032135160 .registration_content .popup_signup_heading h2 {font-size: 22px;font-weight: normal;margin: 30px 0 12px;font-family: 'axiformabold';}
+.pocial_embed_signup_1669032135160 .registration_content .popup_signup_heading h3 {color: #5D5D5D;font-weight: normal;font-size: 13px; margin: 0px;}
+.pocial_embed_signup_1669032135160 .registration_content .goggle_mail ul {display: flex;align-items: center;flex-wrap: wrap;}
+.pocial_embed_signup_1669032135160 .registration_content .goggle_mail ul li {padding: 5px 12px;}
+.pocial_embed_signup_1669032135160 .registration_content .goggle_mail ul li a {width: 46px;height: 44px;border: 1px solid #B7B7B7;display: flex;align-items: center;justify-content: center;border-radius: 9px;color: #333;text-decoration: none;font-size: 12px;padding: 6px 11px;}
+.pocial_embed_signup_1669032135160 .registration_content .goggle_mail ul li:first-child {padding-left: 0;}
+.pocial_embed_signup_1669032135160 .registration_content {padding: 30px 30px;box-shadow: 0px 1px 24px rgba(0,0,0,0.15);border-radius: 7px;background-color: #fff;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group {display: block;margin: 0 0 28px; position: relative;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group label {display: block;font-size: 13px;text-align: left;margin: 0 0 8px;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .pocial-form-control {height: 49px;width: 100%;box-shadow: none;border: 1px solid #B7B7B7;outline: none;padding: 6px 20px;font-size: 13px;border-radius: 6px;}
+.pocial_embed_signup_1669032135160 .registration_content .goggle_mail {padding: 0px 0 0;}
+.pocial_embed_signup_1669032135160 .registration_content .seprate_border {margin: 22px 0 25px;display: inline-block;min-width: 220px;text-align: center;position: relative;}
+.pocial_embed_signup_1669032135160 .registration_content .seprate_border::after {border-bottom: 1px dashed #B7B7B7;position: absolute;right: 0;left: 0;top: 50%;bottom: auto;content: "";width: 100%;transform: translateY(-50%);}
+.pocial_embed_signup_1669032135160 .registration_content .seprate_border span {font-size: 16px;display: inline-block;background-color: #fff;z-index: 9;padding: 0 12px;position: relative;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial_cross_enticement {top: 16px;right: 16px;width: 14px;height: 14px;}
+.pocial_embed_sigin_1669032135160 {padding: 0 0 20px;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn {display: flex;align-items: center;justify-content: end;flex-wrap: wrap;padding: 35px 0 10px;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn a {color: #3188A3;text-decoration: none;font-size: 14px;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary {min-width: 122px;height: 50px;font-size: 16px;background-color: #3DA092;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformabold';outline:none !important;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary:hover{background-color: #3188A3;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary img {margin: 0 0 0 14px;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary:hover img {margin: 0 0 0 21px;}
+.account_link {padding: 45px 0 20px;text-align: center;}
+.account_link span {display: block;padding: 0 0 12px;font-size: 14px;font-family: Axiforma, 'axiformamedium';}
+.pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary{min-width: 175px;height: 50px;font-size: 16px;background-color: #333;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap; margin: auto;font-family: 'axiformabold';}
+.pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary img {margin: 0 0 0 14px;}
+.pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary:hover img {margin: 0 0 0 21px;}
+.pocial-bottom-group .privacy-link {color: #5D5D5D;margin: 0;font-size: 13px;}
+.pocial_embed_signup_1669032135160 .registration_content .register-section h3 {font-size: 16px;font-weight: normal;margin: 0 0 38px;color: #5d5d5d;font-family: 'axiformamedium';}
+.pocial_embed_signup_1669032135160 .pocial-bottom-group {display: flex;flex-wrap: wrap;align-items: center; font-size: 13px;}
+.pocial_embed_signup_1669032135160 .pocial-bottom-group a {margin: 0 0 0 3px;color: #3188A3;text-decoration: none;font-size: 13px;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .switch {border-radius: 5px;height: 47px;background-color: #fff;display: flex;flex-wrap: wrap;position: relative;padding: 4px;	width: 100%;border: 1px solid #B7B7B7;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .switch .switch-input {display: none;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .switch label {width: 33.33%;position: relative;z-index: 2;text-align: center;cursor: pointer;display: flex;align-items: center;flex-wrap: wrap;justify-content: center;height: 100%;color: #5D5D5D;font-size: 12px;padding-bottom: 0px; margin: 0px;transition: all .8s ease 0s;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .switch .switch-input:checked + .switch-label {color: #fff;background-color: #3DA092;border-radius: 5px;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .dropdown_wise_dob .message_dropdown_wise_dob {width: 33.33%;padding: 0 10px;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .dropdown_wise_dob {display: flex;flex-wrap: wrap;margin: 0 -10px;}
+.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .dropdown_wise_dob .message_dropdown_wise_dob .pocial-form-control {background-color: transparent;}
+.pocial-row.pocial_full_name_text {display: flex;flex-wrap: wrap;margin: 0 -6px;}
+.pocial-row.pocial_full_name_text .pocial-col-lg-6 {width: 50%;padding: 0 6px;}
+
+/*Signup-css-end*/
+
+
+/* forget password css start */
+.pocial_embed_forget_password_1669032135160 {max-width: 480px;margin: auto;padding: 30px 30px 30px;box-shadow: 0px 1px 24px rgba(0,0,0,0.15);border-radius: 7px;position: relative;}
+.pocial_embed_forget_password_1669032135160 .pocial_cross_enticement {right: 16px;top: 18px;width: 14px;height: 14px;}
+.pocial_embed_forget_password_1669032135160 .pocial_logo_forget_popup{max-width: 120px;}
+.pocial_embed_forget_password_1669032135160 .pocial-forget-password h2{font-size: 22px;font-weight: normal;margin: 30px 0 12px;font-family: 'axiformabold';}
+.pocial_embed_forget_password_1669032135160 .pocial-forget-password .content-text {font-size: 13px;font-weight: normal;margin: 0 0 28px;color: #5d5d5d;display: block;}
+.pocial_embed_forget_password_1669032135160 .login-form .pocial-form-group .pocial-form-control {height: 49px;width: 100%;box-shadow: none;border: 1px solid #B7B7B7;outline: none;padding: 6px 20px;	font-size: 13px;border-radius: 6px;}
+.pocial_embed_forget_password_1669032135160 .login-form .pocial-form-group {margin: 0 0 30px;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group {display: flex;flex-wrap: wrap;justify-content: space-between;align-items: center;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group .pocial-btn-primary {font-size: 15px;background-color:transparent;color: #3DA092;border: none;display: flex;	align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformabold';cursor: pointer;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group .forget_button {min-width: 175px;height: 50px;font-size: 16px;background-color: #3188A3;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;
+display: flex;align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformasemibold';cursor: pointer;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group .pocial-btn-primary img{display: none;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group .forget_button img{margin: 0 0 0 14px;}
+.pocial_embed_forget_password_1669032135160 .pocial-bottom-group .forget_button:hover img{margin: 0 0 0 22px;}
+
+/* forget password css end */
+
+
+/*verify otp css start*/
+.pocial_verify_otp_1669032135160 .verify_content {background-color: #fff;padding: 30px 42px 30px;box-shadow: 0px 1px 24px rgba(0,0,0,0.15);border-radius: 7px;position: relative;max-width: 380px;margin: 0px auto 60px;}
+.pocial_verify_otp_1669032135160 .verify_content .popup_heading .logo_popup {max-width: 120px;}
+.pocial_verify_otp_1669032135160 .verify_content .register-section h2{font-size: 22px;font-weight: normal;margin: 30px 0 12px;font-family: 'axiformabold';}
+.pocial_verify_otp_1669032135160 .verify_content .register-section .content-text {font-size: 13px;color: #5d5d5d;display: block;line-height: 19px;}
+.pocial_verify_otp_1669032135160 .pocial-row .pocial-form-group .digit-group input {width: 64px;height: 58px;margin: 0 7px;border-radius: 4px;border: 1px solid #ebebeb;outline: none;padding: 6px 6px;font-size: 27px;text-align: center;font-family: 'axiformabold';background-color: #f2f2f2;}
+.pocial_verify_otp_1669032135160 .pocial-row .pocial-form-group .digit-group input:last-child{ margin-right: 0px;}
+.pocial_verify_otp_1669032135160 .pocial-row .pocial-form-group {padding: 18px 0 12px;}
+.pocial_verify_otp_1669032135160 .pocial_cross_enticement {right: 16px;top: 16px;width: 14px;height: 14px;}
+.pocial_verify_otp_1669032135160 .pocial-row .pocial-form-group .digit-group {margin: 0 -7px;}
+
+.pocial_verify_otp_1669032135160 .verify_content .verify_otp .pocial-btn-primary {min-width: 122px;height: 50px;font-size: 16px;background-color: #1787a1;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformabold';}
+.pocial_verify_otp_1669032135160 .verify_content .verify_otp .pocial-btn-primary img{margin: 0 0 0 14px;}
+.pocial_verify_otp_1669032135160 .verify_content .verify_otp .pocial-btn-primary:hover img{margin: 0 0 0 22px;}
+
+.pocial_verify_otp_1669032135160 .verify_content .verify_otp {display: flex;padding: 20px 0 0;align-items: center;flex-wrap: wrap;justify-content: space-between;}
+.pocial_verify_otp_1669032135160 .verify_content .register-section .content-text a {color: #1787a1;text-decoration: none;}
+.pocial_verify_otp_1669032135160 .verify_content .verify_otp #pocial_otp_timer {font-size: 13px;}
+.pocial_verify_otp_1669032135160 .verify_content .popup_heading {text-align: center;}
+
+/*verify otp css end*/
+
+
+.pocial_embed_forget_reset_password_1669032135160  {background-color: #fff;padding: 30px 30px 30px;box-shadow: 0px 1px 24px rgba(0,0,0,0.15);border-radius: 7px;position: relative;max-width: 480px;margin: 0px auto 60px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial_logo_reset_popup {max-width: 120px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial_cross_enticement {right: 16px;top: 16px;width: 14px;height: 14px;}
+.pocial_embed_forget_reset_password_1669032135160 h2{font-size: 22px;font-weight: normal;margin: 30px 0 25px;font-family: 'axiformabold';}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-form-group {display: block;margin: 0 0 28px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-form-group label {display: block;font-size: 13px;text-align: left;margin: 0 0 8px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-form-group .pocial-form-control {height: 49px;width: 100%;box-shadow: none;border: 1px solid #B7B7B7;outline: none;padding: 6px 20px;font-size: 13px;border-radius: 6px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-bottom-group .pocial-primary {min-width: 122px;height: 50px;font-size: 16px;background-color: #1787a1;color: #fff;border: none;border-radius: 6px;padding: 6px 12px;display: flex;align-items: center;justify-content: center;flex-wrap: wrap;font-family: 'axiformabold';cursor: pointer;margin-left: auto;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-bottom-group .pocial-primary:hover{background-color: #3DA092;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-bottom-group .pocial-primary img{margin: 0 0 0 14px;}
+.pocial_embed_forget_reset_password_1669032135160 .pocial-bottom-group .pocial-primary:hover img{margin: 0 0 0 22px;}
+
+
+
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image span.single_span_class {width: 54px; height: 54px;border-radius: 50%; background-color: rgba(0,0,0,0.3);cursor: pointer;position: absolute; right: 0;
+left: 0;top: 50%; transform: translateY(-50%);text-align: center;margin: auto;    display: flex;align-items: center;justify-content: center;}
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image span.single_span_class img.single_option_play {filter: brightness(1) invert(1);}
+
+.pocial-300px-to-767px ul.poll-inner-section .pocial_media_li {width: 100%;}
+.pocial-300px-to-767px .free_lunch_heading h1 {font-size: 21px;padding: 10px 10px 10px 30px;}
+.pocial-300px-to-767px .free_lunch_heading h1 img {left: 10px;top: 4px;max-width: 18px;}
+.pocial-300px-to-767px .free_lunch_detail h2 {font-size: 18px;margin-bottom: 10px;}
+.pocial-300px-to-767px .free_lunch_detail h2 {font-size: 17px;line-height: 24px;}
+.pocial-300px-to-767px .gallery_after_popup .pocialEmbedBodyContainer { width: 100%;}
+.pocial-300px-to-767px .free_lunch_heading::after { display: none;}
+.pocial-300px-to-767px .pocial-ctal_link-button a img {max-width: 19px;}
+.pocial-300px-to-539px.gallery_after_popup .pocialEmbedBodyContainer { width: 100%;}
+.pocial-300px-to-539px .pocial-ctal_link-button a img {max-width: 19px;}
+
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section {padding: 10px 25px;}
+
+
+.pocial-768px-to-991px ul.poll-inner-section .pocial_media_li {width: 33.33%;}
+.pocial-768px-to-991px .free_lunch_heading h1 {font-size: 30px;padding: 0px 25px 0px 55px;}
+.pocial-768px-to-991px .free_lunch_heading h1 img {left: 22px;top: -5px;max-width: 23px;}
+.pocial-768px-to-991px .free_lunch_detail h2 {font-size: 24px;margin-bottom: 10px;}
+
+.pocial-992px-to-1199px .free_lunch_heading h1 {font-size: 33px;}
+.pocial-992px-to-1199px .free_lunch_heading h1 img {max-width: 30px;}
+
+
+.pocial-992px-to-1199px ul.poll-inner-section li .formcheck .pocial-formcheck-label {
+	font-size: 14px;
+}
+.pocial-992px-to-1199px ul.poll-inner-section li .formcheck .media_option_percentage {
+	font-size: 14px;
+}
+
+.pocial-768px-to-991px .pocial_poll_question_and_options ul.poll-inner-section li{width: 33.33%;}
+.pocial-768px-to-991px .pocial_poll_question_and_options ul.poll-inner-section .pocial_text_option_li {width: 50%;}
+.pocial-768px-to-991px .free_lunch_heading h1 {font-size: 28px;}
+
+.pocial-540px-to-767px .free_lunch_heading::after { display: none;}
+.pocial-540px-to-767px .free_lunch_heading h1 img {max-width: 27px;position: relative;left: inherit;top: inherit;display: block;text-align: center;margin: 0 auto 10px;}
+.pocial-540px-to-767px .free_lunch_heading h1 {font-size: 32px;}
+.pocial-540px-to-767px .pocial_poll_question_and_options ul.poll-inner-section li.pocial_text_option_li { width: 100%;}
+.pocial-540px-to-767px .pocial_poll_question_and_options ul.poll-inner-section li.cta_link_li{ height: 100%;}
+/* .pocial-540px-to-767px .pocial_media_li .beverage_list_detail{ height: 270px;} */
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 100%; text-align: center;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text { width: 100%; padding: 20px 0 0;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 { font-size: 24px;   line-height: 25px; max-width: 100%; padding-bottom: 20px; z-index: 3; position: relative;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {padding: 12px 25px 11px;font-size: 16px;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img { max-width: 100%;}
+.pocial-540px-to-767px .free_lunch_detail h2 {font-size: 17px;line-height: 24px;}
+/* .pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 72px;} */
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {font-size: 16px; margin-bottom: 28px;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 16px;margin-bottom: 22px;}
+.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading {margin-bottom: 28px !important;}
+.pocial-540px-to-767px .free_lunch_heading h1 {font-size: 21px;padding:0px;}
+.pocial-540px-to-767px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+.pocial-540px-to-767px .beverage_list_contant span {font-size: 14px;}
+.pocial-540px-to-767px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+.pocial-540px-to-767px .beverage_list_contant {padding: 14px 14px;}
+.pocial-540px-to-767px .beverage_list_contant.poll_answered .formcheck.media-option {padding: 14px 14px;}
+.pocial-540px-to-767px .beverage_list_contant.poll_answered {padding: 0;}
+.pocial-540px-to-767px .pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+.pocial-540px-to-767px .pocial-ctal_link-button a img {max-width: 19px;}
+.pocial-540px-to-767px .pocial_cross_enticement {right: 20px;}
+.pocial-540px-to-767px .free_lunch { padding: 20px 20px;}
+.pocial-540px-to-767px span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+.pocial-540px-to-767px .free_lunch_single_media_option .free_lunch_detail {padding-top: 20px;}
+
+.pocial-300px-to-539px .beverage_list_contant.poll_answered {padding: 0;}
+.pocial-300px-to-539px .beverage_list_contant {padding: 14px 14px;}
+.pocial-300px-to-539px .beverage_list_contant span {font-size: 14px;}
+.pocial-300px-to-539px .free_lunch {padding: 20px 10px;}
+.pocial-300px-to-539px .free_lunch_heading h1 {font-size: 21px; padding:0px; background-color: transparent;}
+.pocial-300px-to-539px .free_lunch_heading h1 img { max-width: 30px;position: relative; left: inherit;top: inherit;display: block;text-align: center; margin: 0 auto 15px;}
+.pocial-300px-to-539px .free_lunch_heading::after {display: none;}
+.pocial-300px-to-539px .free_lunch_detail h2 {font-size: 15px; line-height: 19px;}
+.pocial-300px-to-539px .main_div_thanks_answering.free_lunch_detail h2 {font-size: 20px; line-height: 24px;}
+
+.pocial-300px-to-539px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 180px;}
+.pocial-300px-to-539px .total_count_left { padding: 0 0 18px;}
+.pocial-300px-to-539px .total_count {display: block; text-align: center;}
+/* .pocial-300px-to-539px .pocial_media_li .beverage_list_detail {height: 280px;} */
+.pocial-300px-to-539px ul.poll-inner-section .pocial_media_li{ width: 100%;}
+.pocial-300px-to-539px .gallery_after_popup .pocialEmbedBodyContainer .pocialEmbedPopupCloseBtn.pointer {right: 19px;}
+.pocial-300px-to-539px .gallery_after_popup .pocialEmbedBodyContainer { width: 100%; padding: 0 50px;}
+.pocial-300px-to-539px span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+.pocial-300px-to-539px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+.pocial-300px-to-539px .free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+.pocial-300px-to-539px .free_lunch_single_media_option .free_lunch_detail .poical_single_image .single_option_image {height: 100%;}
+
+
+.pocial-0px-to-299px  .free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {padding: 0px;}
+.pocial-0px-to-299px .pocial-ctal_link-button a img {max-width: 19px;}
+.pocial-0px-to-299px .beverage_list_contant.poll_answered {padding: 0;}
+.pocial-0px-to-299px .beverage_list_contant {padding: 7px 7px;}
+.pocial-0px-to-299px .free_lunch_detail h2 {font-size: 19px;}
+.pocial-0px-to-299px .free_lunch {padding: 20px 0px;}
+.pocial-0px-to-299px .free_lunch_heading h1 {font-size: 19px; padding: 0px; background-color: transparent;}
+.pocial-0px-to-299px .free_lunch_heading h1 img {left: 7px;max-width: 23px;}
+.pocial-0px-to-299px .beverage_list_contant span {font-size: 14px;}
+.pocial-0px-to-299px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 210px;}
+.pocial-0px-to-299px .free_lunch_heading::after { display: none;}
+.pocial-0px-to-299px .total_count_left { padding: 0 0 18px;}
+.pocial-0px-to-299px .total_count {display: block; text-align: center;}
+.pocial-0px-to-299px .pocial_poll_question_and_options li.pocial_media_li { width: 100%;}
+.pocial-0px-to-299px ul.poll-inner-section .pocial_text_option_li .formcheck {height: auto;}
+.pocial-0px-to-299px.gallery_after_popup .pocialEmbedBodyContainer { width: 100%; height: auto;}
+.pocial-0px-to-299px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 14px;}
+.pocial-0px-to-299px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 15px;height: 15px;min-width: 15px;}
+.pocial-0px-to-299px .beverage_list_detail .fullscreen-view {margin: 7px 8px;}
+.pocial-0px-to-299px .beverage_list_detail .fullscreen-view img {max-width: 18px;}
+.pocial-0px-to-299px .beverage_list_contant.poll_answered .formcheck.media-option {padding: 14px 14px;}
+.pocial-0px-to-299px .pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+.pocial-0px-to-299px .pocial_cross_enticement {right: 2px;}
+.pocial-0px-to-299px span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+.pocial-0px-to-299px .free_lunch_single_media_option .free_lunch_detail {padding-top: 20px;}
+.pocial-0px-to-299px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 150px;}
+.pocial-0px-to-299px .free_lunch_single_media_option .free_lunch_detail .poical_single_image .single_option_image {height: 100%;}
+
+.pocial-300px-to-539px .pocial_poll_question_and_options .poll-inner-section .pocial_text_option_li {width: 100%;padding-left: 0;padding-right: 0;}
+/* .pocial-300px-to-539px .pocial_poll_question_and_options li.pocial_media_li { width: 100%;} */
+.pocial-300px-to-539px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 13px; line-height: 18px;}
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 100%; padding: 0 0 20px;}
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 63px; max-width: 100px;}
+.pocial-300px-to-539px .pocial-ctal_link-button a {padding: 14px 26px 16px; height: auto; font-size: 13px;}
+.pocial-300px-to-539px ul.poll-inner-section .pocial_text_option_li .formcheck {height: auto;}
+.pocial-300px-to-539px.gallery_after_popup .pocialEmbedBodyContainer { width: auto; height: auto;padding: 0;}
+.pocial-300px-to-539px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+.pocial-300px-to-539px .beverage_list_contant span {font-size: 14px;}
+.pocial-300px-to-539px .free_lunch_detail {max-width: 100%;margin: auto;}
+.pocial-300px-to-539px .free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck.single-option {padding: 15px 18px 13px 22px;}
+.pocial-300px-to-539px .free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {padding: 0px;}
+.pocial-300px-to-539px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+.pocial-300px-to-539px .beverage_list_contant.poll_answered .formcheck.media-option {padding: 14px 14px;}
+.pocial-300px-to-539px .pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+/* .pocial-300px-to-539px .pocial_cross_enticement {right: 20px;} */
+.pocial-300px-to-539px span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+.pocial-300px-to-539px .free_lunch_single_media_option .free_lunch_detail {padding-top: 20px;}
+.pocial-300px-to-539px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 200px;}
+
+.pocial-300px-to-767px .free_lunch_heading h1 img {position: relative;left: inherit;top: inherit;max-width: 50px;display: block;text-align: center;margin: 0 auto 10px;}
+/* .pocial-300px-to-767px .pocial_media_li .beverage_list_detail {height: 230px;} */
+.pocial-300px-to-767px .free_lunch_heading {padding: 0 0 10px;}
+.pocial-300px-to-767px .beverage_list_contant.poll_answered {padding: 0;}
+.pocial-300px-to-767px .beverage_list_contant {padding: 14px 14px;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 100%;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 100%;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .images_panel {max-width: 100%;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 {font-size: 20px;line-height: 22px;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .images_panel {max-width: 320px;}
+.pocial-300px-to-767px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {left: 4px;top: 15px;width: 130px;height: 125px;background-size: 125px;}
+.pocial-300px-to-767px .free_lunch_single_media_option .free_lunch_detail .poical_single_image .fullscreen-view.pointer img {max-width: 20px;}
+.pocial-300px-to-767px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 16px;height: 16px;margin: 4px 0 0;min-width: 16px;}
+.pocial-300px-to-767px .free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+.pocial-300px-to-767px .beverage_list_contant span {font-size: 14px;}
+.pocial-300px-to-767px .pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+.pocial-300px-to-767px.gallery_after_popup .pocialEmbedBodyContainer { width: 100%; height: auto;}
+.pocial-300px-to-767px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+.pocial-300px-to-767px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+.pocial-300px-to-767px .beverage_list_contant.poll_answered .formcheck.media-option {padding: 14px 14px;}
+.pocial-300px-to-767px .pocial_cross_enticement {right: 2px;}
+.pocial-300px-to-767px span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+.pocial-300px-to-767px .free_lunch_single_media_option .free_lunch_detail {padding-top: 20px;}
+.pocial-300px-to-767px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 280px;}
+
+.pocial_media_li:last-child .beverage_list_detail {background-color: #fff;}
+.pocial_media_li:last-child .beverage_list_detail span.fullscreen-view img {filter: brightness(0.5);}
+.pocial-540px-to-767px .pocial_poll_question_and_options ul.poll-inner-section .pocial_text_option_li.cta_link_li {height: 100%;}
+.pocial-540px-to-767px .pocial_poll_question_and_options li.pocial_media_li {width: 50%;}
+.pocial-540px-to-767px .free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 270px;}
+.pocial-540px-to-767px .free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck.single-option {padding: 15px 18px 13px 22px;}
+.pocial-540px-to-767px .free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+.pocial-1200px-to-1365px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 240px;height: 165px;background-size: 168px;}
+.pocial-1200px-to-1365px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 340px;height: 340px;background-size: 340px;}
+.pocial-1200px-to-1365px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 138px;height: 136px;}
+.pocial-1200px-to-1365px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 115px;max-width: 130px;}
+.pocial-1200px-to-1365px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 550px;}
+/* .pocial-1200px-to-1365px .pocial_media_li .beverage_list_detail {height: 290px;} */
+
+/* .pocial-1200px-to-1440px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 240px;height: 165px;background-size: 168px;}
+.pocial-1200px-to-1440px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 340px;height: 340px;background-size: 340px;}
+.pocial-1200px-to-1440px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 138px;height: 136px;}
+.pocial-1200px-to-1440px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 115px;max-width: 130px;}
+.pocial-1200px-to-1440px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 550px;}
+.pocial-1200px-to-1440px .pocial_media_li .beverage_list_detail {height: 290px;} */
+
+.pocial-768px-to-991px ul.poll-inner-section .pocial_media_li {width: 50%;}
+.pocial-768px-to-991px .free_lunch_detail {padding: 22px 0 10px;}
+.pocial-768px-to-991px ul.poll-inner-section .pocial_text_option_li{ width: 50%;}
+.pocial-768px-to-991px ul.poll-inner-section .pocial_text_option_li .formcheck .pocial-formcheck-label {font-size: 13px;line-height: 20px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {max-width: 120px;top: 90px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 105px;height: 105px;	margin: 0;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 35px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 140px;height: 140px;background-size: 140px;left: 0px;top: -10px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 240px;height: 240px;background-size: 240px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 18px;margin-bottom: 30px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading {margin-bottom: 22px !important;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {padding: 18px 26px;font-size: 18px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 55%;padding: 0 20px 0 0;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 45%;padding: 0;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 {font-size: 20px;line-height: 24px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {margin-bottom: 20px;font-size: 16px;}
+.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 16px;margin-bottom: 30px;}
+/* .pocial-768px-to-991px .pocial_media_li .beverage_list_detail {height: 215px;} */
+
+.pocial-768px-to-991px .pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .pocial-form-control {padding: 6px 10px;}
+.pocial-768px-to-991px .reward-enticement-section .right-box button.sign-in img {margin-left: 15px;}
+.pocial-768px-to-991px ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+.pocial-768px-to-991px ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 55%;padding: 0 20px 0 0;}
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 45%;padding: 0;}
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {max-width: 110px;top: 100px;}
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 65px;}
+.pocial-992px-to-1199px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {top: -52px;width: 300px;height: 300px;background-size: 300px;}
+/* .pocial-992px-to-1199px .pocial_media_li .beverage_list_detail {height: 260px;} */
+
+.pocial-992px-to-1199px ul.poll-inner-section .pocial_media_li {width: 25%;}
+
+
+
+ul.poll-inner-section li:nth-last-child(1) .beverage_list_detail figure .fullscreen-view {display: none;}
+.pocial-ctal_link-button {padding: 0 1px;}
+
+
+/* .pocial-1366px-to-1440px .pocial_media_li .beverage_list_detail {height: 310px;} */
+
+.free_lunch_single_media_option .free_lunch_detail .poical_single_image .fullscreen-view.pointer img {   max-width: 22px;}
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in span {
+    display: block;
+    padding: 10px 0 0 0;
+}
+
+.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in span {display: flex;align-items: center;flex-wrap: wrap;}
+
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 26px;}
+/* div.pocialEmbedPollContainer.pocial-300px-to-539px {width: 100%;} */
+
+.pocial-300px-to-539px .pocial_cross_enticement {right: 11px; }
+.pocial-300px-to-539px .food_detail {margin: 0;}
+
+.poll-starts-in {display: flex;justify-content: center;align-items: center;padding: 10px 0 5px;}
+.poll-starts-content {font-size: 16px;color: #333;}
+.poll-starts-time-remaining {color: #3188a3;font-size: 16px;padding: 0 0 0 5px;}
+.poll-starts-time-remaining span {padding: 0 1px;}
+.food_detail.poll-inner-section .pocial_no_record h1 {font-size: 30px;font-family: sans-serif !important;font-weight: 600;color: #333;}
+
+.pocial-300px-to-539px .food_detail.poll-inner-section .pocial_no_record h1 {font-size: 21px;font-family: sans-serif !important;font-weight: 600;color: #333;}
+.pocial-540px-to-767px .food_detail.poll-inner-section .pocial_no_record h1 {font-size: 21px;font-family: sans-serif !important;font-weight: 600;color: #333;}
+
+
+@media (min-width:1601px) and (max-width:1750px) {
+/* .pocial_media_li .beverage_list_detail {height: 370px;} */
+
+}	
+
+@media (min-width:1457px) and (max-width:1600px) {
+/* .pocial_media_li .beverage_list_detail {height: 340px;} */
+
+}
+
+@media (min-width:1367px) and (max-width:1600px) {
+	
+	
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {
+		width: 240px;
+		height: 165px;
+		background-size: 168px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {
+		width: 138px;
+		height: 136px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {
+		width: 340px;
+		height: 340px;
+		background-size: 340px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 120px;max-width: 130px;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 550px;}
+ 
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 220px;height: 145px;background-size: 148px;}
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 118px;height: 116px;}
+.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 320px;height: 320px;background-size: 320px;}
+
+
+
+	
+	}
+
+	@media (min-width:1200px) and (max-width:1440px) {
+	/* .pocial_media_li .beverage_list_detail {height: 290px;} */
+
+	}
+
+@media (min-width:1366px) and (max-width:1440px) {
+/* .pocial_media_li .beverage_list_detail {height: 310px;} */
+
+}
+
+@media (min-width:1200px) and (max-width:1366px) {
+	.beverage_list_contant span {font-size: 18px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 240px;height: 165px;background-size: 168px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 138px;height: 136px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 340px;height: 340px;background-size: 340px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 115px;max-width: 130px;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 550px;}
+
+/* .pocial_media_li .beverage_list_detail {height: 290px;} */
+/* .pocial-992px-to-1199px .pocial_media_li .beverage_list_detail {height: 290px;} */
+
+}
+
+@media (min-width:1200px) and (max-width:1280px) {
+/* .pocial_media_li .beverage_list_detail {height: 270px;} */
+/* .pocial-992px-to-1199px .pocial_media_li .beverage_list_detail {height: 270px;} */
+}	
+
+@media (min-width:992px) and (max-width:1199px) {
+	ul.poll-inner-section .pocial_media_li {width: 25%;}
+	.free_lunch_detail {padding: 22px 0 10px;}
+	.beverage_list_contant span {font-size: 18px;}	
+	ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 16px;}	
+	.free_lunch_detail h2 {font-size: 27px;margin-bottom: 20px;}
+	ul.poll-inner-section .pocial_text_option_li .formcheck .pocial-formcheck-label {font-size: 14px;line-height: 20px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {max-width: 110px;top: 100px;}
+	ul.poll-inner-section li {width: 33.33%;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 55%;padding: 0 20px 0 0;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 45%;padding: 0;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 65px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {top: -52px;width: 300px;height: 300px;background-size: 300px;}
+	/* .pocial_media_li .beverage_list_detail {height: 260px;} */
+
+	/* .pocial-768px-to-991px .pocial_media_li .beverage_list_detail {height: 230px;} */
+	.pocial-768px-to-991px .pocial_poll_question_and_options ul.poll-inner-section li {width: 25%;}
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 100%;padding: 0 0 20px;}
+}
+
+
+@media (min-width:768px) and (max-width:991px) {
+	ul.poll-inner-section .pocial_media_li {width: 50%;}
+	.free_lunch_detail {padding: 22px 0 10px;}
+	ul.poll-inner-section .pocial_text_option_li{ width: 50%;}
+	ul.poll-inner-section .pocial_text_option_li .formcheck .pocial-formcheck-label {font-size: 13px;line-height: 20px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {max-width: 120px;top: 90px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 135px;height: 135px;	margin: 0;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {bottom: 45px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 180px;height: 180px;background-size: 170px;left: 7px;top: -10px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 280px;height: 280px;background-size: 280px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 16px;margin-bottom: 30px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading {margin-bottom: 22px !important;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {padding: 18px 26px;font-size: 18px;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 55%;padding: 0 20px 0 0;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 45%;padding: 0;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 {font-size: 20px;line-height: 24px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {margin-bottom: 20px;font-size: 16px;}
+	.free_lunch_heading h1 {font-size: 28px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {padding: 14px 24px;font-size: 16px;}
+	/* .pocial_media_li .beverage_list_detail {height: 215px;} */
+
+	ul.poll-inner-section .pocial_media_li {width: 33.33%;}
+
+	.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 45%;padding: 0;}
+	.pocial-540px-to-767px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 55%;padding: 0 20px 0 0;}
+
+	.pocial-768px-to-991px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {max-width: 100px;top: 70px;}
+	.reward-enticement-section .right-box button.sign-in img {margin-left: 15px;}
+	.pocial-540px-to-767px .pocial_poll_question_and_options ul.poll-inner-section li {width: 33.33%;}
+
+
+	ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+	ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+
+	/* .pocial-540px-to-767px .pocial_media_li .beverage_list_detail {height: 215px;} */
+
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 { width: 100%; padding: 0 0 20px;}
+
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {width: 115px;height: 115px;}
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 240px;height: 240px;background-size: 240px;}
+	.pocial-300px-to-539px .reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {width: 150px;height: 150px;	background-size: 150px;	left: 0;top: -10px;}
+
+
+}
+
+@media (min-width:768px) and (max-width:810px) {
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {
+		width: 250px;
+		height: 250px;
+		background-size: 250px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {
+		width: 160px;
+		height: 160px;
+		background-size: 150px;
+		left: 7px;
+		top: -10px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {
+		max-width: 90px;
+		top: 70px;
+		left: 35%;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img {
+		width: 100px;
+		height: 100px;
+		
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {
+		bottom: 18px;
+	}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {
+		width: 135px;
+		height: 135px;
+		background-size: 135px;
+		left: 1px;
+		top: -10px;
+	}
+
+
+}
+
+@media (max-width:767px){
+	.free_lunch_heading::after {display: none;}
+	ul.poll-inner-section .pocial_media_li {width: 50%;}
+	.free_lunch {padding: 20px 0px;}
+	.free_lunch_detail h2 {font-size: 21px;margin-bottom: 10px;}
+	.free_lunch_heading h1 img {position: relative;left: inherit;top: inherit;max-width: 50px;display: block;text-align: center;margin: 0 auto 10px;}
+	.beverage_list_contant span {font-size: 18px;}
+	ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 14px;}
+	.free_lunch_detail {padding: 22px 0 10px;}
+	.free_lunch_heading h1 {font-size: 21px;padding: 0px;}
+	.free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+	ul.poll-inner-section .pocial_text_option_li{ width: 100%;}
+	.free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {display: block;max-width: 100%;margin: auto;padding: 0 30px;}
+
+	ul.poll-inner-section .pocial_text_option_li .formcheck .pocial-formcheck-label {font-size: 13px;line-height: 20px;}
+	.beverage_list_contant {padding: 15px 15px;	}
+	.beverage_list_contant.poll_answered{ padding: 0px;}
+	.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck.single-option {padding: 15px 18px 13px 22px;}
+	.pocial-col-md-6 {width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section {padding: 0 15px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo img{width: 98px;height: 96px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .pocial_logo {top: 70px;max-width: 78px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::before {width: 250px;height: 250px;background-size: 250px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo::after {left: 4px;top: 15px;width: 130px;height: 125px;background-size: 125px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .prev_brand_logo {	bottom: 9px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box {margin-top: 40px;}
+
+	.pocial_cross_enticement {right: 2px;top: -40px;width: 13px;height: 13px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box button.sign-in {padding: 14px 25px;font-size: 16px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 15px;margin-bottom: 25px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {margin-bottom: 20px;font-size: 17px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading {margin-bottom: 25px !important;}
+	.reward_enticement_sectionembed_1669032135160 .images_panel {max-width: 350px;margin: auto;}
+	.pocial_embed_signup_1669032135160 .registration_content .pocial-form-group .dropdown_wise_dob .message_dropdown_wise_dob .pocial-form-control {padding-left: 7px;font-size: 12px;padding-right: 16px;}
+	.pocial_embed_signup_1669032135160 .registration_content {padding: 30px 10px 0px;}
+	/* .pocial_media_li .beverage_list_detail {height: 230px;} */
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 {width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6.reward_right_text {width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .images_panel {max-width: 320px;}
+	.reward_enticement_sectionembed_1669032135160 .pocial-col-md-6 .images_panel .colorfull_image img {max-width: 100%;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading h2 {font-size: 20px;line-height: 22px;}
+	.gallery_after_popup .pocialEmbedBodyContainer { width: auto; height: auto;margin: 0px;}
+	.free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 280px;}
+	.free_lunch_single_media_option .free_lunch_detail .poical_single_image .fullscreen-view.pointer img {max-width: 20px;}
+	ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 16px;height: 16px;margin: 0px;min-width: 16px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box a.reward_sign_in {font-size: 16px; margin-bottom: 22px;}
+	.reward_enticement_sectionembed_1669032135160 .reward-enticement-section .right-box .heading p {font-size: 16px;}
+	.free_lunch_detail h2 {font-size: 17px;line-height: 24px;}
+	.free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+	ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}
+	.beverage_list_contant span {font-size: 14px;}
+	ul.poll-inner-section li .formcheck .pocial-formcheck-input {width: 17px;height: 17px;min-width: 17px;}
+	.beverage_list_contant {padding: 14px 14px;}
+	.beverage_list_contant.poll_answered .formcheck.media-option {padding: 14px 14px;}
+	.beverage_list_contant.poll_answered {padding: 0;}
+	.pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+	span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%;}
+	.free_lunch_single_media_option .free_lunch_detail {padding-top: 20px;}
+	.food_detail.poll-inner-section .pocial_no_record h1 {font-size: 21px;font-family: sans-serif !important;font-weight: 600;color: #333;}
+
+
+}
+
+@media (max-width:579px){
+	.pocial-ctal_link-button a {height: 42px;font-size: 14px;}	
+	ul.poll-inner-section .pocial_text_option_li{ width: 100%;}
+	.free_lunch_detail h2 {font-size: 15px; line-height: 19px;}
+	.gallery_after_popup .pocialEmbedBodyContainer .pocialEmbedPopupCloseBtn.pointer {right: 0;}
+	.gallery_after_popup .pocialEmbedBodyContainer { width: 100%; padding: 0px;}
+	span.pocial_show_gallery_popup_open .pocialEmbedPopupModal .pocialEmbedBodyContainer video {width: 100%; }
+	.free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {padding: 0 15px;}
+}	
+
+@media (max-width:539px){
+	ul.poll-inner-section .pocial_media_li {width: 100%;}
+	/* .pocial_media_li .beverage_list_detail {height: 290px;} */
+	.free_lunch_detail {max-width: 320px;margin: auto;}
+	.free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {padding: 0;}
+	.free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 230px;}
+}
+
+
+@media (max-width:479px){
+	ul.poll-inner-section li .formcheck .pocial-formcheck-label {font-size: 15px;}	
+	.free_lunch_heading {padding: 0 0 12px;border-bottom: 1px solid #333;}
+	.free_lunch_single_media_option .free_lunch_detail .food_detail.poll-inner-section {padding: 0 30px;}
+	.total_count_left {padding: 0 0 15px;}
+	.total_count_right strong {font-size: 14px;}
+	.total_count_right span {font-size: 14px;}
+	.total_count .total_count_left strong {font-size: 15px;}
+	.total_count .total_count_left span {font-size: 15px;}
+	.total_count {justify-content: center;}
+	.free_lunch_single_media_option .free_lunch_detail .poical_single_image {height: 180px;}
+	.pocial-ctal_link-button a {height: 42px;font-size: 14px;}
+}
+
+.custum_url { font-size: 12px; color: #5D5D5D; font-family: sans-serif; padding: 4px 0 0; display: block; word-wrap: break-word; }
+.main_div_thanks_answering ul.food_detail.poll-inner-section { text-align: center; }
+.main_div_thanks_answering.free_lunch_detail h2 { text-align: center;}
+.reward-enticement-section .right-box button.view_wallet img { margin-left: 15px; filter: brightness(0) invert(1); margin-top: -4px; }
+.strong-pass { position: absolute; align-items: center; display: flex; top: 5px; right: 0px; font-size: 13px; color: #3188a3; }
+.strong-pass span.round { width: 23px; margin: 0px 4px; border-radius: 6px; height: 8px; background-color: rgb(227, 227, 227);}
+.pocial-540px-to-767px .free_lunch_single_media_option .free_lunch_detail .poical_single_image img.single_option_image { border-radius: 15px; }
+.pocial-300px-to-539px .free_lunch_heading { max-width: 100%; margin: auto; }
+
+
+.login_signup_button {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.login_signup_button .account_link {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+.popup-content.login_content .login_signup_button .signupbtn {
+	display: block;padding: 0;text-align: center;
+}
+.popup-content.login_content .login_signup_button .pocial-btn-primary {margin-bottom: 12px;}
+.popup-content.login_content .login_signup_button a {font-size: 13px;}
+.login_signup_button .account_link span {font-size: 13px;padding: 0px 0px 10px;}
+.pocial_embed_signup_1669032135160 .registration_content .login_signup_button .signupbtn{display: block;padding: 0;}
+
+.pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary{margin-bottom: 12px;}
+.pocial_embed_signup_1669032135160 .pocial-bottom-group {margin-bottom: 15px;}
+
+.pocial-300px-to-539px .popup-content.login_content .signupbtn .pocial-btn-primary {min-width: 116px;font-size: 14px;}
+.pocial-300px-to-539px .popup-content.login_content .account_link .pocial-btn-primary {min-width: 150px;font-size: 14px;}
+.pocial-300px-to-539px .pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary {min-width: 150px;font-size: 14px;}
+.pocial-300px-to-539px .pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary {min-width: 122px;font-size: 14px;}
+
+
+@media (max-width:767px){
+.popup-content.login_content .account_link .pocial-btn-primary {min-width: 150px;font-size: 14px;}
+.popup-content.login_content .signupbtn .pocial-btn-primary {min-width: 116px;font-size: 14px;}
+.pocial_embed_signup_1669032135160 .registration_content .account_link .pocial-btn-primary {min-width: 150px;font-size: 14px;}
+.pocial_embed_signup_1669032135160 .registration_content .signupbtn .pocial-btn-primary {min-width: 122px;font-size: 14px;}
+
+
+}
+
+/*** loading */
+/* .pocialEmbedPollContainer .pocial_embed_loading_class{padding:10px 0 0 0; text-align:center;position: fixed;left: 0;right: 0;bottom: 0;top: 0;display: flex;align-items: center;justify-content: center;z-index: 999999;} */
+/* .pocialEmbedPollContainer .pocial_embed_loading_class img{margin:-3px 10px 0 0; z-index:9; position:relative;} */
+/* .pocialEmbedPollContainer .pocial_embed_loading_class::after {background-color: rgba(0,0,0,0.65);position: fixed;left: 0;right: 0;bottom: 0;top: 0;height: 100%;width: 100%;content: "";} */
+svg {position: absolute;width: 100%;height: 100%;top: 10px;left: 0;right: 0;bottom: 0;z-index: 1; max-width: 180px; margin: auto; text-transform: capitalize;animation: stroke 4s infinite alternate;stroke-width: 2;}
+
+.loader_pocial {height: 180px;width: 180px;display: inline-block;z-index: 1;}
+
+
+
+@keyframes stroke {
+	0% {
+		fill: rgba(72, 138, 20, 0);
+		stroke: rgba(49, 136, 163, 1);
+		stroke-dashoffset: 25%;
+		stroke-dasharray: 0 50%;
+		stroke-width: 2;
+	}
+	70% {
+		fill: rgba(72, 138, 20, 0);
+		stroke: rgba(49, 136, 163, 1);
+	}
+	80% {
+		fill: rgba(72, 138, 20, 0);
+		stroke: rgba(49, 136, 163, 1);
+		stroke-width: 3;
+	}
+	100% {
+		fill: rgba(49, 136, 163, 1);
+		stroke: rgba(49, 136, 163, 1);
+		stroke-dashoffset: -25%;
+		stroke-dasharray: 50% 0;
+		stroke-width: 0;
+	}
+}
+
+
+.popup-content.login_content .signup_now_button .pocial-btn-primary {
+	margin: 0;font-size: 15px;box-shadow: 0px 8px 19px #3DA09239;
+}
+.signup_now_button {
+	padding: 10px 0 20px;
+	text-align: left;
+	border-top: none;
+}
+.signup_now_button .seprate_border {margin-top: 35px !important;}
+.popup-content.login_content .signup_now_button .seprate_border span {font-size: 16px;text-transform: uppercase;}
+.popup-content.login_content .popup_heading h3 {color: #333;font-size: 15px;}
+.popup-content.login_content .login_signup_button .signupbtn {
+	width: 100%;
+	display: flex;
+	
+}
+.popup-content.login_content .login_signup_button .signupbtn .pocial-btn-primary {
+	order: 1;margin-bottom: 0;
+}
+.already_account_span {
+	border-bottom: 1px dashed #B7B7B7;
+	padding: 25px 0 16px;
+	margin: 0 0 27px;
+}
+.already_account_span span {
+	font-size: 14px;
+	color: #5D5D5D;
+	display: inline-block;
+}
+.already_account_span .click_here_to_login {
+	color: #3188A3;
+	margin: 0 0 0 2px;
+}
+.login_signup_button .signupbtn .pocial-btn-primary {
+	font-size: 15px !important;
+	font-family: 'axiformamedium' !important;
+	font-weight: 600;box-shadow: 0px 8px 19px #3DA09239;
+}
+
+.registration_content .login_signup_button {justify-content: flex-end;padding-top: 10px;}
+.popup-content.login_content .login_signup_button {
+	justify-content: space-between;
+}
+
+.popup_signup_heading .details_signup_text {
+	font-size: 14px;
+	color: #5D5D5D;
+}
+.popup_signup_heading .join_pocial_text {
+	margin-bottom: 6px !important;
+}
+
+.free_lunch_single_media_option .food_detail.poll-inner-section .pocial_single_option_li .formcheck.single-option {display: flex;flex-direction: row-reverse;align-items: center;}
+.free_lunch_single_media_option ul.poll-inner-section li .formcheck .pocial-formcheck-label {margin-right: auto;}
+.free_lunch_single_media_option .pocial_single_option_li .formcheck.single-option .progress_embed {width: 100%;}
+
+.parent_class_first_div_show {
+	display: none;
+}
+
+/** Start Poll option according*/
+.article_embed_option_hyperlink_text .pocial_text_option_li label{ cursor: pointer; color: #3188A3;background-color: transparent !important;}
+div.articleEmbedPollOption { width: auto; top: inherit; padding: 0; display: inline-block;}
+div.articleEmbedPollOption ul.poll-inner-section li{ width: auto;}
+div.articleEmbedPollOption .food_detail li{ width: auto;}
+div.articleEmbedPollOption .free_lunch_detail {padding: 0;}
+div.articleEmbedPollOption .article_embed_option_hyperlink_text .pocial_no_record {position: relative; top: inherit; right: inherit; left: inherit; transform: inherit; font-size: 14px; padding: 0px 4px;font-weight: 600;color: #333;}
+div.articleEmbedPollOption:after{ display: none !important;}
+div.articleEmbedPollOption .pocial_embed_loading_class{ background-color: transparent !important;}
+body.body_ai_article_css .reward-enticement-section {position: fixed;left: 0;right: 0;top: 0;background-color: #fff; margin: 0px !important;height: 100%;z-index: 999999;padding: 70px 0px 20px;}
+body.body_ai_article_css .reward-enticement-section .pocial_cross_enticement {right: 22px; top: 18px;}
+body.body_ai_article_css .popup-content.login_content { background-color: #fff; z-index: 999;}
+body.body_ai_article_css .pocial_embed_sigin_1669032135160:after { position: fixed;left: 0;right: 0; top: 0; background-color: #fff; content: ""; width: 100%; height: 100%;margin: auto; z-index: 99;}
+body.body_ai_article_css .registration_content{ background-color: #fff; z-index: 999;}
+body.body_ai_article_css .pocial_embed_signup_1669032135160:after {position: fixed; left: 0; right: 0; top: 0; background-color: #fff;content: "";width: 100%;height: 100%;margin: auto; z-index: 99;}
+/* body.body_ai_article_css .pocial_embed_forget_password_1669032135160:after { position: fixed; left: 0;right: 0;top: 0; background-color: #fff;content: "";width: 100%;height: 100%;margin: auto;z-index: 33;}
+body.body_ai_article_css .pocial_embed_forget_password_1669032135160:before {position: absolute; top: 0; bottom: 0; left: 0;right: 0; z-index: 99; height: auto; width: auto; box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.15); border-radius: 7px; content: ""; background-color: #fff;} */
+/* body.body_ai_article_css .pocial_embed_forget_password_1669032135160 .pocial_logo_forget_popup {z-index: 999; position: relative;} */
+/* body.body_ai_article_css .pocial_embed_forget_password_1669032135160 .pocial_cross_enticement {z-index: 999;} */
+body.body_ai_article_css .pocial-forget-password { z-index: 999; position: relative;}
+/* body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160:before{ position: absolute; top: 0; bottom: 0;left: 0; right: 0;z-index: 99;height: auto; width: auto; box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.15); border-radius: 7px;content: ""; background-color: #fff;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160:after {position: fixed;left: 0; right: 0; top: 0; background-color: #fff;content: ""; width: 100%; height: 100%; margin: auto; z-index: 33;} */
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 .pocial_logo_reset_popup {z-index: 333; position: relative;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 .pocial_cross_enticement{z-index: 333;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 h2{z-index: 333;position: relative;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 .pocial-form-group{z-index: 333;position: relative;}
+body.body_ai_article_css .pocial-bottom-group {z-index: 333; position: relative;}
+body.body_ai_article_css{ overflow: hidden;}
+body.body_ai_article_css .pocial_embed_sigin_1669032135160 {position: fixed; left: 0; right: 0; top: 0; background-color: #fff; margin: 0px !important; overflow-y: scroll; height: 100%; z-index: 999999; padding: 70px 0px 20px; }
+body.body_ai_article_css .pocial_embed_signup_1669032135160 {position: fixed; left: 0; right: 0; top: 0; background-color: #fff; margin: 0px !important; overflow-y: scroll; height: 100%; z-index: 999999; padding: 70px 0px 20px;}
+body.body_ai_article_css .pocial_embed_forget_password_1669032135160 { position: fixed; background-color: #fff; left: 0; right: 0; top: 0; bottom: 0; height: 100%; width: 100%; max-width: inherit; padding: 0px; margin: 0px; box-shadow: none !important; z-index: 999999;}
+body.body_ai_article_css .article_embed_forget {width: 480px;margin: 40px auto 30px;padding: 30px 30px 30px;box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.15);border-radius: 7px;position: relative;background-color: #fff;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 {position: fixed;background-color: #fff;left: 0;right: 0;top: 0;bottom: 0;height: 100%;width: 100%;max-width: inherit;padding: 0px;margin: 0px; box-shadow: none !important; z-index: 999999;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 .article_embed_reset_password_forget{width: 480px; margin: 40px auto 30px; padding: 30px 30px 30px; box-shadow: 0px 1px 24px rgba(0, 0, 0, 0.15); border-radius: 7px; position: relative; background-color: #fff;}
+body.body_ai_article_css .pocial_embed_loading_class {position: fixed; z-index: 9999999;}
+
+
+@media (max-width:767px){
+body.body_ai_article_css .article_embed_forget {width: 300px;}
+body.body_ai_article_css .pocial_embed_forget_reset_password_1669032135160 .article_embed_reset_password_forget{width: 300px;}
+}
+/** End Poll option according*/
+
+

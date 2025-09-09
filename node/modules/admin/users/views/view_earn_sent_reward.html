@@ -1,0 +1,62 @@
+<%
+   var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+   var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+   result				=	(typeof result !== typeof undefined && result) ? result	:	{};
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/view_redemptions/'+userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.rewards.attached_reward'); %> :</th>
+							<td>
+								<%
+									var rewardAttached = result.attachment_details
+									if(rewardAttached.length > 0){
+										rewardAttached.forEach(function(data){
+											if(data.type == REQUEST_FROM_LEAD){%>
+												<p><img src="<%= WEBSITE_ADMIN_IMG_URL%>mail-icon.svg" alt="mail icon" class="img-thumbnail m-r-5"/> <%= data.question %></p><%
+											}else{	%>
+												<p><img src="<%= WEBSITE_ADMIN_IMG_URL%>poll-icon.svg" alt="poll icon" class="img-thumbnail m-r-5"/> <%= data.question %></p><%
+											}  
+										});
+								   }else{ %>
+										<p><%= __('front.no_attachment_found'); %></p><%
+								   } %>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.rewards.description'); %> :</th>
+							<td><%- (result.url_desc) ? result.url_desc : N/A;%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.rewards.expiry_date'); %> :</th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.expiry_date) ? result.expiry_date :'DD/MM/YYYY';%>"></span></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.system.created'); %> :</th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

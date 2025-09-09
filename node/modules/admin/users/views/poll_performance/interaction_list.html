@@ -1,0 +1,270 @@
+<%
+	var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var participantsTab = participants_tab;
+	
+	var InteractionUrl = admin_list_url+"/"+userType+"/poll_performance/list/"+userId;
+	var listUrl = admin_list_url+"/"+userType+"/poll_performance/interaction_list/"+userId+"/"+participantsTab;
+
+	
+%>
+<div class="container-fluid" id="main-container">
+	<!--tab section start-->
+	<%- include('element_report.html') %>
+	<!--tab section end-->
+
+	<!--Search field start-->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" placeholder="<%= __('admin.email_logs.search_by_date_range'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									
+									<!-- search by question  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __("admin.polls.search_by_question"); %>" name="name">
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=listUrl%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search field end-->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('performance.performance'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=InteractionUrl%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+
+					<%
+						var activeVote ="";
+						var activeComment ="";
+						var activeShare ="";
+						var activeInteraction ="";
+						var activeParticipants ="";
+						var activeDwellTime ="";
+						if(participantsTab == PERFORMANCE_VOTES_TAB){
+							activeVote = "active";
+						
+						}else if(participantsTab == PERFORMANCE_COMMENTS_TAB){
+							activeComment = "active";
+							
+						}else if(participantsTab == PERFORMANCE_SHARE_TAB){
+							activeShare = "active";
+
+						}else if(participantsTab == PERFORMANCE_INTERACTIONS_TAB){
+							activeInteraction = "active";
+							
+						}else if(participantsTab == PERFORMANCE_PARTICIPANTS_TAB){
+							activeParticipants = "active";
+
+						}else if(participantsTab == PERFORMANCE_DWELL_TIME_TAB){
+							activeDwellTime = "active";
+						}
+					%>
+					<ul class="nav nav-tabs tab-nav-right" role="tablist">
+						<li role="presentation" class='poll_interactions <%-activeInteraction%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('performance.interactions'); %><span id="<%= PERFORMANCE_INTERACTIONS_TAB %>"></span></a></li>
+						<li role="presentation" class='poll_votes <%-activeVote%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('engagement.votes'); %><span id="<%= PERFORMANCE_VOTES_TAB %>"></span></a></li>
+						<li role="presentation" class='poll_comments <%-activeComment%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('performance.comments'); %><span id="<%= PERFORMANCE_COMMENTS_TAB %>"></span></a></li>
+						<li role="presentation" class='poll_shares <%-activeShare%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('performance.share'); %><span id="<%= PERFORMANCE_SHARE_TAB %>"></span></a></li>
+						<li role="presentation" class='poll_participants <%-activeParticipants%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('performance.participants'); %><span id="<%= PERFORMANCE_PARTICIPANTS_TAB %>"></span></a></li>
+						<li role="presentation" class='dwell_time <%-activeDwellTime%>'><a href="#" data-toggle="tab" aria-expanded="true"><%= __('performance.dwell_time'); %><span id="<%= PERFORMANCE_DWELL_TIME_TAB %>"></span></a></li>
+					</ul><br>
+
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('performance.poll_title'); %></th>
+								<th><%= __('admin.system.created'); %></th>
+								<th><%= __('global.total'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript">
+		
+		/** Function to remove last comma */
+		function removeLastComma(strng){
+			var n=strng.lastIndexOf(",");
+			var a=strng.substring(0,n) 
+			return a;
+		}
+		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable =""; 
+
+		$(document).ready(function() {
+			let fromDate = $("#from_date").val();
+       		let toDate = $("#to_date").val();
+			if(fromDate !="" && toDate !=""){
+				fromDate = fromDate.substring(0, 10);
+				toDate = toDate.substring(0, 10);
+				$("#date-range-picker").val(fromDate+ "  " +toDate);
+				$("#from_date").val(fromDate);
+				$("#to_date").val(toDate);
+			}
+			
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		:	[[ 2, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					
+					{ "data": 'question' },
+                    {
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+                    { "data": 'total_interactions' },
+					
+				],
+				"ajax":{
+					url		:	'<%=listUrl%>',
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.fromDate	= $('#from_date').val();
+				        d.toDate	= $('#to_date').val();
+					},
+					dataSrc	: 	function(res){
+						let totalVoteData = res.totalVote;
+						totalVoteData = " ("+totalVoteData+")";
+						$('#<%= participantsTab %>').html(totalVoteData)
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});
+		});
+
+		
+		 
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+
+       
+		$(".poll_interactions").click(function(){  
+			var url = "<%=admin_list_url+'/'+userType+'/poll_performance/interaction_list/'+userId+'/'+PERFORMANCE_INTERACTIONS_TAB%>";
+			window.location.href = url;
+		});
+
+		$(".poll_votes").click(function(){  
+			var voteUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/poll_list/'+userId+'/'+PERFORMANCE_VOTES_TAB%>";
+			window.location.href = voteUrl;
+		});
+
+		$(".poll_comments").click(function(){     
+			var commentUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/poll_list/'+userId+'/'+PERFORMANCE_COMMENTS_TAB%>";
+			window.location.href = commentUrl;
+		});
+
+		$(".poll_shares").click(function(){  
+			var shareUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/poll_list/'+userId+'/'+PERFORMANCE_SHARE_TAB%>";
+			window.location.href = shareUrl;
+		});
+
+		$(".poll_participants").click(function(){   
+			var participantsUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/poll_list/'+userId+'/'+PERFORMANCE_PARTICIPANTS_TAB%>";
+			window.location.href = participantsUrl;
+		});
+
+        $(".dwell_time").click(function(){ 
+			var timeSpentUrl = "<%=admin_list_url+'/'+userType+'/poll_performance/poll_spent_time/'+userId+'/'+PERFORMANCE_DWELL_TIME_TAB%>";
+			window.location.href = timeSpentUrl;
+		});
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+
+
+ 		/**use active tab condition*/
+		var pollUrl = '<%=listUrl%>';
+		var currentUrl = $(location).attr('href');
+        if(currentUrl == pollUrl){
+			$("#poll_listing_tab").removeClass("btn-default");
+            $("#poll_listing_tab").addClass("bg-teal");
+        }
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

@@ -1,0 +1,120 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+    result				=	(typeof result !== typeof undefined && result) ? result	:	{};
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/pollsets/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right">Logo:</th>
+							<td >
+								<a href="<%if(result.sponsoring_logo){%><%= POLLSET_URL + result.sponsoring_logo%><%}else{%><%= NO_IMAGE_AVAILABLE %><%}%>" class='items-image' data-lightbox='roadtrip<%=result._id%>'>
+								<img src="<%if(result.sponsoring_logo){%><%= POLLSET_URL + result.sponsoring_logo%><%}else{%><%= NO_IMAGE_AVAILABLE %><%}%>?dim=390x236' class='img-thumbnail'  alt='System Image'/>">
+							</a></td>
+							
+							<th class="text-right">Category :</th>
+							<td><%= result.category_name %></td>
+						</tr>
+						<tr>
+							
+							<th class="text-right" width="20%">Title :</th>
+							<td><%= result.title%></td>	
+                            
+							<th class="text-right">Show To :</th>
+							<td>
+								<%if(result.show_to == SHOW_TO_MY_PAGE_ONLY){%>
+									<span class="label label-warning m-l-5 m-t-5 text-capitalize"><%= __("admin.pollsets.my_text_only"); %></span>
+								<%}else{%>
+									<span class="label label-info m-l-5 m-t-5 text-capitalize"><%= __("admin.pollsets.public"); %></span>
+								<%}%>
+							</td>
+						</tr>
+						
+						<tr>
+                            <th class="text-right" width="20%">Allow Retaking :</th>
+							<td>
+								<%if(result.allow_retaking == ALLOW_RETAKING_YES){%>
+									<span class="label label-success m-l-5 m-t-5 text-capitalize"><%=result.allow_retaking %></span>
+								<%}else{%>
+									<span class="label label-danger m-l-5 m-t-5 text-capitalize"><%=result.allow_retaking %></span>
+								<%}%>
+							</td>
+
+							<th class="text-right">SSO :</th>
+							<td class="text-capitalize">
+								<%if(result.sso == SSO_YES){%>
+									<span class="label label-success m-l-5 m-t-5 text-capitalize"><%=result.sso%></span>
+								<%}else{%>
+									<span class="label label-danger m-l-5 m-t-5 text-capitalize"><%=result.sso %></span>
+								<%}%>
+							</td>
+						</tr>
+						<tr>
+                            <th class="text-right">Published :</th>
+							<td>
+								<%if(result.is_published == POLL_NOT_PUBLISHED){%>
+								   <span class="label label-danger m-l-5 m-t-5 "><%= __('admin.polls.not_published'); %></span>
+								<%}else{%>
+									<span class="label label-success m-l-5 m-t-5 "><%= __('admin.polls.published'); %></span>
+								<%}%>
+							</td>
+							<th class="text-right">Created :</th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span></td>
+						</tr>
+						
+						<tr>
+							<th class="text-right">Reward Description :</th>
+							<td colspan="3" id="reward_description" class="readMore"><%=result.reward_description%></td>
+						</tr>
+						<tr>
+
+							<th class="text-right">Description :</th>
+							<td colspan="3" id="description" class="readMore"><%=result.description%></td> 
+						</tr>
+						
+                        
+						<tr>
+							<th colspan="4">
+								<%= __("front.polls.selected_polls_detail"); %>
+							</th>
+						</tr>
+							<% var pollQuestion = result.polls_details;
+								pollQuestion.forEach(function(data,index){
+							%>
+                        <tr>
+                            <td><%= index+1	 %>.</td>
+							<td	colspan="3"><%=data.question%></td>
+						</tr>
+							<%
+							 })
+							%>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>

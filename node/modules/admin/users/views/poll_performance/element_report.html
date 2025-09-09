@@ -1,0 +1,37 @@
+<%
+   var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+   var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+   var InteractionUrl = admin_list_url+"/"+userType+"/poll_performance/list/"+userId;
+   var pollListUrl = admin_list_url+"/"+userType+"/poll_performance/poll_list/"+userId+"/"+PERFORMANCE_VOTES_TAB;
+   var leadGenerationUrl = admin_list_url+'/'+userType+'/poll_performance/lead_generation_details/'+userId;
+   var assumptionReportUrl = admin_list_url+'/'+userType+'/poll_performance/assumption_report_list/'+userId;
+ %>
+ 
+ <div class="row clearfix">
+   <!--interaction button-->
+   <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+      <a href="<%=InteractionUrl%>" class="stats-anchor text-decoration-none">
+       <button class="btn btn-default btn-lg btn-block waves-effect font-18" id="interaction_tab" type="button"><%= __('performance.interactions'); %></button>
+      </a>
+   </div>
+   <!--poll listing button-->
+   <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+      <a href="<%=pollListUrl%>" class="stats-anchor text-decoration-none">
+       <button class="btn btn-default btn-lg btn-block waves-effect font-18" id="poll_listing_tab" type="button"><%= __('admin.polls.polls_list'); %></button>
+      </a>
+   </div>
+   <!--lead generation button-->
+   <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+      <a href="<%=leadGenerationUrl%>" class="stats-anchor text-decoration-none">
+       <button class="btn btn-default btn-lg btn-block waves-effect font-18" id="lead_generation_tab" type="button"><%= __('performance.lead_generation'); %></button>
+      </a>
+   </div>
+   <!--assumption report button-->
+   <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+      <a href="<%=assumptionReportUrl%>" disabled="disabled" class="stats-anchor text-decoration-none">
+       <button class="btn btn-default btn-lg btn-block waves-effect font-18" id="assumption_report_tab" type="button"><%= __('performance.assumptions_report'); %></button>
+      </a>
+   </div>
+</div>
+<br>
+

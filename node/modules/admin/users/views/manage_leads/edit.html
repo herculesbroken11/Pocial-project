@@ -1,0 +1,1144 @@
+<%
+	result					=	(typeof result !== typeof undefined && result) ? result	:	{};
+	var signupFields		=	(result.signup_fields)	 		? result.signup_fields 			:	[]; 
+	var mandatoryOptions	=	(result.mandatory_options) 		? result.mandatory_options 		:	[]; 
+	var messageBoxTitle		=	(result.message_box_title) 		? result.message_box_title 		:	[]; 
+	var typeDropdownTitle	=	(result.type_dropdown_title)	? result.type_dropdown_title	:	[];
+	var isSubscriber		=	(result.is_subscriber)			? result.is_subscriber			:	0;
+	var dbUserId			=	(result.user_id)				? result.user_id				:	0;
+	var userType 			=	(typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 				=	(typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var isSubscriberClass	=	(isSubscriber == DEFAULT_ONE) ? ""	:"";
+	var notifyEmailType		=	(result.notify_email_type)	 ? result.notify_email_type :	""; 
+	var notifyEmailSendType		=	(result.notify_email_send_type)	 ? result.notify_email_send_type :	[]; 
+%>
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.edit'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> 
+									<%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					 
+					<!-- Multilanguage tabs -->
+					<form id="edit-lead-form" data-submit-btn-id="lead-edit-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">
+						
+						<input type="hidden" id="signup_fields" name="signup_fields" class="form-control" />
+						<input type="hidden" id="mandatory_options" name="mandatory_options" class="form-control" />
+						<input type="hidden" id="message_box_title" name="message_box_title" class="form-control" />
+						<input type="hidden" id="type_dropdown_title" name="type_dropdown_title" class="form-control" />
+
+						<div class="row clearfix">
+							<!-- left section -->
+							<div class="col-sm-3">
+								<div class="row clearfix <%=isSubscriberClass%>">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="title" class="control-label"><%= __('form.name_your_campaign'); %> <span class="required"> *</span>:</label>
+												<input name="title" id="title" placeholder="<%= __('form.enter_campaign_title'); %>" type="text" value="<%=(result.title) ? result.title :"";%>" class="form-control" />
+											</div>
+											<span id="title_error" class="error"></span>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="description" class="control-label"><%= __('admin.leads.description'); %> <span class="required"> *</span>:</label>
+												<input name="description" placeholder="<%= __('admin.leads.description'); %>" id="description" type="text" class="form-control"  value="<%=(result.description) ? result.description :"";%>" />
+											</div>
+											<span id="description_error" class="error"></span>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="notify_email" class="control-label"><%= __('admin.leads.notify_email'); %> :
+													<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_email_comma_seprate'); %>" >
+												</label>
+												<input name="notify_email" placeholder="<%= __('admin.leads.notify_email'); %>" id="notify_email" type="text"  value="<%=(notify_email) ? notify_email :"";%>" class="form-control" />
+											</div>
+											<span id="notify_email_error" class="error"></span>
+										</div>
+									</div>
+
+									<div class="col-sm-12">
+
+										<div class="form-group">
+											<div class="form-linee">
+												<label for="notify_email_type" class="control-label"><%= __('admin.leads.notify_email_type'); %> : </label>
+												<br>
+												<input class="with-gap" id="notify_email_all" name="notify_email_type" type="radio" value="<%=LEAD_CAMPAIGN_NOTIFY_EMAIL_ALL%>" <%-(notifyEmailType == LEAD_CAMPAIGN_NOTIFY_EMAIL_ALL) ? "checked":"";%>><label class="label_checkbox" for="notify_email_all">All</label>
+												<input class="with-gap" id="notify_email_never" name="notify_email_type" type="radio" value="<%=LEAD_CAMPAIGN_NOTIFY_EMAIL_NEVER%>" <%-(notifyEmailType == LEAD_CAMPAIGN_NOTIFY_EMAIL_NEVER ) ? "checked":"";%>><label class="label_checkbox" for="notify_email_never">Never</label>
+											</div>
+											<span id="notify_email_type_error" class="error"></span> 
+										</div>
+								
+										<div class="form-group notify_email_send_type">
+											<div class="form-linee">
+												<%
+												if(typeof LEAD_CAPTURE_NOTIFY_EMAIL_ARRAY!== typeof undefined && LEAD_CAPTURE_NOTIFY_EMAIL_ARRAY.length > 0){
+													LEAD_CAPTURE_NOTIFY_EMAIL_ARRAY.map(arrayResponse=>{
+														var checkedData = (notifyEmailSendType.includes(arrayResponse.id)) ? "checked" : "";
+													%>
+													<input type="checkbox" value="<%=arrayResponse.id%>" id="<%=arrayResponse.id%>_checkbox" name="notify_email_send_type[]" class="filled-in" <%=checkedData%>>
+													<label for="<%=arrayResponse.id%>_checkbox"><%=arrayResponse.name%></label>&nbsp;
+												<% 	
+												});
+												} %>
+											</div>
+											<span id="notify_email_send_type_error" class="error"></span> 
+
+										</div>	
+									</div>
+
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="assign_welcome_email" class="control-label"><%= __('admin.user.assign_welcome_email'); %> <span class="required"> *</span>:</label>
+												<select data-live-search="true" class="form-control show-tick search_by_status search-select" id="assign_welcome_email" name="assign_welcome_email"  autocomplete="off">											
+													<option value=""><%= __('admin.users.please_select_assign_welcome_email'); %></option>
+													<% if(welcomeEmailDropdownListData.length>0){ 
+														welcomeEmailDropdownListData.map(records=>{ 
+																let selectedTemplate = (records._id.equals(result.assign_welcome_email_id)) ? "selected" : "";
+															%>
+															<option <%= selectedTemplate %> value="<%= records._id %>" ><%= records.template_title %></option>
+													<% })} %>
+												</select>
+											</div>
+											<span id="assign_welcome_email_error" class="error"></span> 
+										</div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-sm-12">
+										<label for="text_to_display" class="control-label"><%= __('admin.leads.custom_thank_you_message'); %> :</label>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="title" class="control-label"><%= __('admin.leads.title'); %> :</label>
+												<input name="custom_thank_you_title" placeholder="<%= __('admin.leads.title'); %>" id="custom_thank_you_title" value="<%=(result.custom_thank_you_title) ? result.custom_thank_you_title :"";%>" type="text" class="form-control" />
+											</div>
+											<span id="custom_thank_you_title_error" class="error"></span>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="message" class="control-label"><%= __('admin.leads.message'); %> :</label>
+												<input name="custom_thank_you_message" placeholder="<%= __('admin.leads.message'); %>" id="custom_thank_you_message" value="<%=(result.custom_thank_you_message) ? result.custom_thank_you_message :"";%>" type="text" class="form-control" />
+											</div>
+											<span id="custom_thank_you_message_error" class="error"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Right section -->
+							<div class="col-sm-9">
+								<!-- <div class="row clearfix <%=isSubscriberClass%>">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="text_to_display" class="control-label"><%= __('admin.leads.text_to_display'); %> <span class="required"> *</span>:</label>
+												<input name="text_to_display" id="text_to_display" type="text" class="form-control" value="<%=(result.text_to_display) ? result.text_to_display :"";%>"/>
+											</div>
+											<span id="text_to_display_error" class="error"></span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="image_url_css <%=isSubscriberClass%>">
+									<div class="row clearfix">
+										<div class="col-sm-5">
+											<div class="upload_lead_image">
+												<div class="form-group">
+													<label for="image" class="control-label"><%= __("admin.leads.image"); %> :</label>
+													<div class="form-lin no-bottom-border">
+														<input type="hidden" id="lead_image_name" id="lead_image_name">
+														<input type="hidden" id="lead_image_binary" id="lead_image_binary">
+														<input name="old_image" id="old_image" type="hidden" value="<%=(result.image) ? result.image :"";%>" />
+														<input name="image_temp" id="crop" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+														<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.leads.better_image_ratio") %> <%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+															<i class="material-icons">info</i>
+														</span>
+													</div>
+													<span id="image_temp_error" class="error"></span> 
+													<span id="image_error" class="error"></span> 
+												</div>										
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<label for="image_url" class="separate-label">Or</label>
+										</div>
+										
+										<div class="col-sm-5">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="image_url" class="control-label"><%= __('admin.leads.image_url'); %> :</label>
+													<input name="image_url" id="image_url" onchange="addimage()" type="text" class="form-control" />
+												</div>
+												<span id="image_url_error" class="error"></span>
+											</div>
+										</div>
+									</div>
+								</div> -->
+								
+								<!-- <div class="row clearfix">
+									<div class="col-sm-6">
+										<span id="edit_lead_image_show" class="lead_image">
+											<% if(result.image){ %>
+												<a href='<%= LEADS_FORM_URL + result.image%>' class='items-image old_image_hide' data-lightbox='roadtrip'>
+													<img src="<%= LEADS_FORM_URL + result.image %>?dim=130x100&type=resize" alt="Reward image" width="130" height="100" class="img-thumbnail" />
+												</a>
+											<% } %>
+										</span>
+										<div style="display:none" id="cropzee-hidden-canvas" class="image-previewer" data-cropzee="crop"></div>
+										<div id="img_home" class="img_home_url"></div>
+									</div>
+								</div> -->
+
+
+								<div class="row clearfix">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="card">
+											<div class="body">
+												<div class="row clearfix">
+													<div class="col-sm-12">
+														<div class="form-group">
+															<div class="form-line">
+																<label for="form_title" class="control-label"><%= __('admin.leads.form_title'); %> :</label>
+																<input name="form_title" id="form_title" placeholder="<%= __('admin.leads.form_title'); %>" type="text" class="form-control" value="<%=(result.form_title) ? result.form_title :"";%>" />
+															</div>
+															<span id="form_title_error" class="error"></span>
+														</div>
+													</div>
+												</div>
+				
+												<div class="row clearfix <%=isSubscriberClass%>">
+													<div class="col-sm-12">
+														<div class="form-group">
+															<div class="form-line">
+																<label for="display_url_description" class="control-label"><%=  __('admin.leads.display_url_description'); %> :</label>
+																<textarea rows="4"  id="display_url_description" class="form-control no-resize ckeditor"  name="display_url_description" ><%=(result.display_url_description) ? result.display_url_description :"";%></textarea>
+															</div>
+															<span id="display_url_description_error" class="error"></span>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-sm-12">
+														<div class="form-group">
+															<div class="form-line">
+																<label for="button_name" class="control-label"><%= __('admin.leads.submit_button_title'); %> <span class="required"> *</span>:</label>
+																<input name="button_name" id="button_name" placeholder="<%= __('admin.leads.submit_button_title'); %>" type="text" class="form-control" value="<%=(result.button_name) ? result.button_name :"";%>" />
+															</div>
+															<span id="button_name_error" class="error"></span>
+														</div>
+													</div>
+												</div>
+												 
+												<div class="row clearfix <%=isSubscriberClass%>">
+													<div class="col-sm-4">
+														<div class="form-group">
+															<div class="form-linee">
+																<label for="signin_option" class="control-label"><%= __('admin.leads.enable_sign_in_option'); %> : </label>
+																<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.sign_in_option_tooltip'); %>" >
+																<br>
+																<input class="with-gap" id="signin_option1" name="signin_option" type="radio" value="<%= SIGNIN_OPTION_YES %>" <%= result.signin_option == SIGNIN_OPTION_YES ? 'checked' :''%> >
+																<label class="label_checkbox" for="signin_option1"><%= __('admin.system.yes'); %></label>
+																
+																<input class="with-gap" id="signin_option2" name="signin_option" type="radio" value="<%= SIGNIN_OPTION_NO %>" <%= result.signin_option == SIGNIN_OPTION_NO ? 'checked' :''%> >
+																<label class="label_checkbox" for="signin_option2"><%= __('admin.system.no'); %></label>
+															</div>
+															<span id="signin_option_error" class="error"></span> 
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<div class="form-linee">
+																<label for="kiosk_option" class="control-label"><%= __('admin.leads.enable_kiosk_mode'); %> : </label>
+																<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.kiosk_mode_tooltip'); %>" >
+																<br>
+																<input class="with-gap" id="kiosk_option1" name="kiosk_option" type="radio" value="<%= KIOSK_OPTION_YES %>" <%= result.kiosk_option == KIOSK_OPTION_YES ? 'checked' :''%> >
+																<label class="label_checkbox" for="kiosk_option1"><%= __('admin.system.yes'); %></label>
+																
+																<input class="with-gap" id="kiosk_option2" name="kiosk_option" type="radio" value="<%= KIOSK_OPTION_NO %>" <%= result.kiosk_option == KIOSK_OPTION_NO ? 'checked' :''%>>
+																<label class="label_checkbox" for="kiosk_option2"><%= __('admin.system.no'); %></label>
+															</div>
+															<span id="kiosk_option_error" class="error"></span> 
+														</div>
+													</div>
+												</div>
+												
+												<!-- Start Add Fields to the form -->
+												<div class="row clearfix <%=isSubscriberClass%>">
+													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+														<div class="form-group">
+															<div class="header">
+																<h2><%= __('admin.leads.form_fields'); %></h2>
+																<span class="email_mendatory">
+																	<div class="switch">
+																		<label>Mandatory<input type="checkbox" disabled="" checked=""><span class="lever"></span></label>
+																		&emsp; <label>Not Mandatory<input type="checkbox" disabled=""><span class="lever"></span></label>
+																	</div>
+																</span>
+																<ul class="header-dropdown m-r--5">
+																	<li class="dropdown">
+																		<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+																			<button type="button" class="btn bg-pink waves-effect">
+																				<i class="material-icons font-14">add</i>
+																				<%= __('admin.leads.add_fields_the_form'); %>
+																			</button>
+																		</a>
+																		<ul class="dropdown-menu pull-right">
+																			<%
+																			if(typeof SIGNUP_FIELD_CHECKBOX_DATA!== typeof undefined && SIGNUP_FIELD_CHECKBOX_DATA.length > 0){
+																				SIGNUP_FIELD_CHECKBOX_DATA.map(fieldData=>{
+																					if(SIGNUP_FIELD_MESSAGE_BOX == fieldData.id){
+																					%>
+																						<li class="dropdown_show_hide_<%=fieldData.id%>">
+																							<a href="javascript:void(0);" class="add_field_button" id="addMoreFieldsMessage" onclick="addFieldsFormFunction('<%=fieldData.id%>')" class="waves-effect waves-block"><%=fieldData.text%></a>
+																						</li>
+																					<% } else if(SIGNUP_FIELD_DROPDOWN == fieldData.id){ %>
+																						<li class="dropdown_show_hide_<%=fieldData.id%>">
+																							<a href="javascript:void(0);" class="add_field_button" id="addMoreFieldsDropdown" onclick="addFieldsFormFunction('<%=fieldData.id%>')" class="waves-effect waves-block"><%=fieldData.text%></a>
+																						</li>
+																					<% }else{ %>
+																						<li class="dropdown_show_hide_<%=fieldData.id%>">
+																							<a href="javascript:void(0);" class="add_field_button" id="<%=fieldData.id%>" onclick="addFieldsFormFunction('<%=fieldData.id%>')" class="waves-effect waves-block"><%=fieldData.text%></a>
+																						</li>
+																					<% } %>
+																			<% 	
+																				});
+																			} %>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="body form-horizontal">
+																<ul class="list-unstyled">
+																	<!-- Email Collection -->
+																	<li>
+																		 <div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.email'); %> <span class="required"> *</span>:</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.email'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<span class="email_mendatory"><%= __('admin.leads.mandatory_minimum_required'); %></span>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Name Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_FULLNAME%>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2">Name :</label>
+																			</div>
+																			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.first_name'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.last_name'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox"  id="checkbox_<%=SIGNUP_FIELD_FULLNAME%>" name="checkbox_name_<%=SIGNUP_FIELD_FULLNAME%>" onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_FULLNAME%>')" <%= (mandatoryOptions.includes(SIGNUP_FIELD_FULLNAME)) ? 'checked' :''%> ><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_FULLNAME%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Password Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_PASSWORD%>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.password'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.password'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_PASSWORD%>" name="checkbox_name_<%=SIGNUP_FIELD_PASSWORD%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_PASSWORD)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_PASSWORD%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_PASSWORD%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Username Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_USERNAME%>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.user_name'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.user_name'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_USERNAME%>" name="checkbox_name_<%=SIGNUP_FIELD_USERNAME%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_USERNAME)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_USERNAME%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_USERNAME%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	
+																	<!-- Dob Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_DOB %>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.date_of_birth'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.date_of_birth'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_DOB%>" name="checkbox_name_<%=SIGNUP_FIELD_DOB%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_DOB)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_DOB%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_DOB%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Zip Code Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_ZIPCODE %>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.zip_code'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.zip_code'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_ZIPCODE%>" name="checkbox_name_<%=SIGNUP_FIELD_ZIPCODE%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_ZIPCODE)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_ZIPCODE%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_ZIPCODE%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Phone Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_PHONE %>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.phone_number'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="form-control" readonly placeholder="<%= __('admin.user.phone_number'); %>">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_PHONE%>" name="checkbox_name_<%=SIGNUP_FIELD_PHONE%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_PHONE)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_PHONE%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_PHONE%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- Gender Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_GENDER %>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.user.gender'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-line">
+																						<input class="with-gap" id="gender1" name="gender" type="radio" value="<%= MALE %>"><label class="label_checkbox" for="gender1"><%= __('admin.user.male'); %></label>
+																						<input class="with-gap" id="gender2" name="gender" type="radio" value="<%= FEMALE %>"><label class="label_checkbox" for="gender2"><%= __('admin.user.female'); %></label>
+																						<input class="with-gap" id="gender3" name="gender" type="radio" value="<%= OTHER %>"><label class="label_checkbox" for="gender3"><%= __('admin.user.other'); %></label>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_GENDER%>" name="checkbox_name_<%=SIGNUP_FIELD_GENDER%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_GENDER)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_GENDER%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_GENDER%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	<!-- upload Image Collection -->
+																	<li class="all_fields li_show_hide_<%=SIGNUP_FIELD_IMAGE_NAME %>" >
+																		<div class="row clearfix">
+																			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+																				<label for="email_address_2"><%= __('admin.leads_subscriber.image_upload'); %> :</label>
+																			</div>
+																			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				<div class="form-group">
+																					<div class="form-lin no-bottom-border">
+																						<input disabled="disabled" name="business_logo" id="business_logo" type="file" data-text="<%=__('admin.master.select_image')%>"  data-input="false" class="form-control jfilestyle"/>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																				<div class="switch">
+																					<label><input type="checkbox" id="checkbox_<%=SIGNUP_FIELD_IMAGE_NAME%>" name="checkbox_name_<%=SIGNUP_FIELD_IMAGE_NAME%>" <%= (mandatoryOptions.includes(SIGNUP_FIELD_IMAGE_NAME)) ? 'checked' :''%> onclick="mandatoryFieldsFormFunction('<%=SIGNUP_FIELD_IMAGE_NAME%>')"><span class="lever"></span></label>&emsp;
+																					<button type="button" onclick="deleteFieldsFormFunction('<%=SIGNUP_FIELD_IMAGE_NAME%>')" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
+																				</div>
+																			</div>
+																		</div>
+																	</li>
+																	
+																	
+																	<!-- Message Collection -->
+																	<li id="messageHolder" class="all_fields li_show_hide_<%=SIGNUP_FIELD_MESSAGE_BOX %>" > </li>
+																	
+																	<!-- Dropdown Collection -->
+																	<li id="dropdownHolder" class="all_fields li_show_hide_<%=SIGNUP_FIELD_DROPDOWN %>" > </li>
+																	 
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- end Add Fields to the form -->
+								<button type="button" id="lead-edit-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> >
+									<i class="material-icons font-14">save</i> 
+									<%= __('admin.system.submit'); %>
+								</button>
+								<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+								<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/<%= userId %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.css">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>animate.min.css" rel="stylesheet">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.css" rel="stylesheet">
+	
+<%- contentFor('script') %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>FileSaver.min.js" defer></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>canvas-toBlob.min.js" defer></script> 
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>lead_image.js"></script>
+	
+	<script type="text/javascript">
+
+		var notifyType = "<%=notifyEmailType%>";
+		
+		if(notifyType == '<%=LEAD_CAMPAIGN_NOTIFY_EMAIL_ALL%>'){
+			$('.notify_email_send_type').show();
+		}else{
+			$('.notify_email_send_type').hide();
+		}
+
+		$('#notify_email_all').click(function(){
+			$('.notify_email_send_type').show();
+		});
+
+		$('#notify_email_never').click(function(){
+			$('.notify_email_send_type').hide();
+		});
+
+	
+		$('.all_fields').hide();
+		
+		/******************************* EDIT WISE MAKE SCRIPT**************************************/
+		let signupFieldsArray 			= '<%= signupFields %>';
+		let mandatoryOptionsArray 		= '<%= mandatoryOptions %>';
+		let messageBoxTitleArray 		= '<%- JSON.stringify(messageBoxTitle) %>';
+		let typeDropdownTitleArray 		= '<%- JSON.stringify(typeDropdownTitle) %>';
+		
+		let signupFieldsSplitArray		= signupFieldsArray.split(",");
+		let mandatoryOptionsSplitArray	= mandatoryOptionsArray.split(",");
+		let messageBoxJsonParseArray	= JSON.parse(messageBoxTitleArray);
+		let dropdownJsonParseArray		= JSON.parse(typeDropdownTitleArray);
+		let incLength					= messageBoxJsonParseArray.length;
+		let incSelectLength				= dropdownJsonParseArray.length;
+		 
+		messageBoxJsonParseArray = messageBoxJsonParseArray.map((v,index) => Object.assign(v, {id: index+1}));
+		dropdownJsonParseArray = dropdownJsonParseArray.map((v,index) => Object.assign(v, {id: index}));
+		 
+		/** li show hide edit wise*/
+		signupFieldsSplitArray.map(recordsSignupFields=>{
+			$('.li_show_hide_'+recordsSignupFields).show();
+			$('.dropdown_show_hide_'+recordsSignupFields).addClass('dropdown-show-hide');
+		})
+		
+		/** mesaage show hide edit wise*/
+		if(messageBoxJsonParseArray.length>0){
+			$('.li_show_hide_<%= SIGNUP_FIELD_MESSAGE_BOX %>').show();
+		}
+		
+		/** dropdown show hide edit wise*/
+		if(dropdownJsonParseArray.length>0){
+			$('.li_show_hide_<%= SIGNUP_FIELD_DROPDOWN %>').show();
+		}
+		
+		if(messageBoxJsonParseArray.length>0){
+			for(mInc=1;mInc<=incLength;mInc++){
+				let checkedData = (messageBoxJsonParseArray[mInc-1]['mandatory']=='Yes') ? 'checked' :'';
+				let labelName	= (messageBoxJsonParseArray[mInc-1] && messageBoxJsonParseArray[mInc-1]['label']) ? messageBoxJsonParseArray[mInc-1]['label'] : "";
+				
+				$("#messageHolder").append('<li id="messageHolder'+mInc+'" >'+
+						'<div class="row clearfix">'+
+							'<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">'+
+								'<label for="message"><input name="name" class="form-control" onchange=changeEventMessage('+mInc+') value="'+labelName+'" id="messageLabel'+mInc+'" type="text" placeholder="Name"></label>'+
+							'</div>'+
+							'<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
+								'<div class="form-group">'+
+									'<div class="form-line">'+
+										'<input class="form-control" readonly placeholder="<%= __('admin.leads.message'); %>">'+
+									'</div>'+
+								'</div>'+
+							'</div>'+
+							'<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+								'<div class="switch">'+
+									'<label><input type="checkbox" id="mandatoryMessageId'+mInc+'" onclick=changeEventMessage('+mInc+') '+checkedData+' ><span class="lever"></span></label>&emsp;'+
+									'<button type="button" class="btn btn-default waves-effect" onclick=deleteMessageFunction('+mInc+') ><i class="material-icons">delete</i></button>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+					'</li>');
+			}
+		}
+		
+		if(dropdownJsonParseArray.length>0){
+			for(sInc=0; sInc<incSelectLength; sInc++){
+				let checkedDropdownData	= (dropdownJsonParseArray[sInc] && dropdownJsonParseArray[sInc]['mandatory']=='Yes') ? 'checked' :'';
+				let optionKeyValueArray	= (dropdownJsonParseArray[sInc] && dropdownJsonParseArray[sInc]['option_key_value']) ? dropdownJsonParseArray[sInc]['option_key_value'] : [];
+				let optionsString		= (dropdownJsonParseArray[sInc] && dropdownJsonParseArray[sInc]['options']) ? dropdownJsonParseArray[sInc]['options'] : "";
+				let labelName			= (dropdownJsonParseArray[sInc] && dropdownJsonParseArray[sInc]['label']) ? dropdownJsonParseArray[sInc]['label'] : "";
+			
+				$("#dropdownHolder").append('<li id="dropdownHolder'+sInc+'" >'+
+					'<div class="row clearfix">'+
+						'<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">'+
+							'<label for="message"><input name="name" class="form-control" onchange=changeEventDropdown('+sInc+') value="'+labelName+'" id="dropdown_label'+sInc+'" type="text" ></label>'+
+						'</div>'+
+						'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+							'<div class="form-group">'+
+									'<select class="form-control show-tick search_by_status search-select" id="select_box'+sInc+'" name="select_box'+sInc+'" multiple="multiple" autocomplete="off">'+optionsString+'</select>'+
+								'<div class="form-line">'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+							'<div class="form-group">'+
+								'<div class="form-line mb-1">'+
+									'<input type="text" class="form-control" placeholder="Please enter option name." id="option_text'+sInc+'" />'+
+								'</div>'+
+									'<input type="button" id="btnAdd" class="btn bg-pink btn-sm waves-effect" value="Add" onclick = "AddDropdownOptions('+sInc+')" />'+
+									'&nbsp; <input type="button" id="btnAdd" class="btn bg-red btn-sm waves-effect remove_button'+sInc+'" value="Remove Options" onclick = "removeMultipleOption('+sInc+')" />'+
+							'</div>'+
+						'</div>'+
+						'<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+							'<div class="switch">'+
+								'<label><input type="checkbox" id="mandatoryDropdownId'+sInc+'" onclick=changeEventDropdown('+sInc+') '+checkedDropdownData+' ><span class="lever"></span></label>&emsp;'+
+								'<button type="button" class="btn btn-default waves-effect" onclick=deleteDropdownFunction('+sInc+') ><i class="material-icons">delete</i></button>'+
+							'</div>'+
+						'</div>'+
+					'</div>'+
+				'</li>');
+			}
+		}
+		
+		
+		
+		/******************************* ADD WISE MAKE SCRIPT**************************************/
+		
+		let mandatoryOptions		=	mandatoryOptionsSplitArray;
+		let signupFields			=	signupFieldsSplitArray;
+		let messageBoxData			=	messageBoxJsonParseArray;
+		let selectDropdownPushData	=	dropdownJsonParseArray;
+		let inc						=	incLength;
+		let incSelect				=	incSelectLength;
+		 
+		/** function for add field array **/
+		function addFieldsFormFunction(signupFieldsName) {
+			if(signupFieldsName=='<%= SIGNUP_FIELD_DROPDOWN %>' || signupFieldsName=='<%= SIGNUP_FIELD_MESSAGE_BOX %>'){
+				$('.li_show_hide_'+signupFieldsName).show();
+			}else{
+				signupFields.push(signupFieldsName);
+				$('.li_show_hide_'+signupFieldsName).show();
+				$('.dropdown_show_hide_'+signupFieldsName).hide();
+			}
+		}
+		
+		/** function for delete field array **/
+		function deleteFieldsFormFunction(signupFieldsName) {
+			confirmBox("warning","<%= __("admin.system.are_you_sure") %>","<%= __("admin.system.do_you_want_to_delete") %>",function(result){
+				let indexFind 			= signupFields.indexOf(signupFieldsName);
+				let indexMendatoryFind 	= mandatoryOptions.indexOf(signupFieldsName);
+				if(indexFind != -1){
+					signupFields.splice(indexFind, 1);
+					mandatoryOptions.splice(indexMendatoryFind, 1);
+					$('.li_show_hide_'+signupFieldsName).hide();
+					$('.dropdown_show_hide_'+signupFieldsName).show();
+					$('.dropdown_show_hide_'+signupFieldsName).removeClass('dropdown-show-hide');
+				}
+				swal.close();
+			});
+		}
+		
+		/** function for mendatory array **/
+		function mandatoryFieldsFormFunction(signupFieldsName){
+			var checkedValue=$("#checkbox_"+signupFieldsName).is(":checked");
+			if(checkedValue==true){
+				mandatoryOptions.push(signupFieldsName);
+			}
+			
+			let indexFind = mandatoryOptions.indexOf(signupFieldsName);
+			if(checkedValue== false && indexFind != -1){
+				mandatoryOptions.splice(indexFind, 1);
+			}
+		}
+		
+		
+		
+		/** Add more field message box */
+		$( document ).ready(function() {
+		
+			/** get file image name */			
+			$('#crop').change(function(e){
+				var fileName = e.target.files[0].name;
+				$('#lead_image_name').val(fileName);
+			});
+			
+			$("#addMoreFieldsMessage").click(function(event) {
+				inc++;
+				
+				$("#messageHolder").append('<li id="messageHolder'+inc+'" >'+
+					'<div class="row clearfix">'+
+						'<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">'+
+							'<label for="message"><input name="name" class="form-control" onchange=changeEventMessage('+inc+') value="Type Message Title" id="messageLabel'+inc+'" type="text" placeholder="Name"></label>'+
+						'</div>'+
+						'<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
+							'<div class="form-group">'+
+								'<div class="form-line">'+
+									'<input class="form-control" readonly placeholder="<%= __('admin.leads.message'); %>">'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+							'<div class="switch">'+
+								'<label><input type="checkbox" id="mandatoryMessageId'+inc+'" onclick=changeEventMessage('+inc+') ><span class="lever"></span></label>&emsp;'+
+								'<button type="button" class="btn btn-default waves-effect" onclick=deleteMessageFunction('+inc+') ><i class="material-icons">delete</i></button>'+
+							'</div>'+
+						'</div>'+
+					'</div>'+
+				'</li>');
+				
+				let checkedValue=$("#mandatoryMessageId"+inc).is(":checked");
+				messageBoxData.push({
+					id			:	inc,
+					label		:	$('#messageLabel'+inc).val(),
+					mandatory	:	(checkedValue==true) ? "Yes" : "No",
+				})
+				
+			});
+			
+		});
+		
+		
+		$("#crop_submit").click(function(){
+			var rotateValueEl	= document.getElementById('image');
+			var rotateValueRad	= rotateValueEl.value * (Math.PI / 180);
+			// get croppr.js dimensions
+			var dimensions = cropzeeCroppr.getValue();
+			
+			// get hidden canvas and draw cropped image onto it
+			var img = document.getElementsByClassName('image_class')[0];
+			
+			//var width = 210;
+			//var ratio = img.height / img.width;
+			//var height = width * ratio;
+			var canvas = document.getElementById('cropzee-hidden-canvas');
+			
+			var x = dimensions.width / 2;
+			var y = dimensions.height / 2;
+			var ctx = canvas.getContext('2d');
+
+			ctx.canvas.width = dimensions.width;
+			ctx.canvas.height = dimensions.height;
+
+			ctx.save();
+
+			ctx.translate(dimensions.width / 2, dimensions.height / 2);
+			ctx.rotate(rotateValueRad);
+
+			ctx.translate(-dimensions.width / 2, -dimensions.height / 2);
+			ctx.drawImage(img, dimensions.x, dimensions.y, dimensions.width, dimensions.height, 0, 0, dimensions.width, dimensions.height);
+			ctx.restore();
+		});
+		
+		
+
+  
+		/** get url extension  and show validation and display*/
+		function getUrlExtension( url ) {
+			return url.split(/[#?]/)[0].split('.').pop().trim();
+		}
+		function addimage() {
+			let imageUrl 			= document.getElementById("image_url").value;
+			let imageExtension 		= getUrlExtension(imageUrl);
+			let allImageExtension 	= "<%= ALLOWED_IMAGE_URL_WISE_EXTENSIONS %>";
+			allImageExtension.split(",");
+			
+			if (imageUrl=='' || allImageExtension.indexOf(imageExtension) == -1){
+				document.getElementById("image_url_error").innerHTML = "<%= ALLOWED_IMAGE_URL_WISE_ERROR_MESSAGE %>";
+			}else{
+			
+				$(":file").jfilestyle('clear');
+				$('#lead_image_name').val('');
+				$('#lead_image_binary').val('');
+				$('#image_temp_error').html('');
+				$('#image_error').html('');
+				
+				$('#edit_lead_image_show').empty().append()
+				$('#cropzee-hidden-canvas').empty().append()
+				$('#img_home').empty().append()
+				document.getElementById("image_url_error").innerHTML = "";
+				
+				var img 	= new Image();
+				img.src		= imageUrl;
+				img.id		= "crop_url";
+				img.width 	= 130;
+				img.height	= 90;
+				img_home.appendChild(img);
+				
+				$("#cropzee-hidden-canvas").hide();
+				$(".img_home_url").show();
+			}
+		}
+		
+		/** function for delte multiple message data**/
+		function deleteMessageFunction(deleteNumber){
+			confirmBox("warning","<%= __("admin.system.are_you_sure") %>","<%= __("admin.system.do_you_want_to_delete") %>",function(result){
+				/** delete li html layout data */
+				document.getElementById("messageHolder"+deleteNumber).remove();
+				
+				/** delete mesaage data push after remove array data */
+				removeByAttr(messageBoxData, 'id', deleteNumber);
+				
+				swal.close();
+			});
+		}	
+		
+		/** function fot message label & mendatory change after array change**/
+		function changeEventMessage(deleteNumberMsg){
+			
+			/**Find index of specific object using findIndex method.*/
+			objIndex = messageBoxData.findIndex((obj => obj.id == deleteNumberMsg));
+
+			/**Update object's name property.*/
+			let checkedValue=$("#mandatoryMessageId"+deleteNumberMsg).is(":checked");
+			messageBoxData[objIndex]['label']		= $('#messageLabel'+deleteNumberMsg).val();
+			messageBoxData[objIndex]['mandatory']	= (checkedValue==true) ? "Yes" : "No";
+		}
+		
+		
+		
+		
+		/** Add more field select box */
+		$( document ).ready(function() {
+			$("#addMoreFieldsDropdown").click(function(event) {
+				$("#dropdownHolder").append('<li id="dropdownHolder'+incSelect+'" >'+
+					'<div class="row clearfix">'+
+						'<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">'+
+							'<label for="message"><input name="name" class="form-control" onchange=changeEventDropdown('+incSelect+') value="Type Dropdown Title" id="dropdown_label'+incSelect+'" type="text" ></label>'+
+						'</div>'+
+						'<div class="col-lg-4 col-md-10 col-sm-8 col-xs-7">'+
+							'<div class="form-group">'+
+									'<select data-live-search="true" class="form-control show-tick search_by_status search-select" id="select_box'+incSelect+'" name="select_box'+incSelect+'" multiple="multiple" autocomplete="off"></select>'+
+								'<div class="form-line">'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="col-lg-4 col-md-10 col-sm-8 col-xs-7">'+
+							'<div class="form-group">'+
+								'<div class="form-line mb-1">'+
+									'<input type="text" class="form-control" placeholder="Please enter option name." id="option_text'+incSelect+'" />'+
+								'</div>'+
+									'<input type="button" id="btnAdd" class="btn bg-pink btn-sm waves-effect" value="Add" onclick = "AddDropdownOptions('+incSelect+')" />'+
+									'&nbsp; <input type="button" id="btnAdd" class="btn bg-red btn-sm waves-effect remove_button'+incSelect+'" value="Remove Options" onclick = "removeMultipleOption('+incSelect+')" />'+
+							'</div>'+
+						'</div>'+
+						'<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+							'<div class="switch">'+
+								'<label><input type="checkbox" id="mandatoryDropdownId'+incSelect+'" onclick=changeEventDropdown('+incSelect+') ><span class="lever"></span></label>&emsp;'+
+								'<button type="button" class="btn btn-default waves-effect" onclick=deleteDropdownFunction('+incSelect+') ><i class="material-icons">delete</i></button>'+
+							'</div>'+
+						'</div>'+
+					'</div>'+
+				'</li>');
+				let checkedValue=$("#mandatoryDropdownId"+incSelect).is(":checked");
+				selectDropdownPushData.push({
+					id					: incSelect,
+					label				: $('#dropdown_label'+incSelect).val(),
+					mandatory			: (checkedValue==true) ? "Yes" : "No",
+					options				: "",
+					options_comma_wise  : "",
+					option_key_value	: [],
+				})
+				incSelect++;
+			});
+		});
+		
+		/** Function are used to add dropdown options**/
+		function AddDropdownOptions(idNumber){
+			let optionText			= document.getElementById("option_text"+idNumber).value;
+			let optionValue 		= document.getElementById("option_text"+idNumber).value;
+			let optionReplaceSpace	= optionValue.replace(/\s/g, "-");
+			
+			/**Find index of specific object using findIndex method.*/
+			selectObjIndex = selectDropdownPushData.findIndex((obj => obj.id == idNumber));
+			  
+			let resultObject	= searchDuplicate(optionReplaceSpace, selectDropdownPushData[selectObjIndex]['option_key_value']);
+			optionText.trim();
+			
+			if (resultObject == undefined) {
+				if(optionText=='' || !optionText.trim()){
+					html_popup_success("warning","<%= __("admin.system.space_and_blank_options_are_not_allowed") %>"," ",50000,function(result){ });
+				}else{
+					let selectBox 			= document.getElementById("select_box"+idNumber);
+					let option 				= document.createElement("OPTION");
+					option.value 			= optionReplaceSpace
+					option.innerHTML		= optionText;
+					selectBox.options.add(option);
+					
+					let pushopt 			=	'<option value='+optionReplaceSpace+'>'+optionText+'</option>,'
+					let finalOptionsValue	=	(pushopt.replace(/\\/g, "")).toString();
+					let optionKeyValueArr	=	[{"id":optionReplaceSpace, "name":optionText }];
+					
+					//let optionStringAppend	=	Array.prototype.push.apply(selectDropdownPushData[selectObjIndex]['option_key_value'],optionKeyValueArr);
+					let arrayMergedOption		=	(selectDropdownPushData[selectObjIndex]['option_key_value']) ? [ ...selectDropdownPushData[selectObjIndex]['option_key_value'], ...optionKeyValueArr] : optionKeyValueArr;
+					
+					let appendOpt			= (selectDropdownPushData[selectObjIndex]['options']) 			? selectDropdownPushData[selectObjIndex]['options']+=finalOptionsValue	: finalOptionsValue;
+					let appendOptCommawise	= (selectDropdownPushData[selectObjIndex]['options_comma_wise'])? selectDropdownPushData[selectObjIndex]['options_comma_wise']+=finalOptionsValue	: finalOptionsValue;
+					let optionKeyValueArray	= (selectDropdownPushData[selectObjIndex]['option_key_value'])	? arrayMergedOption	: optionKeyValueArr;
+					 
+					/**Update object's name property.*/
+					selectDropdownPushData[selectObjIndex]['options']				=	(appendOpt).replace(/,/g, '');
+					selectDropdownPushData[selectObjIndex]['options_comma_wise']	=	appendOptCommawise;
+					selectDropdownPushData[selectObjIndex]['option_key_value']		=	optionKeyValueArray;
+					document.getElementById("option_text"+idNumber).value=="";
+				}
+				document.getElementById("option_text"+idNumber).value = "";
+			}else{
+				html_popup_success("warning","<%= __("admin.leads.same_value_is_not_added_again") %>"," ",50000,function(result){ });
+			}
+		}
+	   
+		/*** Function used to search if user entered any duplicate value in selectbox*/
+		function searchDuplicate(nameKey, myArray) {
+			for (let i = 0; i < myArray.length; i++) {
+				if ((myArray[i].id).toLowerCase() === nameKey.toLowerCase()) {
+					return myArray[i];
+				}
+			}
+		}
+		
+		
+		/** function fot dropdown label & mendatory change after array change**/
+		function changeEventDropdown(arrayObjectKeyNumber){
+			
+			/**Find index of specific object using findIndex method.*/
+			objIndex = selectDropdownPushData.findIndex((obj => obj.id == arrayObjectKeyNumber));
+
+			/**Update object's name property.*/
+			let checkedValue=$("#mandatoryDropdownId"+arrayObjectKeyNumber).is(":checked");
+			selectDropdownPushData[objIndex]['label']		= $('#dropdown_label'+arrayObjectKeyNumber).val();
+			selectDropdownPushData[objIndex]['mandatory']	= (checkedValue==true) ? "Yes" : "No";
+		}
+		
+		/** function for delte dropdown data**/
+		function deleteDropdownFunction(arrayObjectKeyNumber){
+			confirmBox("warning","<%= __("admin.system.are_you_sure") %>","<%= __("admin.system.do_you_want_to_delete") %>",function(result){
+				/** delete li html layout data */
+				document.getElementById("dropdownHolder"+arrayObjectKeyNumber).remove();
+				
+				/** delete dropdown data push after remove array data */
+				removeByAttr(selectDropdownPushData, 'id', arrayObjectKeyNumber);
+				
+				swal.close();
+			});
+		}
+		
+		/** function for remove multiple option **/
+		function removeMultipleOption(arrayObjectKeyNumber){
+			var elements = document.getElementById("select_box"+arrayObjectKeyNumber).childNodes; 
+			
+			//if we want to use key=>value of selected element we will set this object
+			var selectedKeyValue = {};
+   
+			//if we want to use only array of selected values we will set this array
+			var arrayOfSelecedIDs=[];
+ 
+			//loop over option values
+			for(i=0;i<elements.length;i++){
+				// if option is select then push it to object or array
+				if(elements[i].selected){
+					//push it to object as selected key->value 
+					selectedKeyValue[elements[i].value]=elements[i].textContent;
+					
+					//push to array of selected values
+					arrayOfSelecedIDs.push(elements[i].value)
+				}
+			}
+			
+			if(arrayOfSelecedIDs.length>0){
+				confirmBox("warning","<%= __("admin.system.are_you_sure") %>","<%= __("admin.system.do_you_want_to_delete") %>",function(result){
+					let optionKeyValueArray = selectDropdownPushData[arrayObjectKeyNumber]['option_key_value'];
+					arrayOfSelecedIDs.forEach((item, index) => {
+						let removeIndex = optionKeyValueArray.findIndex((x) => x.id ===item);
+						optionKeyValueArray.splice(removeIndex,1 );
+					});
+					
+					
+					$('#select_box'+arrayObjectKeyNumber).empty();
+					let appendOptAfterDelate ="";
+					optionKeyValueArray.map(records=>{
+						let pushopt 			=	'<option value='+records.id+'>'+records.name+'</option>,'
+						let finalOptionsValue	=	(pushopt.replace(/\\/g, "")).toString();
+						appendOptAfterDelate	+=	finalOptionsValue;
+						 
+						let selectBox 			= document.getElementById("select_box"+arrayObjectKeyNumber);
+						let option 				= document.createElement("OPTION");
+						option.value 			= records.id
+						option.innerHTML		= records.name;
+						selectBox.options.add(option);
+					});
+					
+					/**Update object's name property.*/
+					selectDropdownPushData[arrayObjectKeyNumber]['options']				=	(appendOptAfterDelate).replace(/,/g, '');
+					selectDropdownPushData[arrayObjectKeyNumber]['options_comma_wise']	=	appendOptAfterDelate;
+					selectDropdownPushData[arrayObjectKeyNumber]['option_key_value']	=	optionKeyValueArray;
+
+					swal.close();
+				});
+			}else{
+				html_popup_success("warning","<%= __("admin.leads.please_select_at_least_one_options") %>"," ",50000,function(result){ });
+			}
+		}
+	
+		/** Remove Object from Array using JavaScript **/
+		var removeByAttr = function(arr, attr, value){
+			var i = arr.length;
+			while(i--){
+			   if( arr[i] 
+				   && arr[i].hasOwnProperty(attr) 
+				   && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+
+				   arr.splice(i,1);
+
+			   }
+			}
+			return arr;
+		}
+		 
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+		 
+			$('#signup_fields').val(JSON.stringify(signupFields));
+			$('#mandatory_options').val(JSON.stringify(mandatoryOptions));
+			$('#message_box_title').val(JSON.stringify(messageBoxData));
+			$('#type_dropdown_title').val(JSON.stringify(selectDropdownPushData));
+			
+			/**validation dropdown blank*/
+			let errorData = [];
+			selectDropdownPushData.map(records=>{
+				if(records.options=='' || records.options==null || records.options==undefined){
+					errorData.push(1);
+				}
+			})
+			
+			if(errorData.length>0){
+				stopTextLoading(btnId);
+				html_popup_success("warning","<%= __("admin.leads.please_enter_option_name") %>"," ",50000,function(result){ });
+			}else{
+				updateCkeditorValue();
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				submit_crop_image_data('edit-lead-form',function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+						stopTextLoading(btnId);
+					}
+				});
+			}
+		});
+	</script>

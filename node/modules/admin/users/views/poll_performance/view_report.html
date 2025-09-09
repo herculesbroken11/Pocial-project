@@ -1,0 +1,332 @@
+<%
+   var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+   var reportId = (typeof report_id !== typeof undefined && report_id) ? report_id : "";
+   var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+   var assumptionResult = assumption_result[0]; 
+ %>
+
+ <div class="container-fluid" id="main-container">
+    <!-- <div id="alert_message">
+        <div class="alert bg-green alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            </button>pdf download successfully.
+        </div>
+    </div> -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+                    <h2>&nbsp;&nbsp;</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+                        <li>
+							<a href="javascript:void(0);" id="pdf_download">
+                                <button type="button" class="btn bg-indigo waves-effect" id="pdf_button">
+                                    <i class="material-icons font-14">file_download</i> <%= __("performance.download_report"); %>
+                                </button>
+                            </a>
+							
+                            <button type="button" class="btn bg-indigo waves-effect" disabled="disabled" id="load_pdf_button">
+                                <i class="material-icons font-14">panorama_fish_eye</i> <%=__("performance.download_report")%>
+                            </button>
+                            
+							
+						</li>
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/poll_performance/assumption_report_list/'+userId%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body canvas_div_pdf" id="report">
+					<div class="list-group">				
+						<div class="">
+                            <span><h4><%=assumptionResult.report_name%> </h4></span>
+							<span class="pull-right"><%= __("performance.date_range"); %> : <%=assumptionResult.from_date_simple%> - <%=assumptionResult.to_date_simple%></span>
+						</div><br>
+						<div class="list-group-item">
+							<span class="pollslug"> <%= __("performance.assumption_report_detail_heading"); %></span>
+						</div>
+                        <div class="list-group-item">
+							<span class="pollslug"> <%= __("performance.campaign_consisted_of"); %> <%=first_section.length%> <%= __("performance.call_to_action_promoted"); %> <%=assumptionResult.week_count%>  <%= __("performance.weeks"); %>.</span>
+						</div> 
+				   </div>
+				   <table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+                                <th>#</th>
+                                <th><%= __("form.name"); %></th>
+								<th><%= __("performance.unique_participants"); %></th>
+								<th><%= __("performance.total_insights"); %></th>
+								<th><%= __("performance.created_on"); %></th>
+							</tr>
+						</thead>
+						<tbody>
+                            <%
+                                var i=1
+                                first_section.map(function(pollData){
+                                %>
+                                <tr>
+                                    <td><%=i++;%></td>
+                                    <td><%=pollData.question%></td>
+                                    <td><%=pollData.total_unregistered_vote_user%></td>
+                                    <td><%=pollData.total_vote%></td>
+                                    <td><span class="setDateTimeFormat" data-date-time="<%= (pollData.created) ? pollData.created :'DD/MM/YYYY';%>"></span></td>
+                                </tr>
+                           <% });%>
+						</tbody>
+					</table>
+                    <!-- hilights section -->
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                               <div class="header">
+                                  <h2><%= __("performance.highlights"); %></h2>
+                               </div>
+                               <div class="body">
+                                    <p><%= __("performance.total_insights"); %></p>
+                                    <h4><%=second_section.total_votes%></h4><br>
+                                    <p><%= __("performance.unique_participants"); %></p>
+                                    <h4><%=second_section.total_unique%></h4><br>
+                                    <p><%= __("engagement.opt_in_rate"); %></p>
+                                    <h4><%=second_section.opt_in_rate%>%</h4><br>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                               <div class="header">
+                                  <h2><%= __("performance.participants_preference_breakdown"); %></h2>
+                               </div>
+                               <div class="body">
+                                    <%first_section.map(function(optionData){%>
+                                    <p><%= __("performance.total_campaign_captured"); %> <b><%=optionData.total_vote%></b> <%= __("performance.insights"); %> <%=optionData.percentage%>% <%= __("performance_for"); %> <%=optionData.question%></p>
+                                    <% });%>
+                                    <canvas id="participants_chart" height="200"></canvas>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                               <div class="header">
+                                  <h2><%= __("performance.registered_vs_unregistered"); %></h2>
+                               </div>
+                               <div class="body">
+                                    <p><%=second_section.registered_percentage%>% ( <%=second_section.registered%> - <%= __("performance.interacted_more_than_once"); %>) <%= __("performance.combined_insights_captured_were_submitted"); %></p>
+                                    <canvas id="registered_chart"  height="250"></canvas>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- General revelations section -->
+                    <div class="row clearfix">
+                        <div class="header">
+                            <h2><%= __("performance.general_revelations"); %></h2>
+                        </div>
+                        <div class="body">
+                            <!-- female div -->
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="female_div">
+                                <p><%= __("performance.of_the"); %> <%=first_section.length%> <%= __("performance.calls_to_action_your_campaign"); %>, <b><%= __("global.females"); %></b> <%= __("performance.selected_following_options_broken"); %></p>
+                                <%female_general_revelution.map(function(femaleVote){
+                                    var femaleVoteResult = femaleVote.result;
+                                    %>
+                                    <div class="list-group m-b-0">
+                                        <div class="row clearfix list-group-item">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <h6><%=femaleVote.age%></h6>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <%femaleVoteResult.map(function(feMalevoteDetail){%>
+                                                    <p><%=feMalevoteDetail.poll_question%> : <b><%=feMalevoteDetail.option_title%> </b></p>
+                                                <%})%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <%})%>
+                            </div>
+                             <!-- male div -->
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="male_div">
+                                <p><%= __("performance.of_the"); %> <%=first_section.length%> <%= __("performance.calls_to_action_your_campaign"); %>, <b><%= __("global.males"); %></b> <%= __("performance.selected_following_options_broken"); %></p>
+                                <%male_general_revelution.map(function(maleVote){
+                                    var maleVoteResult = maleVote.result;
+                                    %>
+                                    <div class="list-group m-b-0">
+                                    <div class="row clearfix list-group-item">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <h6><%=maleVote.age%></h6>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <%maleVoteResult.map(function(voteDetail){%>
+                                                <p><%=voteDetail.poll_question%> : <b><%=voteDetail.option_title%> </b></p>
+                                            <%})%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%})%>
+                            </div>
+                        </div>     
+                    </div>
+                    <!-- gender breakdown -->
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                                <div class="header">
+                                    <h2><%= __("performance.gender_breakdown"); %></h2>
+                                </div>
+                                <div class="body">
+                                    <canvas id="gender_breakdown_chart" height="280"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div class="card">
+                                <div class="header">
+                                    <h2><%= __("performance.lead_generation_funnel_heading"); %></h2>
+                                </div>
+                                <div class="body">
+                                    <%
+                                    let divideVal = Number(second_section.opt_in_rate/second_section.opt_in_industry_standard_percentage_value);
+                                    %>
+                                    <p><%= __("performance.lead_generation_funnel_subheading"); %> <%=second_section.opt_in_rate%>%.<%= __("performance.that"); %> <%=divideVal%>x's <%= __("performance.accepted_industry_standard"); %> <%=second_section.opt_in_industry_standard_percentage_value%>%.</p>
+                                    <canvas id="lead_generated_fuel_chart" width="180" height="180"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header"> 
+                        <h3><%= __("performance.call_to_action_campaign_breakdown"); %></h3>
+                        <p><%= __("performance.key_campaign_insights_takeaways"); %></p>
+                    </div>
+                        <%
+                        var j=1;
+                        campaign_breakdown.map(function(optData,index){  
+                        %>
+                    <div class="row clearfix">
+                        <div class="header"> 
+                            <h3><%=j++;%>.<%=optData.options[0].question%></h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                                <div class="header">
+                                    <h2><%= __("performance.top_selection_once_or_twice_year"); %></h2>
+                                </div>
+                                <div class="body">
+                                    <canvas id="vote_option_chart<%=index%>" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div class="card">
+                                <div class="header">
+                                    <h2><%= __("performance.general_composition_registered_participants"); %></h2>
+                                </div>
+                                <div class="body">
+                                    <canvas id="gender_wise_vote_chart<%=index%>" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2><%= __("performance.age_composition_participants"); %></h2><br>
+                                    <%
+                                        var higherText = optData.higher_text;
+                                        higherText.map(function(textData){
+                                        var ageValue = textData.age;
+                                    %>
+                                    <p><%= __("performance.age_composition_heading"); %> <%=ageValue.join(' & ')%> <%= __("performance.chose"); %> "<%=textData.title%>" <%= __("performance.than_all_other_age_groups"); %></p>
+                                    <%})%> 
+                                </div>
+                                <div class="body">
+                                    <canvas id="age_wise_vote_chart<%=index%>" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <% })%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>html-canvas/canvas.js"></script>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>html-canvas/jspdf.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            var feMaleGeneralRevlution = '<%=female_general_revelution%>';
+            var maleGeneralRevlution = '<%=male_general_revelution%>';
+            /**hide div condition wise male female*/
+            if(feMaleGeneralRevlution.length == 0){
+               $('#female_div').hide();
+                $("#male_div").attr("class", "col-xs-12 col-sm-12 col-md-12 col-lg-12"); 
+            }
+            if(maleGeneralRevlution.length == 0){
+                $('#male_div').hide();
+                $("#female_div").attr("class", "col-xs-12 col-sm-12 col-md-12 col-lg-12");
+            }
+
+            var optData = <%- JSON.stringify(campaign_breakdown);%>;
+            optData.map(function(data,index){
+                new Chart(document.getElementById("vote_option_chart"+index+"").getContext("2d"), campaignQuestionChart(data));
+                new Chart(document.getElementById("gender_wise_vote_chart"+index+"").getContext("2d"), optionGenderVoteChartJs(data));
+                new Chart(document.getElementById("age_wise_vote_chart"+index+"").getContext("2d"), ageWiseOptionVoteChartJs(data));
+            });
+
+            var pollViewOptInGraph = <%- JSON.stringify(first_section);%>;
+            new Chart(document.getElementById("participants_chart").getContext("2d"), participantsGraph(pollViewOptInGraph));
+            chartPlugin()
+        });
+    
+        var registerVsNew = <%- JSON.stringify(second_section);%>;
+        var genderBreakdownChart = <%- JSON.stringify(gender_breakdown);%>;
+
+        $("#load_pdf_button").hide();
+       
+        $("#pdf_download").on('click',function(){
+            $("#pdf_button").hide();
+            $("#load_pdf_button").show();
+            getPDF();  
+        });
+
+        function getPDF(){
+            var data = document.getElementById('report');
+            html2canvas(data, { useCORS:true}) 
+
+            .then((canvas)  => {
+                const contentDataURL = canvas.toDataURL('image/png')
+                let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
+                var pdfWidth = $(".canvas_div_pdf").width();
+                var pdfHeight = $(".canvas_div_pdf").height();
+                pdf.addImage(contentDataURL,0, 0, pdfWidth, pdfHeight);
+                pdf.save('assumption-report.pdf');  
+                var pdfButton = document.getElementById('pdf_button');
+                var loadButton =document.getElementById('load_pdf_button');
+                loadButton.style.display = 'none';    
+                pdfButton.style.display = 'block';  
+               
+            });
+
+             
+           
+        };
+
+        
+    </script>
+    
+    <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js" type="text/javascript"></script>
+    <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js" type="text/javascript"></script>
+    <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js" type="text/javascript"></script>
+    <script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/assumption_report_chart.js" type="text/javascript"></script> 

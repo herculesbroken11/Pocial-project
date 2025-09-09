@@ -1,0 +1,285 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId 			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var pollSlugs  = (typeof poll_slug !== typeof undefined && poll_slug) ? poll_slug : "";
+%>
+<div class="container-fluid" id="main-container">
+
+	<!--polls list start-->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">list</i> <%= __("admin.polls.selected_polls_list"); %> &nbsp;<span class="label bg-teal add_polls"><%= __("admin.polls.add_polls"); %></span>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="clearfix dataTables_wrapper">
+									<div class="body">
+										<div class="list-group">
+											<%
+											 resultPollslug.forEach(function(data){
+											%>
+											 <div class="list-group-item">
+												<span class="pollslug" id="<%= data.slug %>"><%=data.question%></span>
+												<!--condition for delete polls -->
+												<%if(poll_slug.length==1){%>
+													<span class="badge bg-teal pointer" style= "display:none">
+													 <a href="javascript:void(0)" class="color-fff"><i  class="material-icons font-14">delete_sweep</i></a></span>
+												 <%}else{%>
+													 <span class="badge bg-teal pointer"  onclick="delteSelectedPoll('<%= data.slug %>')">
+														 <a href="javascript:void(0)" class="color-fff" ><i  class="material-icons font-14">delete_sweep</i></a></span>
+												 <%}%>
+											 </div> 
+											<% })%>%>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--polls list End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%=__('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/pollsets/add_selected_poll_listing/<%= userId %>/<%=pollSlugs%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-pollset" data-submit-btn-id="pollset-add-btn-id" method="post" class="on_click_submit" autocomplete="off" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="title" class="control-label"><%= __('admin.pollsets.title'); %> <span class="required"> *</span>:</label>
+										<input name="title" id="title" type="text" class="form-control" />
+									</div>
+									<span id="title_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+                                        <label for="category" class="control-label"><%= __('admin.pollsets.category_name'); %> <span class="required"> *</span>:</label>
+										<select class="form-control" id="category" name="category">
+                                            <option value=""><%=__("admin.pollsets.select_category");%></option>
+                                            <%- categoryList %>
+                                        </select>
+									</div>
+									<span id="category_error" class="error"></span> 
+								</div>
+							</div>
+						</div>	
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+                                        <label for="description" class="control-label"><%= __('admin.pollsets.description'); %><span class="required"> *</span>: </label>
+										<textarea name="description"  id="description" class="form-control text_area_height" ></textarea>
+									</div>
+									<span id="description_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">	
+                            <div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+                                        <label for="reward_description" class="control-label"><%= __('admin.pollsets.reward_description'); %><span class="required"> *</span>: </label>
+										<textarea name="reward_description" id="reward_description" class="form-control text_area_height"  ></textarea>
+									</div>
+									<span id="reward_description_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+                        <div class="row clearfix">
+                            <div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="show_to" class="control-label"><%= __('admin.pollsets.show_to'); %><span class="required"> *</span>: </label>
+										<br>
+										<input class="with-gap" id="show_to1" name="show_to" type="radio" checked="checked" value="<%= SHOW_TO_PUBLIC %>"><label class="label_checkbox" for="show_to1"><%= __('admin.pollsets.public'); %></label>
+										<input class="with-gap" id="show_to2" name="show_to" type="radio" value="<%= SHOW_TO_MY_PAGE_ONLY %>"><label class="label_checkbox" for="show_to2"><%= __('admin.pollsets.my_text_only'); %></label>
+									</div>
+									<span id="show_to_error" class="error"></span>
+								</div>
+							</div>
+
+                            <div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="allow_retaking" class="control-label"><%= __('admin.pollsets.allow_retaking'); %><span class="required"> *</span>: </label>
+										<br>
+										<input class="with-gap" id="allow_retaking1" name="allow_retaking" type="radio" checked="checked" value="<%= ALLOW_RETAKING_YES %>"><label class="label_checkbox" for="allow_retaking1"><%= __('admin.pollsets.yes'); %></label>
+										<input class="with-gap" id="allow_retaking2" name="allow_retaking" type="radio" value="<%= ALLOW_RETAKING_NO %>"><label class="label_checkbox" for="allow_retaking2"><%= __('admin.pollsets.no'); %></label>
+									</div>
+									<span id="allow_retaking_error" class="error"></span>
+								</div>
+							</div>
+
+                            <div class="col-sm-4">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="sso" class="control-label"><%= __('admin.pollsets.sso'); %><span class="required"> *</span>: </label>
+										<br>
+										<input class="with-gap" id="sso1" name="sso" type="radio" value="<%= SSO_YES %>"><label class="label_checkbox" for="sso1"><%= __('admin.pollsets.yes'); %></label>
+										<input class="with-gap" id="sso2" name="sso" type="radio" checked="checked" value="<%= SSO_NO %>"><label class="label_checkbox" for="sso2"><%= __('admin.pollsets.no'); %></label>
+									</div>
+									<span id="sso_error" class="error"></span>
+								</div>
+							</div>
+                        </div>
+
+                        <div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-lin no-bottom-border">
+                                        <input type="hidden" id="pollset_image_name">
+										<input type="hidden" id="pollset_image_binary">
+										<label for="image" class="control-label"><%= __("admin.pollsets.sponsoring_logo"); %> : </label>
+										<input name="pollset_image" id="crop" type="file" data-text="<%=__('admin.pollsets.upload_logo')%>"  data-input="false" class="form-control jfilestyle"/>
+										<span class='tooltipShow tooltipHelp  brand-tooltip' title="" data-html="true" data-toggle="tooltip"  data-original-title="<%= __("admin.pollsets.better_image_ratio") %> <%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>.">
+											<i class="material-icons">info</i>
+										</span>
+									</div>
+									<span id="image_error" class="error"></span> 
+								</div>
+							</div>
+							<!-- <div class="col-sm-3" id="vedio">
+							
+							</div> -->
+							<div class="col-sm-3">
+								<div style="display:none" id="cropzee-hidden-canvas" class="image-previewer" data-cropzee="crop"></div>
+							</div>
+						</div>
+                        <button type="button"  id="pollset-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url%>/<%=userType%>/pollsets/add_selected_poll_listing/<%= userId %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i> <%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+    <link rel="stylesheet" href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>crop_image.css">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>animate.min.css" rel="stylesheet">
+	<link href="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.css" rel="stylesheet">	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>FileSaver.min.js" defer></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>croppr.min.js"></script>
+	<script src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>canvas-toBlob.min.js" defer></script> 
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_IMAGE_CROPPER_FILES_URL%>pollset_image.js"></script>
+	
+	
+ <script type="text/javascript">
+
+    $(document).ready(function(){
+		/** get file image name */
+		$('#crop').change(function(e){
+			
+			var fileName = e.target.files[0].name;
+			$('#pollset_image_name').val(fileName);
+		});
+		
+					
+		/**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){				
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			submit_crop_image_data("add-pollset",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+		
+		/**
+		 * Function to redirect on add polls click
+		 */
+		$(".add_polls").click(function(){
+			let pollSlugs = '<%=pollSlugs%>';
+			window.location.href = '<%=admin_list_url%>/<%=userType%>/pollsets/add_selected_poll_listing/<%=userId %>/'+pollSlugs;
+		});
+	});
+
+	/** function for remove slug from url */	
+	function delteSelectedPoll(pollSlugval){
+		confirmBox("warning","<%= __('admin.system.are_you_sure') %>","<%= __('admin.system.do_you_want_to_delete') %>",function(result){
+			let slugPoll = '<%=poll_slug%>';
+			let slugPollArrays = slugPoll.split(',');
+			slugPollArrays = slugPollArrays.filter(x => x !== pollSlugval);
+			window.location.href = '<%=admin_list_url%>/<%=userType%>/pollsets/add_pollset/<%=userId %>/'+slugPollArrays;
+			swal.close();
+		});
+	}
+
+	// const generateVideoThumbnail = (file) => {
+	// 	$('#vedio').empty();
+	// 	file = file.target.files[0];
+	// 	if(file.type == "video/mp4"){
+	// 		const url = URL.createObjectURL(file);
+	// 		const li = `<video controls="controls" id="vedio_play" src=" ${url} " type="video/mp4" width="400px" height="200px"></video>`
+ 
+	// 	$('#vedio').append(li);
+	// 	}
+		
+		// const thumbnail =  	 new Promise((resolve) => {
+		
+		// 	const canvas = document.createElement("canvas");
+		// 	const video = document.createElement("video");
+
+		// 	// this is important
+		// 	video.autoplay = true;
+		// 	video.muted = true;
+		// 	video.src = URL.createObjectURL(file);
+
+		// 	video.onloadeddata = () => {
+		// 	let ctx = canvas.getContext("2d");
+
+		// 	canvas.width = video.videoWidth;
+		// 	canvas.height = video.videoHeight;
+
+		// 	ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+		// 	video.pause();
+		// 	return resolve(canvas.toDataURL("image/png"));
+		// 	};
+		// });
+	
+	
+
+	//};
+
+	
+ </script>   

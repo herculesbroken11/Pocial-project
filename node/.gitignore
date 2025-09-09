@@ -1,0 +1,5 @@
+.env
+/config/settings.json
+/modules/frontend/crons/routes.js
+/modules/frontend/api/model/linkedin.js
+/config/global_constant.js

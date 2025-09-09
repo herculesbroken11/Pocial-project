@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="482" height="240" viewBox="0 0 482 240">
+  <defs>
+    <filter id="Rectangle_9897" x="-9" y="-8" width="500" height="258" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path">
+      <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_9897)">
+        <rect id="Rectangle_9897-2" data-name="Rectangle 9897" width="482" height="240" rx="5" transform="translate(690 744)" fill="#f5fafc"/>
+      </g>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect width="607" height="522" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_21" data-name="Mask Group 21" transform="translate(-690 -744)" clip-path="url(#clip-path)">
+    <g id="Repeat_Grid_5" data-name="Repeat Grid 5" transform="translate(788.162 461.217) rotate(30)" clip-path="url(#clip-path-2)">
+      <g transform="translate(-702 -530)">
+        <rect id="Rectangle_9896" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-681 -530)">
+        <rect id="Rectangle_9896-2" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-660 -530)">
+        <rect id="Rectangle_9896-3" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-639 -530)">
+        <rect id="Rectangle_9896-4" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-618 -530)">
+        <rect id="Rectangle_9896-5" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-597 -530)">
+        <rect id="Rectangle_9896-6" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-576 -530)">
+        <rect id="Rectangle_9896-7" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-555 -530)">
+        <rect id="Rectangle_9896-8" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-534 -530)">
+        <rect id="Rectangle_9896-9" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-513 -530)">
+        <rect id="Rectangle_9896-10" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-492 -530)">
+        <rect id="Rectangle_9896-11" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-471 -530)">
+        <rect id="Rectangle_9896-12" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-450 -530)">
+        <rect id="Rectangle_9896-13" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-429 -530)">
+        <rect id="Rectangle_9896-14" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-408 -530)">
+        <rect id="Rectangle_9896-15" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-387 -530)">
+        <rect id="Rectangle_9896-16" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-366 -530)">
+        <rect id="Rectangle_9896-17" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-345 -530)">
+        <rect id="Rectangle_9896-18" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-324 -530)">
+        <rect id="Rectangle_9896-19" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-303 -530)">
+        <rect id="Rectangle_9896-20" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-282 -530)">
+        <rect id="Rectangle_9896-21" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-261 -530)">
+        <rect id="Rectangle_9896-22" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-240 -530)">
+        <rect id="Rectangle_9896-23" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-219 -530)">
+        <rect id="Rectangle_9896-24" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-198 -530)">
+        <rect id="Rectangle_9896-25" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-177 -530)">
+        <rect id="Rectangle_9896-26" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-156 -530)">
+        <rect id="Rectangle_9896-27" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-135 -530)">
+        <rect id="Rectangle_9896-28" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+      <g transform="translate(-114 -530)">
+        <rect id="Rectangle_9896-29" data-name="Rectangle 9896" width="8" height="522" transform="translate(687 504.019)" fill="#f5fafc"/>
+      </g>
+    </g>
+  </g>
+</svg>

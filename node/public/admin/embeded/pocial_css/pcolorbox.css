@@ -1,0 +1,103 @@
+#colorbox {
+    font-family: 'Montserrat', sans-serif !important;
+    color: #ffffff;
+    background: none;
+    outline: none;
+}
+
+#colorbox div, #colorbox span, #colorbox p, #colorbox h1, #colorbox h2, #colorbox h3, #colorbox h4, #colorbox h5, #colorbox h6, #colorbox td, #colorbox strong, #colorbox b, #colorbox i, #colorbox u{
+    color: #ffffff;
+}
+
+iframe[rel="pocialEmbedInteractiveVideo"] {
+    width: 100%;
+}
+
+#colorbox,
+#cboxOverlay,
+#cboxWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+#cboxOverlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+#cboxOverlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#cboxLoadingOverlay, #cboxLoadedContent{
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+#cboxTopLeft, #cboxTopCenter, #cboxTopRight,
+#cboxBottomLeft, #cboxBottomCenter, #cboxBottomRight,
+#cboxMiddleRight, #cboxMiddleLeft{
+    display: none;
+}
+#cboxContent{
+    background:none;
+}
+
+#colorbox #cboxClose {
+    display: block;
+    position: fixed;
+    right: 0;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    transition: transform .25s ease-in-out;
+    background: none;
+    border: none;
+    text-indent: -99999999px;
+    cursor: pointer;
+    box-shadow: none;
+}
+#colorbox #cboxClose:hover {
+    transform: rotate(180deg);
+}
+#colorbox #cboxClose:before {
+    content: "";
+    position: absolute;
+    display: block;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    height: 0;
+    border-top: 2px solid rgba(255,255,255,1);
+    transform: rotate(45deg);
+    transform-origin: center;
+}
+#colorbox #cboxClose:after {
+    content: "";
+    position: absolute;
+    display: block;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    height: 0;
+    border-top: 2px solid rgba(255,255,255,1);
+    transform: rotate(-45deg);
+    transform-origin: center;
+}
+.ql-align-center {
+    text-align: center;
+}
+.ql-size-large {
+    font-size: 1.5em;
+}

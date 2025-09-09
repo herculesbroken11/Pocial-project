@@ -1,0 +1,375 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type) ?	user_type :"";
+	var userTypeTitle 	= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var userId			= (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var leadId 			= (typeof lead_id !== typeof undefined && lead_id) ? lead_id : "";
+	var csvImportSlug	= (typeof csv_import_slug !== typeof undefined && csv_import_slug) ? csv_import_slug : "";
+	var failedRecords	= (typeof failed_records !== typeof undefined && failed_records) ? failed_records : 0;
+	var warningRecords	= (typeof warning_records !== typeof undefined && warning_records) ? warning_records : 0;
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id" class="collapsed">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" autocomplete="off">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by email -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" onkeyup="searchDatatable(2)" placeholder="<%= __('admin.user.search_by_email'); %>">
+											</div>
+										</div>
+									</div>
+									
+									<!-- Search by email status -->
+									<div class="col-xs-12 col-sm-3">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="column_filter_9" onchange="searchDatatable(9)" name="is_process">
+													<option value=""><%=__("admin.leads_file.search_by_process_status");%></option>
+													<%
+													if(typeof LEADS_EXCEL_EMAIL_STATUS_DROPDOWN!== typeof undefined && LEADS_EXCEL_EMAIL_STATUS_DROPDOWN.length > 0){
+														LEADS_EXCEL_EMAIL_STATUS_DROPDOWN.map(searchStatus=>{
+															%>
+															<option value="<%=searchStatus.status_id%>" ><%=searchStatus.status_name%></option>
+													<% 	
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url+'/'+userType+'/manage_leads/import_details/'+leadId+'/'+userId+'/'+csvImportSlug %>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2 class="lead-excel-class">
+						<%= __("admin.leads_file.import_file_logs"); %> <small>(<%= import_lead_title_name %>)</small>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a id="export_data" class="m-r-5 perform_action">
+								<button type="button" class="btn bg-pink waves-effect ">
+									<i class="material-icons font-14">send</i> <%= __('admin.leads_file.send_welcome_email'); %>
+								</button>
+							</a>
+						</li>
+						<li>
+							<a href="<%=admin_list_url+'/'+userType+'/manage_leads/import_list/'+leadId+'/'+userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<% if(leadsImportFailedReason){ %>
+						<p class="font-24 align-center"><%= __('web.leads_file.no_columns_were_found'); %></p>
+
+					<% } else { %>
+						<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="3%" class="p-r-10 text-center" >
+										<div class="materialize_checkbox product-checkbox-data">
+											<input type="checkbox" class="filled-in chk-col-teal" id="select_all">
+											<label for="select_all" class="select_all p-l-20 v-align-bottom m-b-0"> &nbsp;</label>
+										</div>
+									</th>
+									<th><%= __('admin.user.full_name'); %></th>
+									<th><%= __('admin.user.email'); %></th>
+									<th><%= __('admin.user.date_of_birth'); %></th>
+									<th><%= __('admin.user.phone_number'); %></th>
+									<th><%= __('admin.user.zip_code'); %></th>
+									<th><%= __('admin.user.user_name'); %></th>
+									<th><%= __('admin.user.gender'); %></th>
+									<th><%= __('admin.import.reasons'); %></th>
+									<th><%= __('admin.import.email_status'); %></th>
+									<th><%= __('admin.system.status'); %></th>
+									<th><%= __('admin.system.created'); %> </th>
+								</tr>
+							</thead>
+						</table>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		var checkboxArray	=	{};
+
+		$(document).ready(function() {
+			
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: 	[[11 , "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ 	
+						"data"		: {},
+						"orderable" : false,
+						"render" 	: 	function(result){
+							let importLogsId		=	(result._id) ? 	result._id 	:"";
+							let failedImportClass 	=   (result && result.sheet_status) ? result.sheet_status : "";
+							let sendWelcomeEmail 	=   (result && result.send_welcome_email) ? result.send_welcome_email : "";
+							var disabledClass     	=   (failedImportClass == '<%= SHEET_STATUS_FAILED %>' || failedImportClass == '<%= SHEET_STATUS_PROCESSING %>' || sendWelcomeEmail=='<%= IMPORT_LEADS_WELCOME_EMAIL_YES_STATUS %>') ? "disabled" : "";
+
+							return '<div class=" materialize_checkbox">'+
+								'<div class="checkbox_wrapper">'+
+									'<input type="checkbox" class="filled-in chk-col-teal" id="'+importLogsId+'" '+disabledClass+' >'+
+									'<label for="'+importLogsId+'" class="checkbox data"></label>'+
+								'</div>'+
+							'</div>';
+						}
+					},
+					{
+						"data" 		: "full_name",
+						"render" 	: function(full_name){
+							return 	(full_name) ? full_name : "N/A";
+						}
+					},
+					{
+						"data" 		: "email",
+						"render" 	: function(email){
+							if(email){
+								return 	(email) ? '<a href="mailto:'+email+'">'+email+'</a>' : email;
+							}else{
+								return "N/A"
+							}
+						}
+					},
+					{
+						"data" 		: "dob",
+						"render" 	: function(dob){
+							return 	(dob) ? dob : "N/A";
+						}
+					},
+					{
+						"data" 		: "phone",
+						"render" 	: function(phone){
+							return 	(phone) ? phone : "N/A";
+						}
+					},
+					{
+						"data" 		: "zip_code",
+						"render" 	: function(zip_code){
+							return 	(zip_code) ? zip_code : "N/A";
+						}
+					},
+					{
+						"data" 		: "username",
+						"render" 	: function(username){
+							return 	(username) ? username : "N/A";
+						}
+					},
+					{
+						"data" 		: "gender",
+						"render" 	: function(gender){
+							return 	(gender) ? gender : "N/A";
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false, 
+						"visible"		: 	('<%= failedRecords %>'== 0 && '<%= warningRecords %>'== 0) ? false : true, 
+						"render": function(result){
+							/** Failed reason **/						
+							var failed_reason	=	(result && result.failed_reason) ? result.failed_reason : "";
+							var failed_reason	=	failed_reason;							
+							 
+							var sub_array = "";
+							for( i=0; i<failed_reason.length; i++ ){
+								sub_array	+=	'<li>'+failed_reason[i]+'</li>'
+							}
+							
+							if(sub_array.length==0){
+								sub_array='<li><%= __("admin.system.no_reasons_found"); %></li>'
+							}
+							return sub_array;
+    
+						}
+					},
+					{
+						"data" : "send_welcome_email",
+						"className"	: 'text-center',
+						"render" : function(sendWelcomeEmail){
+							let sendEmail = "";
+							if(sendWelcomeEmail=='<%= IMPORT_LEADS_WELCOME_EMAIL_YES_STATUS %>'){
+								sendEmail = "<span class='label label-success'><%= __("admin.system.yes"); %></span>";
+								
+							} else if(sendWelcomeEmail=='<%= IMPORT_LEADS_WELCOME_EMAIL_NO_STATUS %>'){
+								sendEmail = "<span class='label label-danger'><%= __("admin.system.no"); %></span>";
+							}
+							return 	(sendEmail) ? sendEmail : "N/A";
+						}
+					},
+					{
+						"data"			: 	"sheet_status",
+						"field_name"	:	"sheet_status",
+						"className"		:	'text-center',
+						"render": function(sheetStatus){
+							var messageStatus = "N/A";
+							if(sheetStatus=='<%= SHEET_STATUS_PROCESSING %>'){
+								messageStatus = "<span class='label label-info'><%= __("admin.leads_file.processing"); %></span>";
+
+							} else if(sheetStatus=='<%= SHEET_STATUS_SUCCESS %>'){
+								messageStatus = "<span class='label label-success'><%= __("admin.leads_file.success"); %></span>";
+
+							} else if(sheetStatus=='<%= SHEET_STATUS_FAILED %>'){
+								messageStatus = "<span class='label label-danger'><%= __("admin.leads_file.failed"); %></span>";
+								
+							} else if(sheetStatus=='<%= SHEET_STATUS_WARNING %>'){
+								messageStatus = "<span class='label label-warning'><%= __("admin.leads_file.warning"); %></span>";
+							}
+							return messageStatus;
+						}
+					},
+					{
+						"data"	: 'created',
+						"orderable"	: false,
+						"searchable" : false,
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url+"/"+userType+"/manage_leads/import_details/"+leadId+"/"+userId+"/"+csvImportSlug %>",
+					type	: 	"POST",
+					data	: function (d) {},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+
+		/**
+		 *  check/uncheck checkbox select all check/uncheck
+		 */
+		$(document).on('change','#select_all',function(){
+			var isChecked	= $(this).is(':checked');
+			$('.checkbox_wrapper input[type="checkbox"]').not(":disabled").prop("checked",isChecked).trigger("change");
+		});
+		
+		
+
+		/**
+		 *  Check/Uncheck checkbox
+		 */
+		$(document).on('change','.checkbox_wrapper input[type="checkbox"]',function(){
+			var id          = $(this).attr('id');
+			var isChecked	= $(this).is(':checked');
+ 
+			if(isChecked){
+				checkboxArray[id] = true;
+			}else{
+				delete checkboxArray[id];
+			}
+			 
+			var totalCheckBox = $('.checkbox_wrapper input[type="checkbox"]').not(":disabled").length;
+			var checkedBox = $('.checkbox_wrapper input[type="checkbox"]:checked').length;
+			let selectAll = (totalCheckBox == checkedBox) ? true : false;
+			$("#select_all").prop("checked",selectAll);
+		});
+		
+		/** pagination wise selected checkbox*/
+		$(document).on("page.dt", () => {
+			let selectedCheckBox = Object.keys(checkboxArray);
+			setTimeout(() => {
+				selectedCheckBox.map(recordId=>{
+					$("#"+recordId).attr("checked", true);	
+				})
+			}, 50);
+		});
+
+		/** To update status for all selected menus */
+		$(".perform_action").click(function(){
+			var importLogs = Object.keys(checkboxArray);
+			if(importLogs.length < 1){
+				notice("<%= STATUS_ERROR %>","<%= __('admin.leads_file.please_select_atleast_one_product')%>");
+				return false;
+			}else if (importLogs.length > '<%= WELCOME_MAIL_SEND_USERS_IMPORT_LIMIT %>') {
+				notice("<%= STATUS_ERROR %>","<%= __('admin.leads_file.select_more_than_records', WELCOME_MAIL_SEND_USERS_IMPORT_LIMIT )%>");
+				return false;
+			}else{
+				$.ajax({
+					url: '<%= admin_list_url+"/"+userType+"/manage_leads/import_leads_send_welcome_mail/"+leadId+"/"+userId+"/"+csvImportSlug %>',
+					type:"POST",
+					data : {'leads_import_logs_ids': importLogs},
+					beforeSend : function() {
+						$("#loader_ajax").html('<%- AJAX_LOADER_IMAGE %>');
+						$("#loader_ajax").addClass( "after_ajax_preloader" );
+					},success	: function(response){
+						window.location.href = response.redirect_url;
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				})
+			}
+		});
+
+
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw();
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

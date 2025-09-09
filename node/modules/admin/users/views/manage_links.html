@@ -1,0 +1,187 @@
+<%
+	var result				= (typeof result !== typeof undefined && result)		?	result		:{};
+	var userId				= (typeof result._id !== typeof undefined)				? 	result._id	:"";
+	var userType 			= (typeof user_type !== typeof undefined && user_type)	?	user_type 	:"";
+	var userTypeTitle 		= (FRONT_USER_TYPE[userType])	?	FRONT_USER_TYPE[userType] 	:"";
+	var bussinessInformaton = (result.public_business_informaton)	?	result.public_business_informaton 	:{};
+	var categoryDetails		= (result.category_details)	?	result.category_details 	:[];
+	 
+	var status			= (result.is_active)			? result.is_active			: UN_SUSPEND;
+	var blockedStatus	= (result.is_blocked)			? result.is_blocked			: UN_BLOCK;
+	var verified 		= (result.account_type)			? result.account_type		: NORMAL_USER_ACCOUNT_TYPE;
+
+	var emailVerified 	= (result.is_email_verified)	? result.is_email_verified	: NOT_VERIFIED;
+	var mobileVerified 	= (result.is_mobile_verified)	? result.is_mobile_verified	: NOT_VERIFIED;
+
+	<!-- /** Status Link Label And Class **/ -->
+	var statusLinkText  =	(status == UN_SUSPEND)	? __('admin.users.suspend')	: __('admin.users.unsuspend');
+	var statusLinkTitle =	(status == UN_SUSPEND)	? __('admin.users.click_to_suspended')  : __('admin.system.click_to_unsuspended');
+	var statusLinkIcon  =	(status == UN_SUSPEND)	? "done" : "block";
+	
+	<!-- /** Block Status Link Label And Class **/ -->
+	var blockStatusLinkText  =	(blockedStatus == UN_BLOCK) ? __('admin.user.block') : __('admin.user.un_block');
+	var blockStatusLinkTitle =	(blockedStatus == UN_BLOCK) ? __('admin.users.click_to_block')  : __('admin.users.click_to_not_block');
+	var blockStatusLinkIcon  =	(blockedStatus == UN_BLOCK) ? "done" : "block";
+	
+	<!-- /** Verify Link Class **/ -->
+	var verifyClass		= (verified == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE) ? ""	:"hide";
+	var verifyLinkText  = (verified == BUSSINESS_USER_ACCOUNT_TYPE) ? __('admin.user.basic') : __('admin.user.verified_bussiness');
+	
+	<!-- /** Public Bussiness Link Class **/ -->
+	var publicBusinessLinkClass	= (verified == PUBLIC_BUSSINESS_USER_ACCOUNT_TYPE) ? "hide"	:"";
+							
+	<!-- /** Email Link Class **/ -->
+	var emailVerifyClass	= (emailVerified == VERIFIED) ? "hide"	:"";
+	
+	<!-- /** Pocial user link Class **/ -->
+	var pocialUser = (userId == POCIAL_ID) ? "hide"	:"";
+%>
+
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.user.manage_link'); %> (<%=result.full_name%>)</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="row clearfix cursor_link">
+						<!-- /** View Redemptions Link **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 <%=verifyClass%>">
+							<a href="<%=admin_list_url+'/'+userType%>/view_redemptions/<%=userId%>" class="waves-effect waves-block <%=verifyClass%>">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">redeem</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.view_redemptions"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Redeemed & Wallet rewards Link **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%=admin_list_url+'/'+userType%>/my_wallet_rewards/<%=userId%>" class="waves-effect waves-block">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">redeem</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.my_wallet_rewards"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Manage rewards list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 <%=verifyClass%>">
+							<a href="<%=admin_list_url+'/'+userType%>/manage_rewards/<%=userId%>" class="waves-effect waves-block <%=verifyClass%>">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">redeem</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.manage_rewards"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Manage Email list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 <%=verifyClass%>">
+							<a href="<%=admin_list_url+'/'+userType%>/manage_emails/<%=userId%>" class="waves-effect waves-block <%=verifyClass%>">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">email</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.manage_emails"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Manage overview lead dashboard list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 <%=verifyClass%>">
+							<a href="<%=admin_list_url+'/'+userType%>/manage_leads/overview_lead_dashboard/<%=userId%>" class="waves-effect waves-block <%=verifyClass%>">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">dashboard</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.overview_lead_dashboard"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Manage Leads list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 <%=verifyClass%>">
+							<a href="<%=admin_list_url+'/'+userType%>/manage_leads/<%=userId%>" class="waves-effect waves-block <%=verifyClass%>">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">redeem</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.manage_lead_form"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Following users list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWING_ADMIN_URL %>/<%=userId%>" class="waves-effect waves-block ">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">sentiment_neutral</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.following_users"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>
+						
+						<!-- /** Followers users list **/ -->
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+							<a href="<%=admin_list_url+'/'+userType+'/followers_following_users/'+FOLLOWERS_ADMIN_URL %>/<%=userId%>" class="waves-effect waves-block ">
+								<div class="demo-color-box bg-teal cursor-pointer hover-expand-effect">
+									<div class="icon">
+										<i class="material-icons">sentiment_neutral</i>
+									</div>
+									<div class="content">
+										<div class="text"><%= __("admin.users.followers_users"); %></div>
+									</div>
+								</div>
+							</a>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>read_more.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ds = "<%= (result.dob) ? result.dob :"" %>";
+			
+			var date = moment(new Date(ds.substr(0, 16)));
+			var dateofbirth = date.format('<%= DATE_FORMAT %>');
+			$('#dateofbirth').html(dateofbirth);
+		});
+	</script>

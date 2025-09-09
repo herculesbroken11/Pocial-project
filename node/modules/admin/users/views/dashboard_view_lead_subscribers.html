@@ -1,0 +1,142 @@
+<%
+	var result = (typeof result !== typeof undefined && result) ? result :{};	
+	var messageBoxValue = (result.messageBoxValue) ? result.messageBoxValue :{};	
+	var dropDownTitleValue = (result.dropDownTitleValue) ? result.dropDownTitleValue :{};
+%>
+
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.system.view'); %> </h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+						<tr>
+							 
+							<th class="text-right"><%= __("admin.user.image"); %></th>
+							<td>
+								<% let userImage = (result.profile_image) ? USERS_URL+result.profile_image : NO_IMAGE_AVAILABLE %>
+								<a href="<%= userImage %>" class="items-image" data-lightbox="roadtrip">
+									<img src="<%= userImage %>?dim=80x80&type=resize" alt="Profile image" />
+								</a>
+							</td>
+							
+							<th width="20%" class="text-right"><%= __("admin.leads_subscriber.image_upload"); %></th>
+							<td>
+								<% let leadImage = (result.image_name) ? LEADS_FORM_URL+result.image_name : NO_IMAGE_AVAILABLE %>
+								<a href="<%= leadImage %>" class="items-image" data-lightbox="roadtrip">
+									<img src="<%= leadImage %>?dim=80x80&type=resize" alt="Profile image" />
+								</a>
+							</td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.user.first_name'); %></th>
+							<td><%= (typeof result.first_name !== typeof undefined) ? result.first_name :"N/A";%></td>
+						 
+							<th class="text-right"><%= __('admin.user.last_name'); %></th>
+							<td><%= (typeof result.last_name !== typeof undefined) ? result.last_name :"N/A";%></td>
+						</tr>
+						 
+						<tr>
+							<th class="text-right"><label for="full_name" class="control-label"><%= __('admin.user.email'); %></label></th>
+							<td><%-(typeof result.email !== typeof undefined) ? '<a href="mailto:'+result.email+'">'+result.email+'</a>' : 'N/A'%></td>
+						
+							<th class="text-right"><%= __('admin.user.phone_number'); %></th>
+							<td><%= (typeof result.mobile !== typeof undefined) ? result.mobile :"N/A";%></td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.user.date_of_birth'); %></th>
+							<td><span id="dateofbirth"></span></td>
+						
+							<th class="text-right"><%= __('admin.user.zip_code'); %></th>
+							<td><%= (typeof result.zip !== typeof undefined) ? result.zip :"N/A";%></td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.user.gender'); %></th>
+							<% var genderName = (result.gender && result.gender == MALE) ? __("admin.user.male") : __("admin.user.female") %>
+							<% if(result.gender == MALE ){ %>
+								<td><%= __("admin.user.male") %></td>
+							<% }else if(result.gender == FEMALE) { %>
+								<td><%= __("admin.user.female") %></td>
+							<% }else if(result.gender == OTHER) { %>
+								<td><%= __("admin.user.other") %></td>
+							<% }else { %>
+								<td>N/A</td>
+							<%}%>
+						
+							<th class="text-right"><%= __('admin.leads_subscriber.leads_creator_full_name'); %></th>
+							<td><%= (typeof result.creator_full_name !== typeof undefined) ? result.creator_full_name :"N/A";%></td>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.leads_subscriber.leads_creator_email'); %></th>
+							<td><%= (typeof result.creator_email !== typeof undefined) ? result.creator_email :"N/A";%></td>
+						
+							<th class="text-right"><%= __('admin.leads.form_title'); %></th>
+							<td><%= (typeof result.leads_title !== typeof undefined) ? result.leads_title :"N/A";%></td>
+						</tr>
+						
+						<% if((result.message_box_title).length>0){ %>
+								
+								<% (result.message_box_title).map((records,index)=>{
+									let messageBoxKeyValue = 'message_box_title'+index;
+									let messageBox = (messageBoxValue[messageBoxKeyValue]) ? messageBoxValue[messageBoxKeyValue] : "N/A";
+								%>
+									<tr>
+										<th class="text-right"><%= records.label %></th>
+										<td><%= (messageBox) ? messageBox :"N/A";%></td>
+									</tr>
+								<% }) %>
+						<% } %>
+						
+						<% if((result.type_dropdown_title).length>0){ %>
+								<% (result.type_dropdown_title).map((records,index)=>{
+									let dropDownTitleKeyValue = 'type_dropdown_title'+index;
+									let dropdownValue = (dropDownTitleValue[dropDownTitleKeyValue]) ? dropDownTitleValue[dropDownTitleKeyValue] : "N/A";
+								%>
+									<tr>
+										<th class="text-right"><%= records.label %></th>
+										<td><%= (dropdownValue) ? dropdownValue :"N/A";%></td>
+									</tr>
+								<% }) %>
+						<% } %>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- get open link details popup -->
+<span id="manage_link_details"></span>
+
+
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+	
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ds = "<%= (result.dob) ? result.dob :"" %>";
+			
+			var date = moment(new Date(ds.substr(0, 16)));
+			var dateofbirth = date.format('<%= DATE_FORMAT %>');
+			$('#dateofbirth').html(dateofbirth);
+		});
+	</script>

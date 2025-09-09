@@ -1,0 +1,2042 @@
+<%
+	var leadId = (typeof lead_id !== typeof undefined && lead_id)	?	lead_id	:	"";
+	var userType = (typeof user_type !== typeof undefined && user_type) ? user_type : "";
+	var userId = (typeof user_id !== typeof undefined && user_id) ? user_id : "";
+	var stageLevel = (typeof stage_level !== typeof undefined && stage_level) ? stage_level : "";
+	var scriptDetails = (script_details) ? script_details : {};
+	var mainComponentResult = (scriptDetails.main_component) ? scriptDetails.main_component : {};
+	var headingResult = (scriptDetails.heading) ? scriptDetails.heading : {};
+	var formDataResult = (scriptDetails.form_data) ? scriptDetails.form_data : {};
+	var descriptionResult = (scriptDetails.description) ? scriptDetails.description : {};
+	var buttonResult = (scriptDetails.button) ? scriptDetails.button : {};
+	var bannerResult = (scriptDetails.banner) ? scriptDetails.banner : {};
+	var disabledScriptData = (scriptDetails && scriptDetails._id) ? "disabled" : "";
+	
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.leads.get_script_code"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+					<% if(scriptDetails && scriptDetails._id){ %>
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/view_script_customization/<%= leadId %>/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.leads.add_new_customize") %>
+								</button>
+							</a>
+						</li>
+					<% } %>
+						<li>
+							<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/<%= userId %>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back") %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="row clearfix">
+						<div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+							<form>
+								<div class="right_generate_preview">
+									<a href="javascript:void(0)" class="no_hover btn bg-teal btn-sm waves-effect" id="getAgainScriptedCode" data-id="<%= leadId %>" onclick="getScriptedCode(event)" ><i class="material-icons font-14">code</i> <%= __("admin.leads.generate_scripted_priview"); %></a>
+								</div>
+								<div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
+									<!-- Start unique name or generate & preview -->
+									<div class="card card_scripted">
+										<!-- <div class="body bg-cyan"> -->
+										<div class="generate_scripted_class">
+											<div class="generate_scripted">
+												<label><%= __('admin.leads.generate_scripted_code'); %></label>
+												<input type="text" name="text_area_value" value="<%= without_scripted_id_generate_code %>" id="text_area_value" placeholder="<%= __('admin.leads.generate_scripted'); %>" class="form-control" />
+												<a href="javascript:void(0)" class="no_hover btn bg-teal btn-sm waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.system.copy_text"); %>" onclick="myCopyFunction()"><i class="material-icons font-14">content_copy</i></a>
+												<input type="hidden" name="customized_script_id" id="customized_script_id" value="<%=(scriptDetails && scriptDetails._id) ? scriptDetails._id :"" %>"; class="form-control">
+											</div>
+											
+											<div class="generate_scripted">
+												<label><%= __('admin.leads.add_your_unique_name_to_generate_scripted_code'); %></label>
+												<input type="text" name="unique_name" id="unique_name" value="<%=(scriptDetails && scriptDetails.unique_name) ? scriptDetails.unique_name :"" %>"; <%= disabledScriptData %> placeholder="<%= __('admin.leads.please_enter_unique_name'); %>" class="form-control">
+												<span id="unique_name_error" class="error"></span>
+												<a href="javascript:void(0)" class="no_hover btn bg-teal btn-sm waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="<%= __("admin.leads.generate_scripted_priview"); %>" id="getAgainScriptedCode" data-id="<%= leadId %>" onclick="getScriptedCode(event)" ><i class="material-icons font-14">code</i></a>
+											</div>
+										</div>
+									</div>
+									<!-- End unique name or generate & preview -->
+									
+									
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingThree_0">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseThree_0" aria-expanded="false" aria-controls="collapseThree_0">
+													<%= __('admin.leads.last_generate_script'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseThree_0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree_0">
+											<div class="body">
+												<div class="container-fluid">
+													<!--Search Start -->
+													<div class="row clearfix"> 
+														<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+															<div class="panel panel-col-pink">
+																<div class="panel-heading" role="tab" id="panel-heading-id">
+																	<h4 class="panel-title">
+																		<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false" aria-controls="panel-collapse-id" class="collapsed">
+																			<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+																			<span class="pull-right collapse-toggle-icon"></span>
+																		</a>
+																	</h4>
+																</div>
+																<div id="panel-collapse-id" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="panel-heading-id">
+																	<form id="searchForm" name="searchForm" autocomplete="off">
+																		<div class="panel-body">
+																			<div class="form-group">
+																				<div class="form-line">
+																					<input class="form-control" id="column_filter_0"  onkeyup="searchDatatable(0)" placeholder="<%= __('admin.leads.search_by_name'); %>" name="unique_name">
+																				</div>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div> 
+													</div>
+													<!--Search End -->
+													<div class="row clearfix">
+														<div class="card">
+															<div class="body">
+																<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table word-wrap-table" cellspacing="0" width="100%">
+																	<thead>
+																		<tr>
+																			<th><%= __('admin.leads.unique_name'); %></th>
+																			<th><%= __('admin.system.created'); %></th>
+																			<th><%= __('admin.system.action'); %></th>
+																		</tr>
+																	</thead>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									 
+									<!-- End last customized data generate -->
+									
+									<!--Main container start-->
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingFive_1">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseFive_1" aria-expanded="false" aria-controls="collapseFive_1">
+												
+													<%= __('admin.leads.main_container'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseFive_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive_1">
+											<div class="panel-body">
+												<div class="row clearfix .m-b-0">
+													<input type="hidden" name="exclusive_product_id" id="exclusive_product_id" value=""/>
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.body_background_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="body_background_color" id="body_background_color" class="reset_value" value="<%=(mainComponentResult.background_color) ? mainComponentResult.background_color :"#ffffff";%>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(rgba(0,0,0);"></i>
+															</span>
+														</div>
+													</div>
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.border_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="border_color" id="border_color" value="<%=(mainComponentResult.border_color) ? mainComponentResult.border_color :"#3188a3";%>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(49, 136, 163);"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<b><%= __('admin.leads.border_pixel'); %></b>
+														<input type="number" class="form-control" min="0" placeholder="<%= __('admin.leads.border_pixel'); %>" name="border_pixel" id="border_pixel" value="<%=(mainComponentResult.border_pixel) ? mainComponentResult.border_pixel :"7"; %>" />
+													</div>
+													<div class="col-md-6">
+														<b><%= __('admin.leads.border_style'); %></b>
+														<select class="form-control show-tick search_by_status" id="border_style" name="border_style">
+															<option value=""><%=__("admin.leads.select_by_border_style");%></option>
+															<%
+															if(typeof BORDER_STYLE_DROPDOWN!== typeof undefined && BORDER_STYLE_DROPDOWN.length > 0){
+																BORDER_STYLE_DROPDOWN.map(searchStatus=>{
+																	let selectedFlag = (searchStatus.status_id=='solid' || searchStatus.status_id==mainComponentResult.border_style ) ? "selected" : "";
+																	%>
+																	<option value="<%=searchStatus.status_id%>" <%=selectedFlag%> ><%=searchStatus.status_name%></option>
+															<% 	
+																});
+															} %>
+														</select>
+													</div>
+												</div>
+												
+												<div class="row clearfix p-t-10">
+													<div class="col-md-12">
+														<b><%= __('admin.leads.border'); %></b>
+														<input type="checkbox" onclick="getcheckboxes()" id="all_checkbox" name="all_checkbox" <%= mainComponentResult.all_checkbox == true ? 'checked' :''%> class="filled-in chk-col-blue all_checkbox" >
+														<label for="all_checkbox">All</label>
+														
+														<input type="checkbox" id="top_checkbox" name="top_checkbox" class="filled-in chk-col-blue top_checkbox" <%= mainComponentResult.top_checkbox == true ? 'checked' :''%> />
+														<label for="top_checkbox">Top</label>
+														
+														<input type="checkbox" id="right_checkbox" name="right_checkbox" class="filled-in chk-col-blue right_checkbox" <%= mainComponentResult.right_checkbox == true ? 'checked' :''%> />
+														<label for="right_checkbox">Right</label>
+														
+														<input type="checkbox" id="bottom_checkbox" name="bottom_checkbox" class="filled-in chk-col-blue bottom_checkbox" <%= mainComponentResult.bottom_checkbox == true ? 'checked' :''%> />
+														<label for="bottom_checkbox">Bottom</label>
+														
+														<input type="checkbox" id="left_checkbox" name="left_checkbox" class="filled-in chk-col-blue left_checkbox" <%= mainComponentResult.left_checkbox == true ? 'checked' :''%> />
+														<label for="left_checkbox">Left</label>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<span class="font_size">
+															<label><%= __('admin.leads.main_container_border_radius'); %> <span id="main_component_border_radius_display"></span></label>
+															<input type="range" min="0" max="100" name="main_component_border_radius" id="main_component_border_radius" value="<%=(mainComponentResult.border_radius) ? mainComponentResult.border_radius :"10"; %>" />
+														</span>
+													</div>
+													<div class="col-md-6">
+														<b><%= __('admin.leads.main_box_shadow'); %></b>
+														<div class="demo-switch">
+															<div class="switch">
+																<label>OFF<input type="checkbox" onclick="checkboxAction()" class="main_box_shadow" name="main_box_shadow" id="main_box_shadow" <%= mainComponentResult.main_box_shadow == true ? 'checked' :''%> ><span class="lever"></span>ON</label>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="box_shadow_show_hide" >
+													<div class="row clearfix">
+														<div class="col-md-6">
+															<b><%= __('admin.leads.shift_right'); %></b>
+															<input type="number" class="form-control" name="shift_right" id="shift_right" value="<%=(mainComponentResult.shift_right) ? mainComponentResult.shift_right :"0"; %>" />
+														</div>
+														<div class="col-md-6">
+															<b><%= __('admin.leads.shift_down'); %></b>
+															<input type="number" class="form-control" name="shift_down" id="shift_down" value="<%=(mainComponentResult.shift_down) ? mainComponentResult.shift_down :"0"; %>" />
+														</div>
+													</div>
+													
+													<div class="row clearfix">
+														<div class="col-md-6">
+															<b><%= __('admin.leads.spread'); %></b>
+															<input type="number" class="form-control" name="spread" id="spread" value="<%=(mainComponentResult.spread) ? mainComponentResult.spread :"2"; %>" />
+														</div>
+														<div class="col-md-6">
+															<b><%= __('admin.leads.blur'); %></b>
+															<input type="number" class="form-control" name="blur" id="blur" value="<%=(mainComponentResult.blur) ? mainComponentResult.blur :"15"; %>" />
+														</div>
+													</div>
+													
+													<div class="row clearfix">													
+														<div class="col-md-6">
+															<b><%= __('admin.leads.hover_color'); %></b>
+															<div class="input-group colorpicker colorpicker-element">
+																<div class="form-line">
+																	<input type="text" class="form-control" name="hover_color" id="hover_color" value="<%=(mainComponentResult.hover_color) ? mainComponentResult.hover_color :"#000000";%>" />
+																</div>
+																<span class="input-group-addon">
+																	<i style="background-color: rgb(49, 136, 163);"></i>
+																</span>
+															</div>
+														</div>
+														
+														<div class="col-md-6 box_shadow_show_hide">
+															<b><%= __('admin.leads.inset'); %></b></br></br>
+															<div class="demo-switch">
+																<div class="switch">
+																	<input type="checkbox" id="inset" name="inset" class="filled-in chk-col-blue inset" <%= mainComponentResult.inset == true ? 'checked' :''%> />
+																	<label for="inset"><%= __('admin.leads.inset'); %></label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<b><%= __('admin.leads.width'); %></b>
+														<select class="form-control" id="main_container_width" name="main_container_width">
+															<option value=""><%=__("admin.leads.select_button_width");%></option>
+															<%
+															if(typeof CUSTOMIZATION_WIDTH_DROPDOWN!== typeof undefined && CUSTOMIZATION_WIDTH_DROPDOWN.length > 0){
+																CUSTOMIZATION_WIDTH_DROPDOWN.map(width=>{
+																	let selectedFlag = (width.status_id=='full_width' || width.status_id==mainComponentResult.main_container_width ) ? "selected" : "";
+																	%>
+																	<option value="<%=width.status_id%>" <%= selectedFlag %> ><%=width.status_name%></option>
+															<% 	
+																});
+															} %>
+														</select>
+													</div>
+													<div class="col-md-6" id="main_container_custom_width" style="display: none;" >
+														<b>
+															<%= __('admin.leads.custom_width'); %>
+															<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_pixel_and_percentage'); %>" >
+														</b>
+														<input type="text" class="form-control" name="main_custom_width" id="main_custom_width" value="<%=(mainComponentResult.main_custom_width) ? mainComponentResult.main_custom_width :""; %>" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--Main container end-->
+									
+									<!--Heading Title container Start -->
+									<div class="panel panel-primary" style="display: none;">
+										<div class="panel-heading" role="tab" id="headingTwo_1">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseTwo_1" aria-expanded="false" aria-controls="collapseTwo_1">
+													<%= __('admin.leads.heading_customization'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseTwo_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo_1">
+											<div class="panel-body">
+												<div class="main_block_css">
+													<div class="right_checkbox_one_coloun">
+														<h5><%= __('admin.leads.header_title'); %></h5>
+														<span id="right_checkbox">
+															<input type="checkbox" onclick="checkboxAction()" id="title_show" name="title_show" class="filled-in chk-col-orange title_show" <%= disabledScriptData=='' || headingResult.title_checkbox == true ? 'checked' :''%> />
+															<label for="title_show"></label> 
+														</span>
+													</div>
+													<span id="header_title_show_hide">
+														<input type="checkbox" id="title_bold" name="title_bold" class="filled-in chk-col-blue title_bold" <%= headingResult.header_bold == true ? 'checked' :''%> >
+														<label for="title_bold"><%= __('admin.leads.bold'); %></label>
+														
+														<input type="checkbox" id="title_italic" name="title_italic" class="filled-in chk-col-blue title_italic" <%= headingResult.header_italic == true ? 'checked' :''%> >
+														<label for="title_italic"><%= __('admin.leads.italic'); %></label>
+														
+														<input type="checkbox" id="title_underline" name="title_underline" class="filled-in chk-col-blue title_underline" <%= headingResult.header_underline == true ? 'checked' :''%> >
+														<label for="title_underline"><%= __('admin.leads.underline'); %></label></br>
+														
+														<div class="row clearfix">
+															<div class="col-md-6 m-t-10 m-b--15">
+																<b><%= __('admin.leads.header_text_color'); %></b>
+																<div class="input-group colorpicker colorpicker-element">
+																	<div class="form-line">
+																		<input type="text" class="form-control" name="header_text_color" id="header_text_color" value="<%=(headingResult.header_textcolor) ? headingResult.header_textcolor :"#000000"; %>" />
+																	</div>
+																	<span class="input-group-addon">
+																		<i style="background-color: rgb(rgba(0,0,0);"></i>
+																	</span>
+																</div>
+															</div>
+															<div class="col-md-6 m-t-10">
+																<b><%= __('admin.leads.font_size'); %> <span id="header_font_size_display"></span></b>
+																<input type="range" min="0" max="100" name="header_font_size" id="header_font_size" value="<%=(headingResult.header_font_size) ? headingResult.header_font_size :"32"; %>" >
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6">
+																<b><%= __('admin.leads.heading_align'); %></b>
+																<select class="form-control show-tick search_by_status" id="heading_align" name="heading_align">
+																	<option value=""><%=__("admin.leads.select_alignment");%></option>
+																	<%
+																	if(typeof CUSTOMIZATION_ALIGN_DROPDOWN!== typeof undefined && CUSTOMIZATION_ALIGN_DROPDOWN.length > 0){
+																		CUSTOMIZATION_ALIGN_DROPDOWN.map(alignText=>{
+																		let selectedFlag = (alignText.status_id=='left' || alignText.status_id==headingResult.heading_align ) ? "selected" : "";
+																			%>
+																			<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+															<div class="col-md-6">
+																<b><%= __('admin.leads.transform_text_dropdown'); %></b>
+																<select class="form-control show-tick search_by_status" id="heading_transform_text" name="heading_transform_text">
+																	<option value=""><%=__("admin.leads.select_alignment");%></option>
+																	<%
+																	if(typeof TRANSFORM_TEXT_DROPDOWN!== typeof undefined && TRANSFORM_TEXT_DROPDOWN.length > 0){
+																		TRANSFORM_TEXT_DROPDOWN.map(alignText=>{
+																		let selectedFlag = (alignText.status_id=='default' || alignText.status_id==headingResult.heading_transform_text ) ? "selected" : "";
+																			%>
+																			<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+														</div>
+													
+														<div class="row clearfix">
+															<div class="col-md-6"> 
+																<label><%= __('admin.leads.font_family'); %></label>
+																<select class="form-control show-tick search_by_status" id="header_font_family" name="header_font_family">
+																	<option value=""><%=__("admin.leads.select_by_font_family");%></option>
+																	<%
+																	if(typeof CSS_FONT_FAMILY_DROPDOWN!== typeof undefined && CSS_FONT_FAMILY_DROPDOWN.length > 0){
+																		CSS_FONT_FAMILY_DROPDOWN.map(font=>{
+																			let selectedFlag = (font.status_id==headingResult.header_font_family ) ? "selected" : "";
+																			%>
+																			<option value="<%=font.status_id%>" <%= selectedFlag %> ><%=font.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+															<div class="col-md-6" id="other_font_heading_show_hide"> 
+																<label for="other_font_heading" class="control-label"><%= __('admin.leads.other_font'); %></label>
+																<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_other_font_description'); %>" >
+																<input name="other_font_heading" id="other_font_heading" type="text" class="form-control" value="<%=(headingResult.header_other_font_family) ? headingResult.header_other_font_family :""; %>" />
+															</div>
+														</div>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--Heading Title container End -->
+									
+									<!--BANNER START -->
+									<div class="panel panel-primary" style="display: none;">
+										<div class="panel-heading" role="tab" id="headingThree_6">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseThree_6" aria-expanded="false" aria-controls="collapseThree_6">
+													<%= __('Admin.leads.banner_customization'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseThree_6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree_6">
+											<div class="panel-body">
+												<!-- Banner -->
+												<div class="main_block_css">
+													<div class="right_checkbox_one_coloun">
+														<h5><%= __('admin.leads.banner'); %></h5>
+														<span id="right_checkbox">
+															<input type="checkbox" id="banner_show" name="banner_show" onclick="checkboxAction()" class="filled-in chk-col-orange banner_show" <%= disabledScriptData=='' || bannerResult.banner_check_box == true ? 'checked' :''%> />
+															<label for="banner_show"></label>
+														</span>
+													</div>
+													
+													<span id="banner_display_show_hide">
+														<div class="row clearfix .m-b-0">
+															<div class="col-md-6 m-b-0">
+																<b><%= __('admin.leads.border_color'); %></b>
+																<div class="input-group colorpicker colorpicker-element">
+																	<div class="form-line">
+																		<input type="text" class="form-control" name="banner_border_color" id="banner_border_color" value="<%=(bannerResult.banner_border_color) ? bannerResult.banner_border_color :"#3188a3";%>" />
+																	</div>
+																	<span class="input-group-addon">
+																		<i style="background-color: rgb(49, 136, 163);"></i>
+																	</span>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<span class="font_size">
+																	<label><%= __('admin.leads.main_container_border_radius'); %> <span id="banner_border_radius_display"></span></label>
+																	<input type="range" min="0" max="100" name="banner_border_radius" id="banner_border_radius" value="<%=(bannerResult.banner_border_radius) ? bannerResult.banner_border_radius :"10"; %>" />
+																</span>
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6">
+																<b><%= __('admin.leads.border_pixel'); %></b>
+																<input type="number" class="form-control" min="0" placeholder="<%= __('admin.leads.banner_border_pixel'); %>" name="banner_border_pixel" id="banner_border_pixel" value="<%=(bannerResult.banner_border_pixel) ? bannerResult.banner_border_pixel :"7"; %>" />
+															</div>
+															<div class="col-md-6">
+																<b><%= __('admin.leads.border_style'); %></b>
+																<select class="form-control show-tick search_by_status" id="banner_border_style" name="banner_border_style">
+																	<option value=""><%=__("admin.leads.select_by_border_style");%></option>
+																	<%
+																	if(typeof BORDER_STYLE_DROPDOWN!== typeof undefined && BORDER_STYLE_DROPDOWN.length > 0){
+																		BORDER_STYLE_DROPDOWN.map(searchStatus=>{
+																			let selectedFlag = (searchStatus.status_id=='solid' || searchStatus.status_id==bannerResult.banner_border_style ) ? "selected" : "";
+																			%>
+																			<option value="<%=searchStatus.status_id%>" <%=selectedFlag%> ><%=searchStatus.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+														</div>
+														
+														<div class="row clearfix p-t-10">
+															<div class="col-md-12">
+																<b><%= __('admin.leads.border'); %></b>
+																<input type="checkbox" onclick="getBannerCheckboxes()" id="banner_all_checkbox" name="banner_all_checkbox" <%= bannerResult.banner_all_checkbox == true ? 'checked' :''%> class="filled-in chk-col-blue banner_all_checkbox" >
+																<label for="banner_all_checkbox">All</label>
+																
+																<input type="checkbox" id="banner_top_checkbox" name="banner_top_checkbox" class="filled-in chk-col-blue banner_checkbox_class banner_top_checkbox" <%= bannerResult.banner_top_checkbox == true ? 'checked' :''%> />
+																<label for="banner_top_checkbox">Top</label>
+																
+																<input type="checkbox" id="banner_right_checkbox" name="banner_right_checkbox" class="filled-in chk-col-blue banner_checkbox_class banner_right_checkbox" <%= bannerResult.banner_right_checkbox == true ? 'checked' :''%> />
+																<label for="banner_right_checkbox">Right</label>
+																
+																<input type="checkbox" id="banner_bottom_checkbox" name="banner_bottom_checkbox" class="filled-in chk-col-blue banner_checkbox_class banner_bottom_checkbox" <%= bannerResult.banner_bottom_checkbox == true ? 'checked' :''%> />
+																<label for="banner_bottom_checkbox">Bottom</label>
+																
+																<input type="checkbox" id="banner_left_checkbox" name="banner_left_checkbox" class="filled-in chk-col-blue banner_checkbox_class banner_left_checkbox" <%= bannerResult.banner_left_checkbox == true ? 'checked' :''%> />
+																<label for="banner_left_checkbox">Left</label>
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6">
+																<b><%= __('admin.leads.width'); %></b>
+																<select class="form-control" id="banner_width" name="banner_width">
+																	<option value=""><%=__("admin.leads.select_button_width");%></option>
+																	<%
+																	if(typeof CUSTOMIZATION_WIDTH_DROPDOWN!== typeof undefined && CUSTOMIZATION_WIDTH_DROPDOWN.length > 0){
+																		CUSTOMIZATION_WIDTH_DROPDOWN.map(width=>{
+																			let selectedFlag = (width.status_id=='full_width' || width.status_id==bannerResult.banner_width ) ? "selected" : "";
+																			%>
+																			<option value="<%=width.status_id%>" <%= selectedFlag %> ><%=width.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+															<div class="col-md-6" id="banner_custom_width_show_hide" style="display: none;" >
+																<b>
+																	<%= __('admin.leads.custom_width'); %>
+																	<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_pixel_and_percentage'); %>" >
+																</b>
+																<input type="text" class="form-control" name="banner_custom_width" id="banner_custom_width" value="<%=(bannerResult.banner_custom_width) ? bannerResult.banner_custom_width :""; %>" />
+															</div>
+														</div>
+														
+														<div class="main_block_css">
+															<div class="right_checkbox_one_coloun">
+																<span id="right_checkbox">
+																	<h5><%= __('admin.leads.banner_shadow'); %></h5>
+																</span>
+																<span id="right_checkbox">
+																	<input type="checkbox" onclick="checkboxAction()" id="banner_shadow" name="banner_shadow" class="filled-in chk-col-orange banner_shadow" <%= bannerResult.banner_shadow == true ? 'checked' :''%> />
+																	<label for="banner_shadow"></label> 
+																</span>
+															</div>
+														</div> 
+																										
+														<div class="banner_shadow_show_hide">
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.shift_right'); %></b>
+																	<input type="number" class="form-control" name="banner_shift_right" id="banner_shift_right" value="<%=(bannerResult.banner_shift_right) ? bannerResult.banner_shift_right :"0"; %>" />
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.shift_down'); %></b>
+																	<input type="number" class="form-control" name="banner_shift_down" id="banner_shift_down" value="<%=(bannerResult.banner_shift_down) ? bannerResult.banner_shift_down :"0"; %>" />
+																</div>
+															</div>
+															
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.spread'); %></b>
+																	<input type="number" class="form-control" name="banner_spread" id="banner_spread" value="<%=(bannerResult.banner_spread) ? bannerResult.banner_spread :"2"; %>" />
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.blur'); %></b>
+																	<input type="number" class="form-control" name="banner_blur" id="banner_blur" value="<%=(bannerResult.banner_blur) ? bannerResult.banner_blur :"15"; %>" />
+																</div>
+															</div>
+															
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.inset'); %></b></br></br>
+																	<div class="demo-switch">
+																		<div class="switch">
+																			<input type="checkbox" id="banner_inset" name="banner_inset" class="filled-in chk-col-blue banner_inset" <%= bannerResult.banner_inset == true ? 'checked' :''%> />
+																			<label for="banner_inset"><%= __('admin.leads.inset'); %></label>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.hover_color'); %></b>
+																	<div class="input-group colorpicker colorpicker-element">
+																		<div class="form-line">
+																			<input type="text" class="form-control" name="banner_hover_color" id="banner_hover_color" value="<%=(bannerResult.banner_hover_color) ? bannerResult.banner_hover_color :"#000000";%>" />
+																		</div>
+																		<span class="input-group-addon">
+																			<i style="background-color: rgb(49, 136, 163);"></i>
+																		</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--BANNER END -->
+									
+									<!--DESCRIPTION START -->
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingThree_7">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseThree_7" aria-expanded="false" aria-controls="collapseThree_7">
+													<%= __('admin.leads.description_customization'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseThree_7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree_7">
+											<div class="panel-body">
+												<!-- Description -->
+												<div class="main_block_css">
+													<div class="right_checkbox_one_coloun">
+														<h5><%= __('admin.leads.description'); %></h5>
+														<span id="right_checkbox">
+															<input type="checkbox" onclick="checkboxAction()" id="description_show" name="description_show" class="filled-in chk-col-orange description_show" <%= disabledScriptData=='' || descriptionResult.description_checkbox == true ? 'checked' :''%> />
+															<label for="description_show"></label> 
+														</span>
+													</div>
+													<span id="description_show_hide">
+														<input type="checkbox" id="description_bold" name="description_bold" class="filled-in chk-col-blue description_bold" <%= descriptionResult.description_bold == true ? 'checked' :''%> />
+														<label for="description_bold"><%= __('admin.leads.bold'); %></label>
+														
+														<input type="checkbox" id="description_italic" name="description_italic" class="filled-in chk-col-blue description_italic" <%= descriptionResult.description_italic == true ? 'checked' :''%> />
+														<label for="description_italic"><%= __('admin.leads.italic'); %></label>
+														
+														<input type="checkbox" id="description_underline" name="description_underline" class="filled-in chk-col-blue description_underline" <%= descriptionResult.description_underline == true ? 'checked' :''%> />
+														<label for="description_underline"><%= __('admin.leads.underline'); %></label></br>
+														
+														<div class="row clearfix">
+															<div class="col-md-6 m-t-10 m-b--15">
+																<b><%= __('admin.leads.description_text_color'); %></b>
+																<div class="input-group colorpicker colorpicker-element">
+																	<div class="form-line">
+																		<input type="text" class="form-control" name="description_text_color" id="description_text_color" value="<%=(descriptionResult.description_text_color) ? descriptionResult.description_text_color :"#000000"; %>" />
+																	</div>
+																	<span class="input-group-addon">
+																		<i style="background-color: rgb(rgba(0,0,0);"></i>
+																	</span>
+																</div>
+															</div>
+															<div class="col-md-6 m-t-10 m-b--15">																 
+																<label><%= __('admin.leads.font_size'); %> <span id="description_font_size_display"></span></label>
+																<input type="range" min="0" max="100" name="description_font_size" id="description_font_size" value="<%=(descriptionResult.description_fontsize) ? descriptionResult.description_fontsize :"14"; %>" />
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6">
+																<b><%= __('admin.leads.heading_align'); %></b>
+																<select class="form-control show-tick search_by_status" id="description_align" name="description_align">
+																	<option value=""><%=__("admin.leads.select_alignment");%></option>
+																	<%
+																	if(typeof CUSTOMIZATION_ALIGN_DROPDOWN!== typeof undefined && CUSTOMIZATION_ALIGN_DROPDOWN.length > 0){
+																		CUSTOMIZATION_ALIGN_DROPDOWN.map(alignText=>{
+																		let selectedFlag = (alignText.status_id=='left' || alignText.status_id==descriptionResult.description_align ) ? "selected" : "";
+																			%>
+																			<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+															<div class="col-md-6">
+																<b><%= __('admin.leads.transform_text_dropdown'); %></b>
+																<select class="form-control show-tick search_by_status" id="description_transform_text" name="description_transform_text">
+																	<option value=""><%=__("admin.leads.select_alignment");%></option>
+																	<%
+																	if(typeof TRANSFORM_TEXT_DROPDOWN!== typeof undefined && TRANSFORM_TEXT_DROPDOWN.length > 0){
+																		TRANSFORM_TEXT_DROPDOWN.map(alignText=>{
+																		let selectedFlag = (alignText.status_id=='default' || alignText.status_id==descriptionResult.description_transform_text ) ? "selected" : "";
+																			%>
+																			<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6"> 
+																<label><%= __('admin.leads.font_family'); %></label>
+																<select class="form-control show-tick search_by_status" id="description_font_family" name="description_font_family">
+																	<option value=""><%=__("admin.leads.select_by_font_family");%></option>
+																	<%
+																	if(typeof CSS_FONT_FAMILY_DROPDOWN!== typeof undefined && CSS_FONT_FAMILY_DROPDOWN.length > 0){
+																		CSS_FONT_FAMILY_DROPDOWN.map(font=>{
+																		let selectedFlag = (font.status_id==descriptionResult.description_fontfamily ) ? "selected" : "";
+																			%>
+																			<option value="<%=font.status_id%>" <%= selectedFlag %> ><%=font.status_name%></option>
+																	<% 	
+																		});
+																	} %>
+																</select>
+															</div>
+															<div class="col-md-6" id="other_font_description_show_hide"> 
+																<label for="other_font_description" class="control-label"><%= __('admin.leads.other_font'); %></label>
+																<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_other_font_description'); %>" >
+																<input name="other_font_description" id="other_font_description" type="text" class="form-control" value="<%=(descriptionResult.description_other_font_family) ? descriptionResult.description_other_font_family :""; %>" />
+															</div>
+														</div>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--DESCRIPTION END -->
+									
+									
+									<!-- Start form Customization -->
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingFour_1">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseFour_1" aria-expanded="false" aria-controls="collapseThree_1">
+													<%= __('admin.leads.form_customize'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseFour_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour_1">
+											<div class="body">
+												<!-- Nav tabs -->
+												<ul class="nav nav-tabs tab-nav-right" role="tablist">
+													<li role="presentation" id="buffer_value" class="active"><a href="#form_title" data-toggle="tab" aria-expanded="false"><%= __('admin.leads.form_title_heading'); %></a></li>
+													<li role="presentation" id="buffer_value" class=""><a href="#form_label" data-toggle="tab" aria-expanded="false"><%= __('admin.leads.text_box_label_customizarion'); %></a></li>
+													<li role="presentation" id="buffer_value" class=""><a href="#textbox" data-toggle="tab" aria-expanded="false"><%= __('admin.leads.text_boxe'); %></a></li>
+												</ul>
+
+												<!-- Tab panes -->
+												<div class="tab-content">
+													
+													<!--Start form title-->
+													<div role="tabpanel" class="tab-pane fade active in" id="form_title">
+														<div class="main_block_css border_bottom">
+															<div class="right_checkbox_one_coloun">
+																<span id="right_checkbox">
+																	<h5><%= __('admin.leads.form_title_customized'); %></h5>
+																</span>
+																<span id="right_checkbox">
+																	<input type="checkbox" onclick="checkboxAction()" id="form_title_show" name="form_title_show" class="filled-in chk-col-orange form_title_show" <%= disabledScriptData=='' || formDataResult.form_title_chkboxshow == true ? 'checked' :''%> />
+																	<label for="form_title_show"></label> 
+																</span>
+															</div>
+															
+															<span id="form_title_show_hide">
+																<input type="checkbox" id="form_title_bold" name="form_title_bold" class="filled-in chk-col-blue form_title_bold" <%= formDataResult.form_title_bold == true ? 'checked' :''%> />
+																<label for="form_title_bold"><%= __('admin.leads.bold'); %></label>
+																
+																<input type="checkbox" id="form_title_italic" name="form_title_italic" class="filled-in chk-col-blue form_title_italic" <%= formDataResult.form_title_italic == true ? 'checked' :''%> />
+																<label for="form_title_italic"><%= __('admin.leads.italic'); %></label>
+																
+																<input type="checkbox" id="form_title_underline" name="form_title_underline" class="filled-in chk-col-blue form_title_underline" <%= formDataResult.form_title_underline == true ? 'checked' :''%> />
+																<label for="form_title_underline"><%= __('admin.leads.underline'); %></label></br>
+																
+																<div class="row clearfix">
+																	<div class="col-md-6 m-t-10 m-b--15">
+																		<b><%= __('admin.leads.form_title_text_color'); %></b>
+																		<div class="input-group colorpicker colorpicker-element">
+																			<div class="form-line">
+																				<input type="text" class="form-control" name="form_title_text_color" id="form_title_text_color" value="<%=(formDataResult.form_title_textcolor) ? formDataResult.form_title_textcolor :"#000000"; %>" />
+																			</div>
+																			<span class="input-group-addon">
+																				<i style="background-color: rgb(rgba(0,0,0);"></i>
+																			</span>
+																		</div>
+																	</div>
+																	<div class="col-md-6 m-t-10 m-b--15">
+																		<label><%= __('admin.leads.font_size'); %> <span id="form_title_font_size_display"></span></label>
+																		<input type="range" min="0" max="100" name="form_title_font_size" id="form_title_font_size" value="<%=(formDataResult.form_title_fontsize) ? formDataResult.form_title_fontsize :"24"; %>" />
+																	</div>
+																</div>
+																
+																<div class="row clearfix">
+																	<div class="col-md-6">
+																		<b><%= __('admin.leads.heading_align'); %></b>
+																		<select class="form-control show-tick search_by_status" id="form_title_align" name="form_title_align">
+																			<option value=""><%=__("admin.leads.select_alignment");%></option>
+																			<%
+																			if(typeof CUSTOMIZATION_ALIGN_DROPDOWN!== typeof undefined && CUSTOMIZATION_ALIGN_DROPDOWN.length > 0){
+																				CUSTOMIZATION_ALIGN_DROPDOWN.map(alignText=>{
+																				let selectedFlag = (alignText.status_id=='left' || alignText.status_id==formDataResult.form_title_align ) ? "selected" : "";
+																					%>
+																					<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																	<div class="col-md-6">
+																		<b><%= __('admin.leads.transform_text_dropdown'); %></b>
+																		<select class="form-control show-tick search_by_status" id="form_title_transform_text" name="form_title_transform_text">
+																			<option value=""><%=__("admin.leads.select_alignment");%></option>
+																			<%
+																			if(typeof TRANSFORM_TEXT_DROPDOWN!== typeof undefined && TRANSFORM_TEXT_DROPDOWN.length > 0){
+																				TRANSFORM_TEXT_DROPDOWN.map(alignText=>{
+																				let selectedFlag = (alignText.status_id=='default' || alignText.status_id==formDataResult.form_title_transform_text ) ? "selected" : "";
+																					%>
+																					<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																</div>
+																
+																<div class="row clearfix">
+																	<div class="col-md-6">
+																		<label><%= __('admin.leads.font_family'); %></label>
+																		<select class="form-control show-tick search_by_status" id="form_title_font_family" name="form_title_font_family">
+																			<option value=""><%=__("admin.leads.select_by_font_family");%></option>
+																			<%
+																			if(typeof CSS_FONT_FAMILY_DROPDOWN!== typeof undefined && CSS_FONT_FAMILY_DROPDOWN.length > 0){
+																				CSS_FONT_FAMILY_DROPDOWN.map(font=>{
+																					let selectedFlag = (font.status_id==formDataResult.form_title_fontfamily) ? "selected" : "";
+																					%>
+																					<option value="<%=font.status_id%>" <%= selectedFlag %> ><%=font.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																	<div class="col-md-6" id="other_font_form_title_show_hide"> 
+																		<label for="other_font_form_title" class="control-label"><%= __('admin.leads.other_font'); %></label>
+																		<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_other_font_description'); %>" >
+																		<input name="other_font_form_title" id="other_font_form_title" type="text" class="form-control" value="<%=(formDataResult.form_title_other_font_family) ? formDataResult.form_title_other_font_family :""; %>" />
+																	</div>
+																</div>
+															</span>
+														</div>
+													</div>
+													<!--End form title-->
+													
+													
+													<!-- Start form label -->
+													<div role="tabpanel" class="tab-pane fade" id="form_label">
+														<div class="main_block_css border_bottom">
+															<div class="right_checkbox_one_coloun">
+																<span id="right_checkbox">
+																	<h5><%= __('admin.leads.form_label'); %></h5>
+																</span>
+																<span id="right_checkbox">
+																	<input type="checkbox" onclick="checkboxAction()" id="form_label_show" name="form_label_show" class="filled-in chk-col-orange form_label_show" <%= disabledScriptData=='' || formDataResult.form_label_chkboxshow == true ? 'checked' :''%> />
+																	<label for="form_label_show"></label> 
+																</span>
+															</div>
+														
+															<span id="form_label_show_hide">
+																<input type="checkbox" id="form_label_bold" name="form_label_bold" class="filled-in chk-col-blue form_label_bold" <%= formDataResult.form_label_bold == true ? 'checked' :''%> />
+																<label for="form_label_bold"><%= __('admin.leads.bold'); %></label>
+																
+																<input type="checkbox" id="form_label_italic" name="form_label_italic" class="filled-in chk-col-blue form_label_italic" <%= formDataResult.form_label_italic == true ? 'checked' :''%> />
+																<label for="form_label_italic"><%= __('admin.leads.italic'); %></label>
+																
+																<input type="checkbox" id="form_label_underline" name="form_label_underline" class="filled-in chk-col-blue form_label_underline" <%= formDataResult.form_label_underline == true ? 'checked' :''%> />
+																<label for="form_label_underline"><%= __('admin.leads.underline'); %></label></br>
+																 
+																<div class="row clearfix">
+																	<div class="col-md-6 m-t-10 m-b--15">
+																		<b><%= __('admin.leads.label_color'); %></b>
+																		<div class="input-group colorpicker colorpicker-element">
+																			<div class="form-line">
+																				<input type="text" class="form-control" name="label_color" id="label_color" value="<%=(formDataResult.label_color) ? formDataResult.label_color :"#000000"; %>" />
+																			</div>
+																			<span class="input-group-addon">
+																				<i style="background-color: rgb(rgba(0,0,0);"></i>
+																			</span>
+																		</div>
+																	</div>
+																	<div class="col-md-6 m-t-10 m-b--15">
+																		<span class="font_size">
+																			<label><%= __('admin.leads.font_size'); %> <span id="form_label_font_size_display"></span></label>
+																			<input type="range" min="0" max="100" name="form_label_font_size" id="form_label_font_size" value="<%=(formDataResult.form_label_fontsize) ? formDataResult.form_label_fontsize :"14"; %>" />
+																		</span>
+																	</div>
+																</div>
+																
+																<div class="row clearfix">
+																	<div class="col-md-6">
+																		<b><%= __('admin.leads.heading_align'); %></b>
+																		<select class="form-control show-tick search_by_status" id="form_label_align" name="form_label_align">
+																			<option value=""><%=__("admin.leads.select_alignment");%></option>
+																			<%
+																			if(typeof CUSTOMIZATION_ALIGN_DROPDOWN!== typeof undefined && CUSTOMIZATION_ALIGN_DROPDOWN.length > 0){
+																				CUSTOMIZATION_ALIGN_DROPDOWN.map(alignText=>{
+																				let selectedFlag = (alignText.status_id=='left' || alignText.status_id==formDataResult.form_label_align ) ? "selected" : "";
+																					%>
+																					<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																	<div class="col-md-6">
+																		<b><%= __('admin.leads.transform_text_dropdown'); %></b>
+																		<select class="form-control show-tick search_by_status" id="form_label_transform_text" name="form_label_transform_text">
+																			<option value=""><%=__("admin.leads.select_alignment");%></option>
+																			<%
+																			if(typeof TRANSFORM_TEXT_DROPDOWN!== typeof undefined && TRANSFORM_TEXT_DROPDOWN.length > 0){
+																				TRANSFORM_TEXT_DROPDOWN.map(alignText=>{
+																				let selectedFlag = (alignText.status_id=='default' || alignText.status_id==formDataResult.form_label_transform_text ) ? "selected" : "";
+																					%>
+																					<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																</div>
+																
+																
+																<div class="row clearfix">
+																	<div class="col-md-6">
+																		<label><%= __('admin.leads.font_family'); %></label>
+																		<select class="form-control show-tick search_by_status" id="font_label_font_family" name="font_label_font_family">
+																			<option value=""><%=__("admin.leads.select_by_font_family");%></option>
+																			<%
+																			if(typeof CSS_FONT_FAMILY_DROPDOWN!== typeof undefined && CSS_FONT_FAMILY_DROPDOWN.length > 0){
+																				CSS_FONT_FAMILY_DROPDOWN.map(font=>{
+																					let selectedFlag = (font.status_id==formDataResult.form_label_fontfamily ) ? "selected" : "";
+																					%>
+																					<option value="<%=font.status_id%>" <%= selectedFlag %> ><%=font.status_name%></option>
+																			<% 	
+																				});
+																			} %>
+																		</select>
+																	</div>
+																	<div class="col-md-6" id="other_font_font_label_show_hide"> 
+																		<label for="other_font_font_label" class="control-label"><%= __('admin.leads.other_font'); %></label>
+																		<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_other_font_description'); %>" >
+																		<input name="other_font_font_label" id="other_font_font_label" type="text" class="form-control" value="<%=(formDataResult.form_label_other_font_family) ? formDataResult.form_label_other_font_family :""; %>" />
+																	</div>
+																</div>
+															</span>
+														</div>
+													</div>
+													<!-- End form label -->
+													
+													<!-- Start text box  -->
+													<div role="tabpanel" class="tab-pane fade" id="textbox">
+														<div class="row clearfix">
+															<div class="col-md-6 m-t-10 m-b--15">
+																<span class="font_size">
+																	<label><%= __('admin.leads.textbox_border'); %> <span id="textbox_border_display"></span></label>
+																	<input type="range" min="0" max="100" name="textbox_border" id="textbox_border" value="<%=(formDataResult.text_boxborder_radius) ? formDataResult.text_boxborder_radius :"5"; %>" />
+																</span>
+															</div>
+															<div class="col-md-6 m-t-10 m-b--15">
+																<span class="font_size">
+																	<label><%= __('admin.leads.text_box_height'); %> <span id="text_box_height_display"></span></label>
+																	<input type="range" min="25" max="100" name="text_box_height" id="text_box_height" value="<%=(formDataResult.text_box_height) ? formDataResult.text_box_height :"47"; %>" />
+																</span>
+															</div>
+														</div>
+														
+														<div class="row clearfix">
+															<div class="col-md-6 m-t-10 m-b--15">
+																<b><%= __('admin.leads.text_box_color'); %></b>
+																<div class="input-group colorpicker colorpicker-element">
+																	<div class="form-line">
+																		<input type="text" class="form-control" name="text_box_color" id="text_box_color" value="<%=(formDataResult.text_box_color) ? formDataResult.text_box_color :"#ffffff"; %>" />
+																	</div>
+																	<span class="input-group-addon">
+																		<i style="background-color: rgb(255, 255, 255);"></i>
+																	</span>
+																</div>
+															</div>
+															<div class="col-md-6 m-t-10 m-b--15">
+																<b><%= __('admin.leads.text_box_border_color'); %></b>
+																<div class="input-group colorpicker colorpicker-element">
+																	<div class="form-line">
+																		<input type="text" class="form-control" name="text_box_border_color" id="text_box_border_color" value="<%=(formDataResult.text_box_border_color) ? formDataResult.text_box_border_color :"#B7B7B7"; %>" />
+																	</div>
+																	<span class="input-group-addon">
+																		<i style="background-color: rgb(183, 183, 183);"></i>
+																	</span>
+																</div>
+															</div>
+														</div>
+														<div class="row clearfix">
+															<div class="col-md-12 m-t-10">
+																<b><%= __('admin.leads.textbox_full_width'); %></b>
+																<div class="form-line">
+																	<select data-live-search="true" class="form-control show-tick search_by_status search-select" id="textbox_width" name="textbox_width" multiple="multiple">
+																		<%
+																		if(typeof fullWidthDropdownTextboxes!== typeof undefined && fullWidthDropdownTextboxes.length > 0){
+																			let textboxWidth = (formDataResult.textbox_width) ? formDataResult.textbox_width : [];
+																			fullWidthDropdownTextboxes.map(widthData=>{
+																				let dorpdownValue = widthData.id;
+																				let selectedFlag = (textboxWidth.length>0 && textboxWidth.includes(dorpdownValue)) ? "selected" : "";
+																				%>
+																				<option value="<%=widthData.id%>" <%= selectedFlag %> ><%=widthData.text%></option>
+																		<% 	
+																			});
+																		} %>
+																	</select>
+																</div>
+															</div>
+														</div>
+														 
+														<div class="main_block_css">
+															<div class="right_checkbox_one_coloun">
+																<span id="right_checkbox">
+																	<h5><%= __('admin.leads.textbox_shadow'); %></h5>
+																</span>
+																<span id="right_checkbox">
+																	<input type="checkbox" onclick="checkboxAction()" id="textbox_shadow" name="textbox_shadow" class="filled-in chk-col-orange textbox_shadow" <%= formDataResult.textbox_shadow == true ? 'checked' :''%> />
+																	<label for="textbox_shadow"></label> 
+																</span>
+															</div>
+														</div> 
+														
+														<div class="textbox_shadow_show_hide">
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.shift_right'); %></b>
+																	<input type="number" class="form-control" name="textbox_shift_right" id="textbox_shift_right" value="<%=(formDataResult.textbox_shift_right) ? formDataResult.textbox_shift_right :"0"; %>" />
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.shift_down'); %></b>
+																	<input type="number" class="form-control" name="textbox_shift_down" id="textbox_shift_down" value="<%=(formDataResult.textbox_shift_down) ? formDataResult.textbox_shift_down :"0"; %>" />
+																</div>
+															</div>
+															
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.spread'); %></b>
+																	<input type="number" class="form-control" name="textbox_spread" id="textbox_spread" value="<%=(formDataResult.textbox_spread) ? formDataResult.textbox_spread :"2"; %>" />
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.blur'); %></b>
+																	<input type="number" class="form-control" name="textbox_blur" id="textbox_blur" value="<%=(formDataResult.textbox_blur) ? formDataResult.textbox_blur :"15"; %>" />
+																</div>
+															</div>
+															
+															<div class="row clearfix">
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.inset'); %></b></br></br>
+																	<div class="demo-switch">
+																		<div class="switch">
+																			<input type="checkbox" id="textbox_inset" name="textbox_inset" class="filled-in chk-col-blue textbox_inset" <%= formDataResult.textbox_inset == true ? 'checked' :''%> />
+																			<label for="textbox_inset"><%= __('admin.leads.inset'); %></label>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<b><%= __('admin.leads.hover_color'); %></b>
+																	<div class="input-group colorpicker colorpicker-element">
+																		<div class="form-line">
+																			<input type="text" class="form-control" name="textbox_hover_color" id="textbox_hover_color" value="<%=(formDataResult.textbox_hover_color) ? formDataResult.textbox_hover_color :"#000000";%>" />
+																		</div>
+																		<span class="input-group-addon">
+																			<i style="background-color: rgb(49, 136, 163);"></i>
+																		</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- End text box -->
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End form Customization -->
+									
+									<!-- Start button customization -->
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingThree_5">
+											<h4 class="panel-title">
+												<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseThree_5" aria-expanded="false" aria-controls="collapseThree_5">
+													<%= __('admin.leads.button_customization'); %>
+													<span class="pull-right collapse-toggle-icon"></span>
+												</a>
+											</h4>
+										</div>
+										<div id="collapseThree_5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree_5">
+											<div class="panel-body">
+												<div class="row clearfix">
+													<div class="col-md-12 m-b-0">
+														<div class="main_block_css">
+															<div class="right_checkbox_one_coloun">
+																<span id="right_checkbox">
+																	<h5><%= __('admin.leads.button_hover'); %></h5>
+																</span>
+																<span id="right_checkbox">
+																	<input type="checkbox" onclick="checkboxAction()" id="button_hover" name="button_hover" class="filled-in chk-col-orange button_hover" <%= buttonResult.button_hover == true ? 'checked' :''%> />
+																	<label for="button_hover"></label> 
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row clearfix button_hover_show_hide">
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.button_hover_background_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="button_hover_background_color" id="button_hover_background_color" value="<%=(buttonResult.button_hover_background_color) ? buttonResult.button_hover_background_color :"#fff"; %>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(49, 136, 163);"></i>
+															</span>
+														</div>
+													</div>
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.button_hover_text_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="button_hover_text_color" id="button_hover_text_color" value="<%=(buttonResult.button_hover_text_color) ? buttonResult.button_hover_text_color :"#3188A3"; %>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(255, 255, 255);"></i>
+															</span>
+														</div>
+													</div>
+													<div class="col-md-12 m-b-0">
+														<b><%= __('admin.leads.button_hover_border_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="button_hover_border_color" id="button_hover_border_color" value="<%=(buttonResult.button_hover_border_color) ? buttonResult.button_hover_border_color :"#3188A3"; %>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(255, 255, 255);"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-12 m-b-0">
+														<input type="checkbox" id="button_bold" name="button_bold" class="filled-in chk-col-blue button_bold" <%= buttonResult.button_bold == true ? 'checked' :''%> />
+														<label for="button_bold"><%= __('admin.leads.bold'); %></label>
+														
+														<input type="checkbox" id="button_italic" name="button_italic" class="filled-in chk-col-blue button_italic" <%= buttonResult.button_italic == true ? 'checked' :''%> />
+														<label for="button_italic"><%= __('admin.leads.italic'); %></label>
+														
+														<input type="checkbox" id="button_underline" name="button_underline" class="filled-in chk-col-blue button_underline" <%= buttonResult.button_underline == true ? 'checked' :''%> />
+														<label for="button_underline"><%= __('admin.leads.underline'); %></label></br></br>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.button_background_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="button_background_color" id="button_background_color" value="<%=(buttonResult.button_background_color) ? buttonResult.button_background_color :"#3188a3"; %>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(49, 136, 163);"></i>
+															</span>
+														</div>
+													</div>
+													<div class="col-md-6 m-b-0">
+														<b><%= __('admin.leads.button_text_color'); %></b>
+														<div class="input-group colorpicker colorpicker-element">
+															<div class="form-line">
+																<input type="text" class="form-control" name="button_text_color" id="button_text_color" value="<%=(buttonResult.button_textcolor) ? buttonResult.button_textcolor :"#ffffff"; %>" />
+															</div>
+															<span class="input-group-addon">
+																<i style="background-color: rgb(255, 255, 255);"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<b><%= __('admin.leads.button_radious'); %> <span id="border_radius_display"></span></b>
+														<input type="range" min="0" max="100"  name="border_radius_size" id="border_radius_size" value="<%=(buttonResult.border_radius_size) ? buttonResult.border_radius_size :"24"; %>" />
+													</div>
+													<div class="col-md-6">
+														<b><%= __('admin.leads.button_height'); %> <span id="button_height_display"></span></b>
+														<input type="range" min="25" max="100" name="button_height" id="button_height" value="<%=(buttonResult.button_height) ? buttonResult.button_height :"47"; %>" />
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<b><%= __('admin.leads.button_align'); %></b>
+														<select class="form-control show-tick search_by_status" id="button_align" name="button_align">
+															<option value=""><%=__("admin.leads.select_alignment");%></option>
+															<%
+															if(typeof BUTTON_ALIGN_DROPDOWN!== typeof undefined && BUTTON_ALIGN_DROPDOWN.length > 0){
+																BUTTON_ALIGN_DROPDOWN.map(buttonAlign=>{
+																let selectedFlag = (buttonAlign.status_id=='right' || buttonAlign.status_id==buttonResult.button_align ) ? "selected" : "";
+																	%>
+																	<option value="<%=buttonAlign.status_id%>" <%= selectedFlag %>><%=buttonAlign.status_name%></option>
+															<% 	
+																});
+															} %>
+														</select>
+													</div>
+													<div class="col-md-6">
+														<b><%= __('admin.leads.transform_text_dropdown'); %></b>
+														<select class="form-control show-tick search_by_status" id="button_transform_text" name="button_transform_text">
+															<option value=""><%=__("admin.leads.select_alignment");%></option>
+															<%
+															if(typeof TRANSFORM_TEXT_DROPDOWN!== typeof undefined && TRANSFORM_TEXT_DROPDOWN.length > 0){
+																TRANSFORM_TEXT_DROPDOWN.map(alignText=>{
+																let selectedFlag = (alignText.status_id=='default' || alignText.status_id==buttonResult.button_transform_text ) ? "selected" : "";
+																	%>
+																	<option value="<%=alignText.status_id%>" <%= selectedFlag %>><%=alignText.status_name%></option>
+															<% 	
+																});
+															} %>
+														</select>
+													</div>
+												</div>
+												
+												<div class="row clearfix">
+													<div class="col-md-6">
+														<b><%= __('admin.leads.button_width'); %></b>
+														<select class="form-control show-tick search_by_status" id="button_width" name="button_width">
+															<option value=""><%=__("admin.leads.select_button_width");%></option>
+															<%
+															if(typeof BUTTON_WIDTH_DROPDOWN!== typeof undefined && BUTTON_WIDTH_DROPDOWN.length > 0){
+																BUTTON_WIDTH_DROPDOWN.map(buttonWidth=>{
+																	let selectedFlag = (buttonWidth.status_id==buttonResult.button_width_option ) ? "selected" : "";
+																	%>
+																	<option value="<%=buttonWidth.status_id%>" <%= selectedFlag %> ><%=buttonWidth.status_name%></option>
+															<% 	
+																});
+															} %>
+														</select>
+													</div>
+													<div class="col-md-6" id="custom_width_range_show_hide">
+														<b>
+															<%= __('admin.leads.custom_width'); %>
+															<img src="<%=WEBSITE_ADMIN_TOOLTIP_IMAGE_URL %>info-que.png" data-toggle="tooltip" data-placement="right" title="<%= __('admin.leads.please_enter_pixel_and_percentage'); %>" >
+														</b>
+														<input type="text" class="form-control" name="width_percentage_size" id="width_percentage_size" value="<%=(buttonResult.width_percentage_size) ? buttonResult.width_percentage_size :""; %>" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End button customization -->
+									
+								</div>
+							</form>
+						</div>
+						<div class="col-xs-8 ol-sm-8 col-md-8 col-lg-8">
+							<b><%= __('admin.leads.preview'); %></b>
+							<iframe id="scripted_preview" src="about:blank" width="100%" height="1000" frameborder="0" scrolling="yes"></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<!-- Colorpicker Css -->
+    <link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-colorpicker/css/bootstrap-colorpicker.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<!-- Bootstrap Colorpicker Js -->
+    <script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	
+	<script type="text/javascript">
+		var dataTable ="";
+		$(document).ready(function() {
+			
+			if('<%= disabledScriptData %>' == ''){
+				$(".box_shadow_show_hide").hide()
+				$(".banner_shadow_show_hide").hide()
+				$(".textbox_shadow_show_hide").hide()
+			}
+			
+			let firstTimeScriptedCode = $('#text_area_value').val();
+			const encryptedTextFirstTime = crypt("salt", firstTimeScriptedCode);	
+			document.getElementById('scripted_preview').src = "<%=admin_list_url+"/"+userType+"/manage_leads/get_script_code_preview/"+userId %>/"+encryptedTextFirstTime, "_blank";
+			
+			$('.colorpicker').colorpicker();
+			getScriptedCode({currentTarget: '<%= leadId %>'})
+			dataTable = $('#datatable-listing').DataTable({
+				"order"		:	[[ 1, "desc" ]],
+				"serverSide": 	true,
+				"lengthMenu": 	PAGING_LENGTH_MENU,
+				"sDom"		:	"ltipr",
+				"columns"	: [
+					{
+						"data": 'unique_name'
+					},
+					{
+						"data"		: 'created',
+						"searchable": false,
+						"visible"	: false,
+						"render" 	: function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render" 		: function(recordsData){
+							let scriptedSlug = (recordsData.slug) ? recordsData.slug : "";
+							return	'<a href="<%=admin_list_url%>/<%=userType%>/manage_leads/view_script_customization/<%= leadId %>/<%= userId %>/'+scriptedSlug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.edit"); %>" class="btn bg-teal btn-sm waves-effect"><i class="material-icons font-14">mode_edit</i></a>'+
+									'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%=userType%>/manage_leads/delete_script_customization/<%= leadId %>/<%= userId %>/'+scriptedSlug+'" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%= __("admin.system.delete"); %>" class="btn bg-teal btn-sm waves-effect confirm_box" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.system.do_you_want_to_delete"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" ><i class="material-icons font-14">delete</i></a>';
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>/<%=userType%>/manage_leads/view_script_customization/<%= leadId %>/<%= userId %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				}
+			});
+		});
+		 
+		 /** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+		
+		
+		/** header title font display*/
+		var headerSlider = document.getElementById("header_font_size");
+		var headerOutput = document.getElementById("header_font_size_display");
+		headerOutput.innerHTML = headerSlider.value+'px';
+		headerSlider.oninput = function() {
+		  headerOutput.innerHTML = this.value+'px';
+		}
+		
+		/** description font size*/
+		var desSlider = document.getElementById("description_font_size");
+		var desOutput = document.getElementById("description_font_size_display");
+		desOutput.innerHTML = desSlider.value+'px';
+		desSlider.oninput = function() {
+		  desOutput.innerHTML = this.value+'px';
+		}
+		
+		/** form title font size*/
+		var formTitleSlider = document.getElementById("form_title_font_size");
+		var formTitleOutput = document.getElementById("form_title_font_size_display");
+		formTitleOutput.innerHTML = formTitleSlider.value+'px';
+		formTitleSlider.oninput = function() {
+		  formTitleOutput.innerHTML = this.value+'px';
+		}
+		
+		/** form label font size*/
+		var formLabelSlider = document.getElementById("form_label_font_size");
+		var formLabelOutput = document.getElementById("form_label_font_size_display");
+		formLabelOutput.innerHTML = formLabelSlider.value+'px';
+		formLabelSlider.oninput = function() {
+		  formLabelOutput.innerHTML = this.value+'px';
+		}
+		
+		/** button border radius*/
+		var borderRadiusSlider = document.getElementById("border_radius_size");
+		var borderRadiusOutput = document.getElementById("border_radius_display");
+		borderRadiusOutput.innerHTML = borderRadiusSlider.value+'px';
+		borderRadiusSlider.oninput = function() {
+		  borderRadiusOutput.innerHTML = this.value+'px';
+		}
+		
+		/** text box height */
+		var textBoxSlider = document.getElementById("text_box_height");
+		var textBoxOutput = document.getElementById("text_box_height_display");
+		textBoxOutput.innerHTML = textBoxSlider.value+'px';
+		textBoxSlider.oninput = function() {
+		  textBoxOutput.innerHTML = this.value+'px';
+		}
+		
+		/** text box border */
+		var textBoxBorderSlider = document.getElementById("textbox_border");
+		var textBoxBorderOutput = document.getElementById("textbox_border_display");
+		textBoxBorderOutput.innerHTML = textBoxBorderSlider.value+'px';
+		textBoxBorderSlider.oninput = function() {
+		  textBoxBorderOutput.innerHTML = this.value+'px';
+		}
+		
+		/** Main component border radius*/
+		var mainComponentBorderRadiusSlider = document.getElementById("main_component_border_radius");
+		var mainComponentBorderRadiusSliderOutput = document.getElementById("main_component_border_radius_display");
+		mainComponentBorderRadiusSliderOutput.innerHTML = mainComponentBorderRadiusSlider.value+'px';
+		mainComponentBorderRadiusSlider.oninput = function() {
+		  mainComponentBorderRadiusSliderOutput.innerHTML = this.value+'px';
+		}
+		
+		/** Banner border radius*/
+		var bannerBorderRadiusSlider = document.getElementById("banner_border_radius");
+		var bannerBorderRadiusSliderOutput = document.getElementById("banner_border_radius_display");
+		bannerBorderRadiusSliderOutput.innerHTML = bannerBorderRadiusSlider.value+'px';
+		bannerBorderRadiusSlider.oninput = function() {
+		  bannerBorderRadiusSliderOutput.innerHTML = this.value+'px';
+		}
+		
+		/** button height radius*/
+		var buttonHeightSlider = document.getElementById("button_height");
+		var buttonHeightOutput = document.getElementById("button_height_display");
+		buttonHeightOutput.innerHTML = buttonHeightSlider.value+'px';
+		buttonHeightSlider.oninput = function() {
+		  buttonHeightOutput.innerHTML = this.value+'px';
+		}
+		
+		/** get hide show other customization */
+		function checkboxAction() {
+			let titleShow = document.querySelector('.title_show').checked;
+			if(titleShow){
+				$("#header_title_show_hide").show()
+			}else{
+				$("#header_title_show_hide").hide()
+			}
+			
+			let descriptionShow = document.querySelector('.description_show').checked;
+			if(descriptionShow){
+				$("#description_show_hide").show()
+			}else{
+				$("#description_show_hide").hide()
+			}
+			
+			let formLabelShow = document.querySelector('.form_label_show').checked;
+			if(formLabelShow){
+				$("#form_label_show_hide").show()
+			}else{
+				$("#form_label_show_hide").hide()
+			}
+			
+			 
+			let bannerShow = document.querySelector('.banner_show').checked;
+			if(bannerShow){
+				$("#banner_display_show_hide").show()
+			}else{
+				$("#banner_display_show_hide").hide()
+			}
+			
+			let buttonHover = document.querySelector('.button_hover').checked;
+			if(buttonHover){
+				$(".button_hover_show_hide").show()
+			}else{
+				$(".button_hover_show_hide").hide()
+			}
+			
+			let mainBoxShadow = document.querySelector('.main_box_shadow').checked;
+			if(mainBoxShadow){
+				$(".box_shadow_show_hide").show()
+			}else{
+				$(".box_shadow_show_hide").hide()
+			}
+			
+			let textboxShadow = document.querySelector('.textbox_shadow').checked;
+			if(textboxShadow){
+				$(".textbox_shadow_show_hide").show()
+			}else{
+				$(".textbox_shadow_show_hide").hide()
+			}
+			
+			let bannerShadow = document.querySelector('.banner_shadow').checked;
+			if(bannerShadow){
+				$(".banner_shadow_show_hide").show()
+			}else{
+				$(".banner_shadow_show_hide").hide()
+			}
+			
+			let formTitleShow = document.querySelector('.form_title_show').checked;
+			if(formTitleShow){
+				$("#form_title_show_hide").show()
+			}else{
+				$("#form_title_show_hide").hide()
+			}
+		}
+
+		/** get all value checked after all checked main container*/
+		function getcheckboxes() {
+			let allCheckbox = document.querySelector('.all_checkbox').checked;
+			if(allCheckbox){
+				document.getElementById("left_checkbox").checked = true;
+				document.getElementById("right_checkbox").checked = true;
+				document.getElementById("top_checkbox").checked = true;
+				document.getElementById("bottom_checkbox").checked = true;
+			}else{
+				document.getElementById("left_checkbox").checked = false;
+				document.getElementById("right_checkbox").checked = false;
+				document.getElementById("top_checkbox").checked = false;
+				document.getElementById("bottom_checkbox").checked = false;
+			}
+		}
+		/** get all value checked after all checked banner container*/ 
+		function getBannerCheckboxes() {
+			let bannerAllCheckbox1 = document.querySelector('.banner_all_checkbox').checked;
+			if(bannerAllCheckbox1){
+				document.getElementById("banner_left_checkbox").checked = true;
+				document.getElementById("banner_right_checkbox").checked = true;
+				document.getElementById("banner_top_checkbox").checked = true;
+				document.getElementById("banner_bottom_checkbox").checked = true;
+			}else{
+				document.getElementById("banner_left_checkbox").checked = false;
+				document.getElementById("banner_right_checkbox").checked = false;
+				document.getElementById("banner_top_checkbox").checked = false;
+				document.getElementById("banner_bottom_checkbox").checked = false;
+			}
+		}
+		
+		 
+
+		/** start Other font text box */
+		$("#other_font_heading_show_hide").hide();
+		$("#other_font_description_show_hide").hide();
+		$("#other_font_form_title_show_hide").hide();
+		$("#other_font_font_label_show_hide").hide();
+		$("#custom_width_range_show_hide").hide();
+		$(".button_hover_show_hide").hide();
+		 	
+		$('#header_font_family').change(function() {
+			let headerValue = $(this).val();
+			if(headerValue=='other'){
+				$("#other_font_heading_show_hide").show();
+			}else{
+				$("#other_font_heading_show_hide").hide();
+				$("#other_font_heading").val('');
+			}
+		});
+		$('#description_font_family').change(function() {
+			let desValue = $(this).val();
+			if(desValue=='other'){
+				$("#other_font_description_show_hide").show();
+			}else{
+				$("#other_font_description_show_hide").hide();
+				$("#other_font_description").val('');
+			}
+		});
+		$('#form_title_font_family').change(function() {
+			let frmTitleValue = $(this).val();
+			if(frmTitleValue=='other'){
+				$("#other_font_form_title_show_hide").show();
+			}else{
+				$("#other_font_form_title_show_hide").hide();
+				$("#other_font_form_title").val('');
+			}
+		});
+		$('#font_label_font_family').change(function() {
+			let fontFamilyValue = $(this).val();
+			if(fontFamilyValue=='other'){
+				$("#other_font_font_label_show_hide").show();
+			}else{
+				$("#other_font_font_label_show_hide").hide();
+				$("#other_font_font_label").val('');
+			}
+		});
+		$('#button_width').change(function() {
+			let buttonWidthValue = $(this).val();
+			if(buttonWidthValue=='custom'){
+				$("#custom_width_range_show_hide").show();
+			}else{
+				$("#custom_width_range_show_hide").hide();
+			}
+		});
+		$('#main_container_width').change(function() {
+			let mainContainerWidthValue = $(this).val();
+			if(mainContainerWidthValue=='custom'){
+				$("#main_container_custom_width").show();
+			}else{
+				$("#main_container_custom_width").hide();
+				$("#main_custom_width").val('');
+			}
+		});
+		$('#banner_width').change(function() {
+			let bannerWidthValue = $(this).val();
+			if(bannerWidthValue=='custom'){
+				$("#banner_custom_width_show_hide").show();
+			}else{
+				$("#banner_custom_width_show_hide").hide();
+				$("#banner_custom_width").val('');
+			}
+		});
+		/** end Other font text box */
+
+		/**
+		* function for use to get scripted code
+		*
+		* @return void
+		*/
+		
+		function getScriptedCode(event, previewType){
+			var currentTarget = event.currentTarget;
+			let uniqueName = $("#unique_name").val();
+			
+			if(currentTarget != "" && uniqueName!=''){
+				if(previewType){
+					$('form').trigger("reset");
+					$('form select').trigger("change");
+				}
+				
+				let customizedScriptId = $("#customized_script_id").val();
+				 
+				<!-- Main component -->
+				let bodyBackgroundColor = $("#body_background_color").val();
+				let borderColor = $("#border_color").val();
+				let borderPixel = $("#border_pixel").val();
+				let borderStyle = document.getElementById('border_style').selectedOptions[0].value;
+				let border = (borderPixel && borderStyle) ? borderPixel+"px "+borderStyle+" "+borderColor : "";
+				let allCheckbox = document.querySelector('.all_checkbox').checked;
+				let leftCheckbox = document.querySelector('.left_checkbox').checked;
+				let rightCheckbox = document.querySelector('.right_checkbox').checked;
+				let topCheckbox = document.querySelector('.top_checkbox').checked;
+				let bottomCheckbox = document.querySelector('.bottom_checkbox').checked;
+				let mainComponentBorderRadius = $("#main_component_border_radius").val();
+				let mainBoxShadow = document.querySelector('.main_box_shadow').checked;
+				let mainContainerWidthSelect = document.getElementById('main_container_width').selectedOptions[0].value;
+				let mainCustomWidthPercentagePixels = $("#main_custom_width").val();
+				let inset = document.querySelector('.inset').checked;
+				let shiftRight = $("#shift_right").val();
+				let shiftDown = $("#shift_down").val();
+				let spread = $("#spread").val();
+				let blur = $("#blur").val();
+				let hoverColor = $("#hover_color").val();
+				let mainContainerShadow = shiftRight+'px '+shiftDown+'px '+blur+'px '+spread+'px '+hoverColor;
+				mainContainerShadow = (inset) ? 'inset '+mainContainerShadow : mainContainerShadow;
+				 
+				 
+				<!-- Heading component -->
+				let titleCheckbox = document.querySelector('.title_show').checked;
+				let headerBold = document.querySelector('.title_bold').checked;
+				let headerItalic = document.querySelector('.title_italic').checked;
+				let headerUnderline = document.querySelector('.title_underline').checked;
+				let headerTextColor = $("#header_text_color").val();
+				let headerFontSize = $("#header_font_size").val();
+				let headerFontFamily = document.getElementById('header_font_family').selectedOptions[0].value;
+				let headerOtherFontFamily = $("#other_font_heading").val();
+				let headingAlign = document.getElementById('heading_align').selectedOptions[0].value;
+				let headingTransformText = document.getElementById('heading_transform_text').selectedOptions[0].value;
+				
+				<!-- Banner component -->
+				let bannerCheckbox	= document.querySelector('.banner_show').checked;
+				let bannerBorderColor = $("#banner_border_color").val();
+				let bannerBorderRadius = $("#banner_border_radius").val();
+				let bannerBorderPixel = $("#banner_border_pixel").val();
+				let bannerBorderStyle = document.getElementById('banner_border_style').selectedOptions[0].value;
+				let bannerAllCheckbox = document.querySelector('.banner_all_checkbox').checked;
+				let bannerTopCheckbox = document.querySelector('.banner_top_checkbox').checked;
+				let bannerRightCheckbox = document.querySelector('.banner_right_checkbox').checked;
+				let bannerBottomCheckbox = document.querySelector('.banner_bottom_checkbox').checked;
+				let bannerLeftCheckbox = document.querySelector('.banner_left_checkbox').checked;
+				let bannerWidth = document.getElementById('banner_width').selectedOptions[0].value;
+				let bannerCustomWidth = $("#banner_custom_width").val();
+				let bannerBorder = (bannerBorderPixel && bannerBorderStyle) ? bannerBorderPixel+"px "+bannerBorderStyle+" "+bannerBorderColor : "";
+				let bannerShadow = document.querySelector('.banner_shadow').checked;
+				let bannerInset = document.querySelector('.banner_inset').checked;
+				let bannerShiftRight = $("#banner_shift_right").val();
+				let bannerShiftDown = $("#banner_shift_down").val();
+				let bannerSpread = $("#banner_spread").val();
+				let bannerBlur = $("#banner_blur").val();
+				let bannerHoverColor = $("#banner_hover_color").val();
+				let bannerShadowAllData = bannerShiftRight+'px '+bannerShiftDown+'px '+bannerBlur+'px '+bannerSpread+'px '+bannerHoverColor;
+				bannerShadowAllData = (bannerInset) ? 'inset '+bannerShadowAllData : bannerShadowAllData;
+				
+				<!-- Description component -->
+				let descriptionCheckbox = document.querySelector('.description_show').checked;
+				let descriptionBold = document.querySelector('.description_bold').checked;
+				let descriptionItalic = document.querySelector('.description_italic').checked;
+				let descriptionUnderline = document.querySelector('.description_underline').checked;
+				let descriptionFontSize = $("#description_font_size").val();
+				let descriptionTextColor = $("#description_text_color").val();
+				let descriptionFontFamily = document.getElementById('description_font_family').selectedOptions[0].value;
+				let descriptionOtherFontFamily = $("#other_font_description").val();
+				let descriptionAlign = document.getElementById('description_align').selectedOptions[0].value; 
+				let descriptionTransformText = document.getElementById('description_transform_text').selectedOptions[0].value; 
+			
+				<!-- Form component -->
+				let formTitleChkboxShow = document.querySelector('.form_title_show').checked;
+				let formTitleBold = document.querySelector('.form_title_bold').checked;
+				let formTitleItalic = document.querySelector('.form_title_italic').checked;
+				let formTitleUnderline = document.querySelector('.form_title_underline').checked;
+				let formTitleFontSize = $("#form_title_font_size").val();
+				let formTitleFontFamily = document.getElementById('form_title_font_family').selectedOptions[0].value;
+				let formTitleOtherFontFamily = $("#other_font_form_title").val();
+				let formTitleAlign = document.getElementById('form_title_align').selectedOptions[0].value;
+				let formTitleTransformText = document.getElementById('form_title_transform_text').selectedOptions[0].value;
+				
+				let formLabelChkboxShow = document.querySelector('.form_label_show').checked;
+				let formTitleTextColor = $("#form_title_text_color").val();
+				let labelColor = $("#label_color").val();
+				let textBoxColor = $("#text_box_color").val();
+				let textBoxBorderColor = $("#text_box_border_color").val();
+				let formLabelBold = document.querySelector('.form_label_bold').checked;
+				let formLabelItalic = document.querySelector('.form_label_italic').checked;
+				let formLabelUnderline = document.querySelector('.form_label_underline').checked;
+				let formLabelFontSize = $("#form_label_font_size").val();
+				let formLabelFontFamily = document.getElementById('font_label_font_family').selectedOptions[0].value;
+				let formLabelOtherFontFamily = $("#other_font_font_label").val();
+				let formLabelAlign = document.getElementById('form_label_align').selectedOptions[0].value;
+				let formLabelTransformText = document.getElementById('form_label_transform_text').selectedOptions[0].value;
+				
+				let textBoxHeight = $("#text_box_height").val();
+				let textboxBorderRadius = $("#textbox_border").val();
+				let selectedTextboxWidth = document.querySelectorAll('#textbox_width :checked');
+				let textboxWidth = [...selectedTextboxWidth].map(option => option.value);
+				let textboxShadow = document.querySelector('.textbox_shadow').checked;
+				let textboxInset = document.querySelector('.textbox_inset').checked;
+				let textboxShiftRight = $("#textbox_shift_right").val();
+				let textboxShiftDown = $("#textbox_shift_down").val();
+				let textboxSpread = $("#textbox_spread").val();
+				let textboxBlur = $("#textbox_blur").val();
+				let textboxHoverColor = $("#textbox_hover_color").val();
+				let textBoxShadowAllData = textboxShiftRight+'px '+textboxShiftDown+'px '+textboxBlur+'px '+textboxSpread+'px '+textboxHoverColor;
+				textBoxShadowAllData = (textboxInset) ? 'inset '+textBoxShadowAllData : textBoxShadowAllData;
+
+				
+				<!-- Button component -->
+				let buttonBold = document.querySelector('.button_bold').checked;
+				let buttonItalic = document.querySelector('.button_italic').checked;
+				let buttonUnderline = document.querySelector('.button_underline').checked;
+				let buttonBackgroundColor = $("#button_background_color").val();
+				let buttonTextColor = $("#button_text_color").val();
+				let borderRadiusSize = $("#border_radius_size").val();
+				let buttonHeight = $("#button_height").val();
+				let buttonAlign = document.getElementById('button_align').selectedOptions[0].value;
+				let buttonTransformText = document.getElementById('button_transform_text').selectedOptions[0].value;
+				let buttonWidthOption = document.getElementById('button_width').selectedOptions[0].value;
+				let widthPercentageSize = $("#width_percentage_size").val();
+				let buttonHover = document.querySelector('.button_hover').checked;
+				let buttonHoverBackgroundColor = $("#button_hover_background_color").val();
+				let buttonHoverTextColor = $("#button_hover_text_color").val();
+				let buttonHoverBorderColor = $("#button_hover_border_color").val();
+				
+				let leadId = $(currentTarget).attr('data-id');
+				leadId = (leadId || leadId!=undefined) ? leadId : currentTarget;
+				 
+				<!-- Set object post data -->
+				let dataSendCustomize = {
+					'unique_name_search': uniqueName,
+					'unique_name': uniqueName,
+					'lead_id': leadId, 
+					'customized_script_id': customizedScriptId, 
+					'user_id': "<%= userId %>",
+					'main_component':{
+						background_color		: bodyBackgroundColor,
+						border_color			: borderColor,
+						border_pixel			: (borderPixel),
+						border_style			: borderStyle,
+						all_checkbox			: (allCheckbox),
+						left_checkbox			: leftCheckbox,
+						right_checkbox			: rightCheckbox,
+						top_checkbox			: topCheckbox,
+						bottom_checkbox			: bottomCheckbox,
+						border					: border,
+						border_radius			: mainComponentBorderRadius,
+						main_box_shadow			: mainBoxShadow,
+						main_container_width	: mainContainerWidthSelect,
+						main_custom_width 		: mainCustomWidthPercentagePixels,
+						shift_right				: shiftRight,
+						shift_down				: shiftDown,
+						spread					: spread,
+						blur					: blur,
+						hover_color				: hoverColor,
+						inset					: inset,
+						main_container_shadow	: mainContainerShadow,
+					},
+					'heading':{
+						title_checkbox				: titleCheckbox,
+						header_bold					: headerBold,
+						header_italic				: headerItalic,
+						header_underline			: headerUnderline,
+						header_textcolor			: headerTextColor,
+						header_font_size			: headerFontSize,
+						header_font_family			: headerFontFamily,
+						header_other_font_family	: headerOtherFontFamily,
+						heading_align	 			: headingAlign,
+						heading_transform_text		: headingTransformText,
+					},
+					'banner':{
+						banner_check_box		: bannerCheckbox,
+						banner_border_color		: bannerBorderColor,
+						banner_border_radius	: bannerBorderRadius,
+						banner_border_pixel		: bannerBorderPixel,
+						banner_border_style		: bannerBorderStyle,
+						banner_all_checkbox		: bannerAllCheckbox,
+						banner_top_checkbox		: bannerTopCheckbox,
+						banner_right_checkbox	: bannerRightCheckbox,
+						banner_bottom_checkbox	: bannerBottomCheckbox,
+						banner_left_checkbox	: bannerLeftCheckbox,
+						banner_width			: bannerWidth,
+						banner_custom_width		: bannerCustomWidth,
+						banner_border			: bannerBorder,
+						banner_shadow			: bannerShadow,
+						banner_inset			: bannerInset,
+						banner_shift_right		: bannerShiftRight,
+						banner_shift_down		: bannerShiftDown,
+						banner_spread			: bannerSpread,
+						banner_blur				: bannerBlur,
+						banner_hover_color		: bannerHoverColor,
+						banner_shadow_all_data	: bannerShadowAllData,
+					},
+					'description':{
+						description_checkbox			: descriptionCheckbox,
+						description_bold				: descriptionBold,
+						description_italic				: descriptionItalic,
+						description_underline			: descriptionUnderline,
+						description_text_color			: descriptionTextColor,
+						description_fontsize			: descriptionFontSize,
+						description_fontfamily			: descriptionFontFamily,
+						description_other_font_family	: descriptionOtherFontFamily,
+						description_align				: descriptionAlign,
+						description_transform_text		: descriptionTransformText,
+					},
+					'form_data':{
+						form_title_chkboxshow		: formTitleChkboxShow,
+						form_title_bold				: formTitleBold,
+						form_title_italic			: formTitleItalic,
+						form_title_underline		: formTitleUnderline,
+						form_title_textcolor		: formTitleTextColor,
+						form_title_fontsize			: formTitleFontSize,
+						form_title_fontfamily		: formTitleFontFamily,
+						form_title_other_font_family: formTitleOtherFontFamily,
+						form_title_align 			: formTitleAlign,
+						form_title_transform_text 	: formTitleTransformText,
+						
+						form_label_chkboxshow		: formLabelChkboxShow,
+						form_label_bold				: formLabelBold,
+						form_label_italic			: formLabelItalic,
+						form_label_underline		: formLabelUnderline,
+						label_color					: labelColor,
+						form_label_fontsize			: formLabelFontSize,
+						form_label_fontfamily		: formLabelFontFamily,
+						form_label_other_font_family: formLabelOtherFontFamily,
+						form_label_align 			: formLabelAlign,
+						form_label_transform_text	: formLabelTransformText,
+
+						text_boxborder_radius		: textboxBorderRadius,
+						text_box_height				: textBoxHeight,
+						text_box_color				: textBoxColor,
+						text_box_border_color		: textBoxBorderColor,
+						textbox_width				: textboxWidth,
+						textbox_shadow				: textboxShadow,
+						textbox_inset				: textboxInset,
+						textbox_shift_right			: textboxShiftRight,
+						textbox_shift_down			: textboxShiftDown,
+						textbox_spread				: textboxSpread,
+						textbox_blur				: textboxBlur,
+						textbox_hover_color			: textboxHoverColor,
+						textbox_shadow_all_data		: textBoxShadowAllData,
+
+					},
+					'button':{
+						button_bold						: buttonBold,
+						button_italic					: buttonItalic,
+						button_underline				: buttonUnderline,
+						button_background_color			: buttonBackgroundColor,
+						button_textcolor				: buttonTextColor,
+						border_radius_size				: borderRadiusSize,
+						button_align					: buttonAlign,
+						button_transform_text			: buttonTransformText,
+						button_width_option				: buttonWidthOption,
+						width_percentage_size			: widthPercentageSize,
+						button_hover					: buttonHover,
+						button_hover_background_color	: buttonHoverBackgroundColor,
+						button_hover_text_color			: buttonHoverTextColor,
+						button_hover_border_color		: buttonHoverBorderColor,
+						button_height					: buttonHeight,
+					},
+				}
+				 
+				$('#getAgainScriptedCode').attr('data-id',leadId);
+				$('#overlay1').show();
+				$.ajax({
+					'type'		: 'POST',
+					'data' 		: dataSendCustomize,
+					'url'		: "<%= admin_list_url %>/<%= userType %>/manage_leads/get_scripted_code/"+leadId,
+					'success'	: function (response){
+						if(response.status=='success'){
+							let scriptedCode = (response && response.result) ? response.result : "";
+							scriptedCode.toString();
+							
+							$('#text_area_value').val(scriptedCode);
+							$('#customized_script_id').val(response.customized_script_id);
+							
+							const encryptedText = crypt("salt", scriptedCode);	
+							document.getElementById('scripted_preview').src = "<%=admin_list_url+"/"+userType+"/manage_leads/get_script_code_preview/"+userId %>/"+encryptedText, "_blank";
+							
+							$('#get_scripted_code_modal').modal('show');
+							$('#unique_name_error').html('');
+							$('#overlay1').hide();
+						}else{
+							$('#unique_name_error').html(response['message'][0]['msg']);
+							$('#overlay1').hide();
+						}
+					}
+				});
+			}else{
+				html_popup_success("warning","<%= __("admin.leads.please_enter_unique_name") %>"," ",50000,function(result){ });
+			}
+		}
+		 
+		/*** get function for crypted data */
+		const crypt = (salt, text) => {
+		  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+		  const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+		  const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+		  return text
+			.split("")
+			.map(textToChars)
+			.map(applySaltToChar)
+			.map(byteHex)
+			.join("");
+		};
+ 
+		/** Embed code open*/
+		function getEmbedCode(event){
+			document.getElementById("embeded-code").reset();
+			$(".embedCodeAfterGenerateHideClass").hide();
+			$(".copy_text").hide();
+			
+			var currentTarget = event.currentTarget;
+			if(currentTarget != ""){
+				let leadId = $(currentTarget).attr('data-id');
+				$('#overlay1').show();
+				$('#embed_lead_id').val(leadId);
+				$('#get_embed_code_modal').modal('show');
+				$('#overlay1').hide();
+			}
+		}
+		 
+		
+		/** Function is copy textarea **/
+		function myCopyFunction() {
+			var copyText = document.getElementById("text_area_value");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999)
+			document.execCommand("copy");
+		}
+		
+		/** Function is used embeded copy **/
+		function embededCopyFunction() {
+			var copyText = document.getElementById("embed_code_after_generate");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999)
+			document.execCommand("copy");
+		}
+		 
+		
+		/** Function is used to size accourding class hide show **/
+		$(".width_height_custom_size_hide_class").hide();
+		$(".invisembed_hide_class").hide();
+		function sizeChangeFunction() {
+			$(".button_type_hide_class").show();
+			$(".invisembed_all_div_hide_class").show();
+			var zone = document.getElementById("embeded_size");
+			
+			var hideQuestionText = document.getElementById("<%= EMBEDED_HIDE_QUESTION_TEXT %>");  
+			if(hideQuestionText.checked){
+				$(".button_type_hide_class").hide();
+				$(".background_color_hide_class").hide();
+			}
+			
+			if(zone.value == "<%= EMBED_CODE_CUSTOM_SIZE %>"){
+				$(".width_height_custom_size_hide_class").show()
+				$(".invisembed_hide_class").hide();
+				
+			}else if (zone.value == "<%= EMBED_CODE_INVISEMBED %>"){
+				$(".invisembed_hide_class").show()
+				$(".width_height_custom_size_hide_class").hide();
+				$(".button_type_hide_class").hide();
+				$(".invisembed_all_div_hide_class").hide();
+			}else{
+				$(".width_height_custom_size_hide_class").hide();
+				$(".invisembed_hide_class").hide();
+			}
+		}
+		
+		/** This function is used to hide question dropDown*/
+		function hideQuestionText(cb){
+			if(cb.checked){
+				$(".button_type_hide_class").hide();
+				$(".background_color_hide_class").hide();
+			}else{
+				$(".button_type_hide_class").show();
+				$(".background_color_hide_class").show();
+			}
+		}
+		 
+		<!-- dynamic data -->
+		if('<%= disabledScriptData %>' != ''){
+			if('<%= mainComponentResult.main_container_width %>' == 'custom'){
+				$("#main_container_custom_width").show()
+			}
+			if('<%= mainComponentResult.main_box_shadow %>' == 'false'){
+				$(".box_shadow_show_hide").hide()
+			}
+			if('<%= mainComponentResult.main_box_shadow %>' == 'true'){
+				$(".box_shadow_show_hide").show();
+			}
+			
+			if('<%= headingResult.header_font_family %>'=='other'){
+				$("#other_font_heading_show_hide").show();
+			}
+			if('<%= headingResult.title_checkbox %>' == 'false'){
+				$("#header_title_show_hide").hide()
+			}
+			
+			if('<%= bannerResult.banner_check_box %>' == 'false'){
+				$("#banner_display_show_hide").hide()
+			}
+			if('<%= bannerResult.banner_width %>' == 'custom'){
+				$("#banner_custom_width_show_hide").show()
+			}
+			if('<%= bannerResult.banner_shadow %>' == 'true'){
+				$(".banner_shadow_show_hide").show()
+			}else{
+				$(".banner_shadow_show_hide").hide()
+			}
+			
+			if('<%= descriptionResult.description_fontfamily %>'=='other'){
+				$("#other_font_description_show_hide").show();
+			}
+			if('<%= descriptionResult.description_checkbox %>' == 'false'){
+				$("#description_show_hide").hide()
+			}
+			
+			if('<%= formDataResult.form_title_fontfamily %>'=='other'){
+				$("#other_font_form_title_show_hide").show();
+			}
+			if('<%= formDataResult.form_label_fontfamily %>'=='other'){
+				$("#other_font_font_label_show_hide").show();
+			}
+			if('<%= formDataResult.form_label_chkboxshow %>' == 'false'){
+				$("#form_label_show_hide").hide()
+			}
+			if('<%= formDataResult.form_title_chkboxshow %>' == 'false'){
+				$("#form_title_show_hide").hide()
+			}
+			if('<%= formDataResult.textbox_shadow %>' == 'true'){
+				$(".textbox_shadow_show_hide").show()
+			}else{
+				$(".textbox_shadow_show_hide").hide()
+			}
+			
+			if('<%= buttonResult.button_width_option %>' == 'custom'){
+				$("#custom_width_range_show_hide").show()
+			}
+			if('<%= buttonResult.button_hover %>' == 'true'){
+				$(".button_hover_show_hide").show()
+			}
+		}
+</script>
