@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "permissions": ["tabs", "scripting"],
   "host_permissions": [
-    "https://www.freelancer.com/*"
+    "https://www.freelancer.com/*",
+    "https://api.openai.com/*"
   ],
   "background": {
     "service_worker": "background.js"
