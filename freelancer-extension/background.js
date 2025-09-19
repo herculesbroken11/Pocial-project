@@ -6,6 +6,23 @@ const PROJECTS_API_URL =
 
 const alertedUrlsByTab = new Map();
 
+function stripDetailsSuffix(urlString) {
+  try {
+    const url = new URL(urlString);
+    if (!url.pathname.endsWith(DETAILS_PATH_SEGMENT)) {
+      return urlString;
+    }
+
+    url.pathname = url.pathname.replace(/\/+details\/?$/i, "");
+    url.search = "";
+    url.hash = "";
+
+    return url.toString().replace(/\/?$/, "");
+  } catch (error) {
+    return urlString;
+  }
+}
+
 function isProjectDetailsUrl(urlString) {
   if (typeof urlString !== "string" || urlString.length === 0) {
     return false;
@@ -59,7 +76,8 @@ async function showAlert(tabId, message) {
 }
 
 async function fetchProjectDetails(tabId, url) {
-  const seoPath = extractSeoPath(url);
+  const normalizedUrl = stripDetailsSuffix(url);
+  const seoPath = extractSeoPath(normalizedUrl);
   if (!seoPath) {
     return;
   }
@@ -73,7 +91,11 @@ async function fetchProjectDetails(tabId, url) {
     }
 
     const data = await response.json();
-    const message = `URL: ${url}\n\nAPI Response:\n${JSON.stringify(data, null, 2)}`;
+    const message = `URL: ${normalizedUrl}\n\nAPI Response:\n${JSON.stringify(
+      data,
+      null,
+      2
+    )}`;
     await showAlert(tabId, message);
   } catch (error) {
     console.error("Failed to fetch project details", error);
@@ -88,12 +110,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 
   if (isProjectDetailsUrl(updatedUrl)) {
+    const normalizedUrl = stripDetailsSuffix(updatedUrl);
     const lastAlertedUrl = alertedUrlsByTab.get(tabId);
-    if (lastAlertedUrl === updatedUrl) {
+    if (lastAlertedUrl === normalizedUrl) {
       return;
     }
 
-    alertedUrlsByTab.set(tabId, updatedUrl);
+    alertedUrlsByTab.set(tabId, normalizedUrl);
     await fetchProjectDetails(tabId, updatedUrl);
   } else {
     alertedUrlsByTab.delete(tabId);
