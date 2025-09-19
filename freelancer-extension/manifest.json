@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Freelancer Bidder Alert",
+  "description": "Alerts when Freelancer project detail pages are opened in the active tab.",
+  "version": "1.0.0",
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": [
+    "https://www.freelancer.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
